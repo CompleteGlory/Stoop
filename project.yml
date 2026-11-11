@@ -1,0 +1,64 @@
+name: PlaceRating
+options:
+  bundleIdPrefix: com.magdzaky
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    DEVELOPMENT_TEAM: W4D7HW9L4Y
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_VERSION: "6.0"
+targets:
+  PlaceRating:
+    type: application
+    platform: iOS
+    sources:
+      - PlaceRating
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.magdzaky.PlaceRating
+        TARGETED_DEVICE_FAMILY: "1"
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SWIFT_EMIT_LOC_STRINGS: YES
+        LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    info:
+      path: PlaceRating/Info.plist
+      properties:
+        CFBundleDisplayName: Stoop
+        CFBundleLocalizations:
+          - en
+          - ar
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        NSLocationWhenInUseUsageDescription: Your location is shown to friends you accept, while the app is open.
+    entitlements:
+      path: PlaceRating/PlaceRating.entitlements
+      properties:
+        com.apple.developer.applesignin:
+          - Default
+    postBuildScripts:
+      - name: Allow local networking in Debug
+        basedOnDependencyAnalysis: false
+        script: |
+          if [ "$CONFIGURATION" = "Debug" ]; then
+            plist="$TARGET_BUILD_DIR/$INFOPLIST_PATH"
+            /usr/libexec/PlistBuddy -c "Add :NSAppTransportSecurity dict" "$plist" || true
+            /usr/libexec/PlistBuddy -c "Add :NSAppTransportSecurity:NSAllowsLocalNetworking bool true" "$plist" || true
+          fi
+    scheme:
+      testTargets:
+        - PlaceRatingTests
+  PlaceRatingTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - PlaceRatingTests
+    dependencies:
+      - target: PlaceRating
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.magdzaky.PlaceRatingTests

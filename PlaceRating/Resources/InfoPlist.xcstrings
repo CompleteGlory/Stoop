@@ -1,0 +1,22 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "NSLocationWhenInUseUsageDescription": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يظهر موقعك للأصدقاء الذين تقبلهم أثناء فتح التطبيق."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your location is shown to friends you accept, while the app is open."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
