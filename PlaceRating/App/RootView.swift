@@ -17,6 +17,8 @@ struct RootView: View {
                 SignInView(session: session)
             case .needsUsername(let user):
                 UsernameView(session: session, user: user)
+            case .needsCharacter(let user):
+                CharacterView(session: session, user: user)
             case .ready:
                 MapScreen(session: session)
             case .unavailable:

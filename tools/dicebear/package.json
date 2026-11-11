@@ -1,0 +1,16 @@
+{
+  "name": "stoop-dicebear-bundle",
+  "private": true,
+  "type": "module",
+  "description": "Builds PlaceRating/Resources/dicebear.js, the DiceBear renderer the app runs in a hidden web view",
+  "scripts": {
+    "build": "esbuild entry.js --bundle --format=iife --minify --target=safari17 --legal-comments=eof --outfile=../../PlaceRating/Resources/dicebear.js"
+  },
+  "dependencies": {
+    "@dicebear/collection": "9.4.2",
+    "@dicebear/core": "9.4.2"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

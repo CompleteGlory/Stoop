@@ -1,12 +1,42 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "Accessories": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإكسسوارات"
+          }
+        }
+      }
+    },
+    "Accessory color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون الإكسسوارات"
+          }
+        }
+      }
+    },
     "Available": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "متاح"
+          }
+        }
+      }
+    },
+    "Back": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رجوع"
           }
         }
       }
@@ -41,6 +71,256 @@
         }
       }
     },
+    "Details": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تفاصيل"
+          }
+        }
+      }
+    },
+    "Earring color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون الأقراط"
+          }
+        }
+      }
+    },
+    "Earrings": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأقراط"
+          }
+        }
+      }
+    },
+    "Eye color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون العينين"
+          }
+        }
+      }
+    },
+    "Eyebrow color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون الحاجبين"
+          }
+        }
+      }
+    },
+    "Eyebrows": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الحاجبان"
+          }
+        }
+      }
+    },
+    "Eyes": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العينان"
+          }
+        }
+      }
+    },
+    "Face": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الوجه"
+          }
+        }
+      }
+    },
+    "Facial hair": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شعر الوجه"
+          }
+        }
+      }
+    },
+    "Facial hair color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون شعر الوجه"
+          }
+        }
+      }
+    },
+    "Female": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أنثى"
+          }
+        }
+      }
+    },
+    "Friends see it on the map.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يراها أصدقاؤك على الخريطة."
+          }
+        }
+      }
+    },
+    "Glasses": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النظارات"
+          }
+        }
+      }
+    },
+    "Glasses color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون النظارات"
+          }
+        }
+      }
+    },
+    "Hair": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشعر"
+          }
+        }
+      }
+    },
+    "Hair color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون الشعر"
+          }
+        }
+      }
+    },
+    "Hairstyles": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسريحات الشعر"
+          }
+        }
+      }
+    },
+    "Hat color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون القبعة"
+          }
+        }
+      }
+    },
+    "Make your character": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اصنع شخصيتك"
+          }
+        }
+      }
+    },
+    "Male": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ذكر"
+          }
+        }
+      }
+    },
+    "Mouth": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الفم"
+          }
+        }
+      }
+    },
+    "Next": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التالي"
+          }
+        }
+      }
+    },
+    "Nose": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأنف"
+          }
+        }
+      }
+    },
+    "Outfit": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الملابس"
+          }
+        }
+      }
+    },
+    "Outfit color": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لون الملابس"
+          }
+        }
+      }
+    },
     "Pick your name": {
       "localizations": {
         "ar": {
@@ -71,12 +351,52 @@
         }
       }
     },
+    "Skin": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البشرة"
+          }
+        }
+      }
+    },
     "Something went wrong. Try again.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "حدث خطأ ما. حاول مرة أخرى."
+          }
+        }
+      }
+    },
+    "Style": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النمط"
+          }
+        }
+      }
+    },
+    "Surprise me": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فاجئني"
+          }
+        }
+      }
+    },
+    "That character couldn't be saved. Try another look.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر حفظ الشخصية. جرّب مظهرًا آخر."
           }
         }
       }

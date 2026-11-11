@@ -20,6 +20,7 @@ enum ErrorText {
         case "username_taken": String(localized: "That username is taken.")
         case "username_reserved": String(localized: "That username isn't available.")
         case "validation_failed": String(localized: "Use 3 to 20 letters, digits, _ or .")
+        case "invalid_avatar": String(localized: "That character couldn't be saved. Try another look.")
         case "rate_limited": String(localized: "Too many attempts. Try again later.")
         case "unauthorized": String(localized: "Sign in failed. Try again.")
         default: String(localized: "Something went wrong. Try again.")

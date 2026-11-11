@@ -32,38 +32,37 @@ struct StreetPattern: View {
     }
 }
 
-/// The emoji drawn for each preset avatar until real artwork exists.
-enum AvatarPreset {
-    static let emoji: [String: String] = [
-        "fox": "🦊", "panda": "🐼", "koala": "🐨", "owl": "🦉", "frog": "🐸", "tiger": "🐯",
-        "whale": "🐳", "penguin": "🐧", "cat": "🐱", "dog": "🐶", "rabbit": "🐰", "bear": "🐻",
-        "lion": "🦁", "octopus": "🐙", "turtle": "🐢", "dolphin": "🐬", "giraffe": "🦒",
-        "monkey": "🐵", "hedgehog": "🦔", "sloth": "🦥", "unicorn": "🦄", "robot": "🤖",
-        "alien": "👽", "ghost": "👻",
-    ]
-}
-
-/// A person's avatar in a cream circle: the preset's emoji, or their uploaded photo.
-struct AvatarBadge: View {
-    let avatar: Avatar
+/// A person's DiceBear character in a cream circle, or a plain figure before they have one.
+struct AvatarImage: View {
+    let avatar: Avatar?
     var size: CGFloat = 44
+
+    @Environment(\.avatarRenderer) private var injected
+    @Environment(\.displayScale) private var displayScale
+    @State private var image: UIImage?
 
     var body: some View {
         Circle()
             .fill(Brand.foreground)
             .frame(width: size, height: size)
             .overlay {
-                switch avatar.kind {
-                case .preset:
-                    Text(verbatim: AvatarPreset.emoji[avatar.value] ?? "🦊")
-                        .font(.system(size: size * 0.55))
-                case .upload:
-                    AsyncImage(url: avatar.url) { image in
-                        image.resizable().scaledToFill()
-                    } placeholder: {
-                        Color.clear
-                    }
-                    .clipShape(.circle)
+                if let image, avatar != nil {
+                    Image(uiImage: image).resizable().scaledToFit()
+                } else if avatar == nil {
+                    Image(systemName: "person.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .padding(size * 0.24)
+                        .foregroundStyle(Brand.background.opacity(0.3))
+                }
+            }
+            .clipShape(.circle)
+            .task(id: avatar) {
+                guard let avatar else { return }
+                let renderer = injected ?? DiceBearRenderer.shared
+                // keep the previous picture until the new one is ready, so changes don't flicker
+                if let rendered = try? await renderer.image(for: avatar, pixels: Int(size * displayScale)) {
+                    image = rendered
                 }
             }
             .accessibilityHidden(true)
@@ -72,14 +71,14 @@ struct AvatarBadge: View {
 
 /// How a person appears on friends' maps: their avatar with a soft ring and a name pill.
 struct MapMarker: View {
-    let avatar: Avatar
+    let avatar: Avatar?
     let name: String
     var size: CGFloat = 52
     var showsRing = true
 
     var body: some View {
         VStack(spacing: 6) {
-            AvatarBadge(avatar: avatar, size: size)
+            AvatarImage(avatar: avatar, size: size)
                 .padding(5)
                 .overlay {
                     if showsRing {

@@ -1,12 +1,15 @@
 import Foundation
+import UIKit
 @testable import PlaceRating
 
-func makeUser(username: String? = "alice", displayName: String = "Alice") -> SelfUser {
+let sampleAvatar = Avatar(style: "avataaars", options: ["top": "shortFlat", "hairColor": "111111"])
+
+func makeUser(username: String? = "alice", displayName: String = "Alice", avatar: Avatar? = sampleAvatar) -> SelfUser {
     SelfUser(
         id: "11111111-1111-1111-1111-111111111111",
         username: username,
         displayName: displayName,
-        avatar: Avatar(kind: .preset, value: "fox", url: nil),
+        avatar: avatar,
         ghostMode: false,
         createdAt: Date(timeIntervalSince1970: 0)
     )
@@ -50,6 +53,8 @@ final class FakeAPI: APIClientProtocol, @unchecked Sendable {
     var meResult: Result<SelfUser, Error> = .success(makeUser())
     var availabilityResult: Result<UsernameAvailability, Error> = .success(.init(available: true, reason: nil))
     var updateResult: Result<SelfUser, Error> = .success(makeUser())
+    var avatarResult: Result<SelfUser, Error> = .success(makeUser())
+    var savedAvatars: [Avatar] = []
     var checked: [String] = []
     var updates: [(username: String, displayName: String?)] = []
     var signedOut = false
@@ -64,9 +69,56 @@ final class FakeAPI: APIClientProtocol, @unchecked Sendable {
         updates.append((username, displayName))
         return try updateResult.get()
     }
+    func updateAvatar(_ avatar: Avatar) async throws -> SelfUser {
+        savedAvatars.append(avatar)
+        return try avatarResult.get()
+    }
     func usernameAvailability(_ username: String) async throws -> UsernameAvailability {
         checked.append(username)
         return try availabilityResult.get()
     }
     func signOut() async { signedOut = true }
+}
+
+/// Two styles with a couple of options, enough to drive the character screen without a web view.
+@MainActor
+final class FakeRenderer: AvatarRendering {
+    var calls: [String] = []
+
+    func styles() async throws -> [CharacterStyle] {
+        [
+            CharacterStyle(id: "avataaars", title: "Avataaars", creator: "Pablo Stanley", license: "Free", sortedByGender: true),
+            CharacterStyle(id: "lorelei", title: "Lorelei", creator: "Lisa Wischofsky", license: "CC0 1.0", sortedByGender: false),
+        ]
+    }
+
+    func groups(style: String, gender: CharacterGender) async throws -> [OptionGroup] {
+        calls.append("groups \(style) \(gender.rawValue)")
+        let hair = gender == .male ? ["shortFlat", "none"] : ["bob", "bun"]
+        var groups = [OptionGroup(name: "top", kind: .choice, values: hair, page: "top"),
+                      OptionGroup(name: "hairColor", kind: .color, values: ["111111", "a55728"], page: "top")]
+        if gender == .male {
+            groups.append(OptionGroup(name: "facialHair", kind: .choice, values: ["none", "beardLight"], page: "facialHair"))
+        }
+        if style == "avataaars" {
+            groups.append(OptionGroup(name: "clothing", kind: .choice, values: ["hoodie", "overall"], page: "clothing"))
+        }
+        return groups
+    }
+
+    func normalise(_ avatar: Avatar, gender: CharacterGender) async throws -> Avatar {
+        var options: [String: String] = [:]
+        for group in try await groups(style: avatar.style, gender: gender) {
+            let current = avatar.options[group.name]
+            options[group.name] = current.flatMap { group.values.contains($0) ? $0 : nil } ?? group.values[0]
+        }
+        return Avatar(style: avatar.style, options: options)
+    }
+
+    func random(style: String, gender: CharacterGender) async throws -> Avatar {
+        calls.append("random \(style)")
+        return try await normalise(Avatar(style: style, options: [:]), gender: gender)
+    }
+
+    func image(for avatar: Avatar, pixels: Int) async throws -> UIImage { UIImage() }
 }

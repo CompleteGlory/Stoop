@@ -3,7 +3,7 @@ import Testing
 @testable import PlaceRating
 
 private let userJSON = """
-{"id":"u1","username":null,"displayName":"","avatar":{"kind":"preset","value":"fox","url":null},\
+{"id":"u1","username":null,"displayName":"","avatar":null,\
 "ghostMode":false,"createdAt":"2026-11-11T06:54:12.345Z"}
 """
 
@@ -62,6 +62,22 @@ struct APIClientTests {
         await #expect(throws: APIError(status: 409, code: "username_taken", message: "x")) {
             try await api.updateProfile(username: "alice", displayName: nil)
         }
+    }
+
+    @Test func decodesACharacter() throws {
+        let json = #"{"id":"u1","username":"nia","displayName":"Nia","avatar":{"style":"lorelei","options":{"hair":"variant12","hairColor":"111111"}},"ghostMode":false,"createdAt":"2026-11-11T06:54:12.345Z"}"#
+        let user = try JSONDecoder.api.decode(SelfUser.self, from: Data(json.utf8))
+        #expect(user.avatar == Avatar(style: "lorelei", options: ["hair": "variant12", "hairColor": "111111"]))
+    }
+
+    @Test func sendsTheCharacterAsAvatar() async throws {
+        let transport = StubTransport { _, _ in (200, userJSON) }
+        let api = client(transport, store: MemoryTokenStore(session))
+        _ = try await api.restoreSession()
+        _ = try await api.updateAvatar(Avatar(style: "avataaars", options: ["top": "bob"]))
+        let body = try #require(transport.requests.first?.httpBody)
+        #expect(String(decoding: body, as: UTF8.self) == #"{"avatar":{"options":{"top":"bob"},"style":"avataaars"}}"# ||
+                String(decoding: body, as: UTF8.self) == #"{"avatar":{"style":"avataaars","options":{"top":"bob"}}}"#)
     }
 
     @Test func omitsAMissingDisplayName() async throws {

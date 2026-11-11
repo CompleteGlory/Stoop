@@ -1,15 +1,9 @@
 import Foundation
 
-struct Avatar: Codable, Equatable, Sendable {
-    enum Kind: String, Codable, Sendable {
-        case preset
-        case upload
-    }
-
-    let kind: Kind
-    let value: String
-    /// Nil for presets, which the app draws itself.
-    let url: URL?
+/// A DiceBear character: the style and the chosen option for each part. The app draws it.
+struct Avatar: Codable, Hashable, Sendable {
+    var style: String
+    var options: [String: String]
 }
 
 struct SelfUser: Codable, Equatable, Sendable {
@@ -17,7 +11,8 @@ struct SelfUser: Codable, Equatable, Sendable {
     /// Nil until onboarding is finished.
     let username: String?
     let displayName: String
-    let avatar: Avatar
+    /// Nil until the person has made a character.
+    let avatar: Avatar?
     let ghostMode: Bool
     let createdAt: Date
 }

@@ -9,6 +9,7 @@ final class SessionStore {
         case launching
         case signedOut
         case needsUsername(SelfUser)
+        case needsCharacter(SelfUser)
         case ready(SelfUser)
         /// A saved session exists but couldn't be checked, for example when offline.
         case unavailable
@@ -44,6 +45,10 @@ final class SessionStore {
         enter(user)
     }
 
+    func characterChosen(_ user: SelfUser) {
+        enter(user)
+    }
+
     func sessionExpired() {
         phase = .signedOut
     }
@@ -54,6 +59,12 @@ final class SessionStore {
     }
 
     private func enter(_ user: SelfUser) {
-        phase = user.username == nil ? .needsUsername(user) : .ready(user)
+        if user.username == nil {
+            phase = .needsUsername(user)
+        } else if user.avatar == nil {
+            phase = .needsCharacter(user)
+        } else {
+            phase = .ready(user)
+        }
     }
 }

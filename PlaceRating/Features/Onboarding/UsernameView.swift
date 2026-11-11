@@ -111,7 +111,7 @@ struct UsernameView: View {
 
 /// A small map tile showing the person's marker with the name they are typing.
 private struct MarkerPreview: View {
-    let avatar: Avatar
+    let avatar: Avatar?
     let name: String
 
     var body: some View {

@@ -20,6 +20,16 @@ struct SessionStoreTests {
         #expect(store.phase == .needsUsername(user))
     }
 
+    @Test func anAccountWithoutACharacterMustMakeOne() async {
+        let api = FakeAPI()
+        api.restoreResult = .success(true)
+        let user = makeUser(avatar: nil)
+        api.meResult = .success(user)
+        let store = SessionStore(api: api)
+        await store.start()
+        #expect(store.phase == .needsCharacter(user))
+    }
+
     @Test func anAccountWithAUsernameGoesToTheMap() async {
         let api = FakeAPI()
         api.restoreResult = .success(true)
@@ -149,5 +159,103 @@ struct NonceTests {
 
     @Test func isRandom() {
         #expect(Nonce.make() != Nonce.make())
+    }
+}
+
+@MainActor
+struct CharacterViewModelTests {
+    private func make(gender: CharacterGender = .male, existing: Avatar? = nil) -> (CharacterViewModel, FakeAPI, SessionStore) {
+        let api = FakeAPI()
+        let store = SessionStore(api: api)
+        let model = CharacterViewModel(session: store, renderer: FakeRenderer(), existing: existing, gender: gender)
+        return (model, api, store)
+    }
+
+    @Test func startsWithACharacterInTheFirstStyle() async {
+        let (model, _, _) = make()
+        await model.load()
+        #expect(model.avatar?.style == "avataaars")
+        #expect(model.groups.map(\.name) == ["top", "hairColor", "facialHair", "clothing"])
+        #expect(model.styleSamples.keys.sorted() == ["avataaars", "lorelei"])
+        #expect(!model.isLoading)
+    }
+
+    @Test func keepsAnExistingCharacter() async {
+        let existing = Avatar(style: "avataaars", options: [
+            "top": "none", "hairColor": "a55728", "facialHair": "beardLight", "clothing": "overall",
+        ])
+        let (model, _, _) = make(existing: existing)
+        await model.load()
+        #expect(model.avatar == existing)
+    }
+
+    @Test func switchingToFemaleDropsFacialHairAndInvalidHair() async {
+        let (model, _, _) = make()
+        await model.load()
+        model.set("facialHair", to: "beardLight")
+        await model.selectGender(.female)
+        #expect(model.gender == .female)
+        #expect(model.avatar?.options["facialHair"] == nil)
+        #expect(model.avatar?.options["top"] == "bob")
+        #expect(!model.groups.contains { $0.name == "facialHair" })
+    }
+
+    @Test func choosingAnOptionUpdatesThePreview() async {
+        let (model, _, _) = make()
+        await model.load()
+        model.set("hairColor", to: "a55728")
+        #expect(model.isSelected("hairColor", "a55728"))
+        #expect(model.preview("top", "none")?.options["hairColor"] == "a55728")
+    }
+
+    @Test func switchingStyleStartsAFreshCharacter() async {
+        let (model, _, _) = make()
+        await model.load()
+        await model.selectStyle("lorelei")
+        #expect(model.avatar?.style == "lorelei")
+    }
+
+    @Test func savingMovesOnToTheMap() async {
+        let (model, api, store) = make()
+        await model.load()
+        await model.save()
+        #expect(api.savedAvatars.count == 1)
+        #expect(store.phase == .ready(makeUser()))
+    }
+
+    @Test func everyPartGetsAPageWithItsColors() async {
+        let (model, _, _) = make()
+        await model.load()
+        #expect(model.steps == ["style", "top", "facialHair", "clothing"])
+        #expect(model.groupsOnStep.isEmpty)
+        model.next()
+        #expect(model.step == "top")
+        #expect(model.groupsOnStep.map(\.name) == ["top", "hairColor"])
+        model.go(to: "clothing")
+        #expect(model.isLastStep)
+        model.next()
+        #expect(model.step == "clothing")
+        model.back()
+        #expect(model.step == "facialHair")
+        model.go(to: "nose")
+        #expect(model.step == "facialHair")
+    }
+
+    @Test func aPageThatDisappearsReturnsToStyle() async {
+        let (model, _, _) = make()
+        await model.load()
+        model.go(to: "facialHair")
+        await model.selectGender(.female)
+        #expect(model.step == "style")
+        #expect(model.steps == ["style", "top", "clothing"])
+    }
+
+    @Test func aRejectedCharacterShowsAnError() async {
+        let (model, api, store) = make()
+        api.avatarResult = .failure(APIError(status: 400, code: "invalid_avatar", message: ""))
+        await model.load()
+        await model.save()
+        #expect(model.errorText != nil)
+        #expect(store.phase == .launching)
     }
 }

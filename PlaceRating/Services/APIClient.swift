@@ -7,6 +7,7 @@ protocol APIClientProtocol: Sendable {
     func devSignIn(username: String) async throws -> AuthResponse
     func me() async throws -> SelfUser
     func updateProfile(username: String, displayName: String?) async throws -> SelfUser
+    func updateAvatar(_ avatar: Avatar) async throws -> SelfUser
     func usernameAvailability(_ username: String) async throws -> UsernameAvailability
     func signOut() async
 }
@@ -42,6 +43,11 @@ struct APIClient: APIClientProtocol {
 
     func updateProfile(username: String, displayName: String?) async throws -> SelfUser {
         let body = ProfileBody(username: username, displayName: displayName)
+        return try await authorized { try http.request("PATCH", "me", body: body, token: $0) }
+    }
+
+    func updateAvatar(_ avatar: Avatar) async throws -> SelfUser {
+        let body = AvatarBody(avatar: avatar)
         return try await authorized { try http.request("PATCH", "me", body: body, token: $0) }
     }
 
@@ -89,6 +95,7 @@ private struct AppleBody: Encodable {
     let nonce: String
     let fullName: String?
 }
+private struct AvatarBody: Encodable { let avatar: Avatar }
 private struct ProfileBody: Encodable {
     let username: String
     let displayName: String?

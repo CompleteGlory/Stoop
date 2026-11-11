@@ -108,7 +108,7 @@ struct SignInView: View {
 /// The decorative top half: a street map with a few friends on it, fading into the background.
 private struct FriendsOnAMap: View {
     private struct Friend {
-        let preset: String
+        let avatar: Avatar
         let name: String
         let x: Double
         let y: Double
@@ -117,9 +117,9 @@ private struct FriendsOnAMap: View {
     }
 
     private let friends = [
-        Friend(preset: "panda", name: "nia", x: 0.24, y: 0.36, rating: "4.5", isActive: true),
-        Friend(preset: "owl", name: "omar", x: 0.76, y: 0.2, rating: nil, isActive: false),
-        Friend(preset: "fox", name: "sara", x: 0.68, y: 0.62, rating: nil, isActive: true),
+        Friend(avatar: .sampleNia, name: "nia", x: 0.24, y: 0.36, rating: "4.5", isActive: true),
+        Friend(avatar: .sampleOmar, name: "omar", x: 0.76, y: 0.2, rating: nil, isActive: false),
+        Friend(avatar: .sampleSara, name: "sara", x: 0.68, y: 0.62, rating: nil, isActive: true),
     ]
 
     var body: some View {
@@ -129,7 +129,7 @@ private struct FriendsOnAMap: View {
                 ForEach(friends, id: \.name) { friend in
                     VStack(spacing: 6) {
                         MapMarker(
-                            avatar: Avatar(kind: .preset, value: friend.preset, url: nil),
+                            avatar: friend.avatar,
                             name: friend.name,
                             size: 40,
                             showsRing: friend.isActive
@@ -163,4 +163,22 @@ private struct FriendsOnAMap: View {
         .ignoresSafeArea(edges: .top)
         .accessibilityHidden(true)
     }
+}
+
+extension Avatar {
+    /// Example friends for the sign-in screen's backdrop.
+    static let sampleNia = Avatar(style: "avataaars", options: [
+        "top": "bigHair", "hairColor": "2c1b18", "skinColor": "d08b5b", "eyes": "happy", "eyebrows": "defaultNatural",
+        "mouth": "smile", "clothing": "hoodie", "clothesColor": "65c9ff", "facialHair": "none", "accessories": "none",
+    ])
+    static let sampleOmar = Avatar(style: "avataaars", options: [
+        "top": "shortFlat", "hairColor": "111111", "skinColor": "ae5d29", "eyes": "default", "eyebrows": "defaultNatural",
+        "mouth": "smile", "clothing": "blazerAndShirt", "clothesColor": "25557c", "facialHair": "beardLight",
+        "facialHairColor": "111111", "accessories": "none",
+    ])
+    static let sampleSara = Avatar(style: "avataaars", options: [
+        "top": "straight01", "hairColor": "a55728", "skinColor": "edb98a", "eyes": "default",
+        "eyebrows": "raisedExcitedNatural", "mouth": "twinkle", "clothing": "shirtScoopNeck", "clothesColor": "ff5c5c",
+        "facialHair": "none", "accessories": "round",
+    ])
 }
