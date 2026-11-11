@@ -7,8 +7,8 @@
     "build": "esbuild entry.js --bundle --format=iife --minify --target=safari17 --legal-comments=eof --outfile=../../PlaceRating/Resources/dicebear.js"
   },
   "dependencies": {
-    "@dicebear/collection": "9.4.2",
-    "@dicebear/core": "9.4.2"
+    "@dicebear/collection": "9.4.3",
+    "@dicebear/core": "9.4.3"
   },
   "devDependencies": {
     "esbuild": "0.28.2"
