@@ -14,12 +14,19 @@ struct MapScreen: View {
             user: user,
             location: LiveLocationService(),
             socket: MockLiveSocket(),
-            people: MockLiveSocket.people
+            people: MockLiveSocket.people,
+            places: session.places
         ))
     }
 
     var body: some View {
-        Map(position: $model.camera) {
+        Map(position: $model.camera, selection: $model.selectedFeature) {
+            ForEach(model.places) { place in
+                Annotation(place.name, coordinate: place.coordinate, anchor: .bottom) {
+                    PlacePin(place: place) { model.open(place) }
+                }
+                .annotationTitles(.hidden)
+            }
             if let me = model.me {
                 Annotation("", coordinate: me, anchor: .center) {
                     SelfMarker(avatar: model.user.avatar, isGhost: model.ghost)
@@ -37,6 +44,14 @@ struct MapScreen: View {
         }
         .mapStyle(.standard(pointsOfInterest: .all))
         .mapControlVisibility(.hidden)
+        .onMapCameraChange(frequency: .onEnd) { context in
+            let region = context.region
+            model.cameraSettled(center: region.center, latitudeDelta: region.span.latitudeDelta,
+                                longitudeDelta: region.span.longitudeDelta)
+        }
+        .onChange(of: model.selectedFeature) { _, feature in
+            if let feature { Task { await model.select(feature) } }
+        }
         .safeAreaInset(edge: .top) { topBar }
         .overlay { if model.showsLocationPrompt { LocationPrompt(model: model) } }
         .sheet(isPresented: .constant(true)) {
@@ -80,6 +95,38 @@ struct MapScreen: View {
         }
         .padding(.horizontal, 16)
         .padding(.top, 4)
+    }
+}
+
+/// A rated place: a navy tag with a gold star and its average.
+private struct PlacePin: View {
+    let place: Place
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 0) {
+                HStack(spacing: 3) {
+                    Image(systemName: "star.fill").foregroundStyle(Brand.accent)
+                    Text(place.avgRating, format: .number.precision(.fractionLength(1)))
+                        .foregroundStyle(Brand.foreground)
+                }
+                .font(.caption.weight(.bold))
+                .padding(.horizontal, 8)
+                .padding(.vertical, 5)
+                .background(Brand.background, in: .capsule)
+                .overlay(Capsule().stroke(Brand.accent.opacity(0.8), lineWidth: 1.5))
+                Image(systemName: "triangle.fill")
+                    .font(.system(size: 7))
+                    .rotationEffect(.degrees(180))
+                    .foregroundStyle(Brand.background)
+                    .offset(y: -2)
+            }
+            .shadow(color: .black.opacity(0.25), radius: 4, y: 2)
+            .environment(\.layoutDirection, .leftToRight)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text(verbatim: place.name))
     }
 }
 

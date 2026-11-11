@@ -21,7 +21,7 @@ protocol APIClientProtocol: Sendable {
 }
 
 struct APIClient: APIClientProtocol {
-    private let http: HTTPClient
+    let http: HTTPClient
     private let session: AuthSession
 
     init(http: HTTPClient, store: any TokenStore) {
@@ -109,7 +109,7 @@ struct APIClient: APIClientProtocol {
     }
 
     /// Sends with a valid token; on a 401, refreshes once and retries once.
-    private func authorized<T: Decodable>(_ make: @Sendable (String) throws -> URLRequest) async throws -> T {
+    func authorized<T: Decodable>(_ make: @Sendable (String) throws -> URLRequest) async throws -> T {
         let token = try await session.validAccessToken()
         do {
             return try JSONDecoder.api.decode(T.self, from: await http.data(for: make(token)))
@@ -117,6 +117,24 @@ struct APIClient: APIClientProtocol {
             let fresh = try await session.tokenReplacing(token)
             do {
                 return try JSONDecoder.api.decode(T.self, from: await http.data(for: make(fresh)))
+            } catch let error as APIError where error.status == 401 {
+                try? await session.clear()
+                throw AuthError.sessionExpired
+            }
+        }
+    }
+}
+
+extension APIClient {
+    /// Like `authorized`, for answers without a body (204).
+    func authorizedNoContent(_ make: @Sendable (String) throws -> URLRequest) async throws {
+        let token = try await session.validAccessToken()
+        do {
+            _ = try await http.data(for: make(token))
+        } catch let error as APIError where error.status == 401 {
+            let fresh = try await session.tokenReplacing(token)
+            do {
+                _ = try await http.data(for: make(fresh))
             } catch let error as APIError where error.status == 401 {
                 try? await session.clear()
                 throw AuthError.sessionExpired

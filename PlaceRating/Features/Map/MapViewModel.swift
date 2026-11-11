@@ -11,6 +11,7 @@ final class MapViewModel {
     enum Sheet: Equatable {
         case browse
         case profile
+        case place(String)
     }
 
     struct VisibleFriend: Identifiable, Equatable {
@@ -37,12 +38,22 @@ final class MapViewModel {
     private(set) var access: LocationAccess
     private(set) var isConnected = false
     private(set) var now: Date
+    /// Rated places in the visible area (the API also returns unrated ones; those get no pin).
+    private(set) var places: [Place] = []
+    /// A point of interest the person tapped on the map.
+    var selectedFeature: MapFeature?
+    private(set) var placeModel: PlaceViewModel?
+    private(set) var isResolvingPlace = false
+    private(set) var placeErrorText: String?
 
     let user: SelfUser
     private let location: any LocationServiceProtocol
     private let socket: any LiveSocketProtocol
     private let people: [String: Person]
     private let clock: () -> Date
+    private let placesAPI: any PlacesAPI
+    private let placesDebounce: Duration
+    private var placesTask: Task<Void, Never>?
     private var throttle = SendThrottle()
     private var tasks: [Task<Void, Never>] = []
 
@@ -51,8 +62,12 @@ final class MapViewModel {
         location: any LocationServiceProtocol,
         socket: any LiveSocketProtocol,
         people: [Person],
+        places: any PlacesAPI = UnavailablePlacesAPI(),
+        placesDebounce: Duration = .milliseconds(400),
         clock: @escaping () -> Date = { Date() }
     ) {
+        self.placesAPI = places
+        self.placesDebounce = placesDebounce
         self.user = user
         self.location = location
         self.socket = socket
@@ -135,6 +150,75 @@ final class MapViewModel {
 
     func showBrowse() {
         sheet = .browse
+        placeModel = nil
+        selectedFeature = nil
+    }
+
+    // MARK: places
+
+    /// Called when the camera settles: after a short pause, loads the rated places in view.
+    func cameraSettled(center: CLLocationCoordinate2D, latitudeDelta: Double, longitudeDelta: Double) {
+        placesTask?.cancel()
+        guard let box = BoundingBox(center: center, latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta) else {
+            return // zoomed out too far to ask; keep what is shown
+        }
+        placesTask = Task { [placesAPI, placesDebounce] in
+            try? await Task.sleep(for: placesDebounce)
+            guard !Task.isCancelled, let found = try? await placesAPI.places(in: box) else { return }
+            self.places = found.filter { $0.ratingCount > 0 }
+        }
+    }
+
+    /// Waits for a pending places request. Used by tests.
+    func waitForPlaces() async {
+        await placesTask?.value
+    }
+
+    /// A point of interest was tapped on the map: ask Apple Maps for its details, then resolve it.
+    func select(_ feature: MapFeature) async {
+        guard feature.kind == .pointOfInterest else {
+            selectedFeature = nil
+            return
+        }
+        let item = try? await MKMapItemRequest(feature: feature).mapItem
+        let name = item?.name ?? feature.title ?? ""
+        guard !name.isEmpty else { return }
+        await resolve(
+            appleId: item?.identifier?.rawValue,
+            name: name,
+            category: (item?.pointOfInterestCategory ?? feature.pointOfInterestCategory)?.rawValue,
+            coordinate: feature.coordinate
+        )
+    }
+
+    /// Finds or creates the place for a point of interest, then opens it.
+    func resolve(appleId: String?, name: String, category: String?, coordinate: CLLocationCoordinate2D) async {
+        isResolvingPlace = true
+        placeErrorText = nil
+        defer { isResolvingPlace = false }
+        do {
+            let place = try await placesAPI.resolvePlace(
+                appleId: appleId, name: name, category: category,
+                latitude: coordinate.latitude, longitude: coordinate.longitude
+            )
+            open(place)
+        } catch {
+            placeErrorText = ErrorText.text(for: error)
+        }
+    }
+
+    func open(_ place: Place) {
+        placeModel = PlaceViewModel(placeId: place.id, api: placesAPI, myId: user.id) { [weak self] updated in
+            self?.placeChanged(updated)
+        }
+        sheet = .place(place.id)
+        detent = .medium
+    }
+
+    /// Keeps the pins in step with ratings made in the sheet.
+    func placeChanged(_ place: Place) {
+        places.removeAll { $0.id == place.id }
+        if place.ratingCount > 0 { places.append(place) }
     }
 
     // MARK: events
