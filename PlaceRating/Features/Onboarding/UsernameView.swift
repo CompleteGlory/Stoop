@@ -47,7 +47,7 @@ struct UsernameView: View {
             .disabled(!model.canSubmit)
             .accessibilityIdentifier("continue")
 
-            Button("Use a different Apple ID") {
+            Button("Use a different account") {
                 Task { await session.signOut() }
             }
             .font(.footnote)

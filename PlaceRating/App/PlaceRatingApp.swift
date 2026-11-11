@@ -13,6 +13,7 @@ struct PlaceRatingApp: App {
     var body: some Scene {
         WindowGroup {
             RootView(session: session)
+                .onOpenURL { GoogleSignInService.handle($0) }
         }
     }
 }

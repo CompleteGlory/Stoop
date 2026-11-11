@@ -5,6 +5,14 @@ protocol APIClientProtocol: Sendable {
     func restoreSession() async throws -> Bool
     func signInWithApple(identityToken: String, nonce: String, fullName: String?) async throws -> AuthResponse
     func devSignIn(username: String) async throws -> AuthResponse
+    func signInWithGoogle(idToken: String) async throws -> AuthResponse
+    /// Emails a 6-digit code; the account exists only once the code is entered.
+    func emailSignUp(email: String, password: String) async throws
+    func emailVerify(email: String, code: String) async throws -> AuthResponse
+    func emailResend(email: String) async throws
+    func emailSignIn(email: String, password: String) async throws -> AuthResponse
+    func passwordForgot(email: String) async throws
+    func passwordReset(email: String, code: String, newPassword: String) async throws -> AuthResponse
     func me() async throws -> SelfUser
     func updateProfile(username: String, displayName: String?) async throws -> SelfUser
     func updateAvatar(_ avatar: Avatar) async throws -> SelfUser
@@ -35,6 +43,35 @@ struct APIClient: APIClientProtocol {
 
     func devSignIn(username: String) async throws -> AuthResponse {
         try await signIn(http.request("POST", "auth/dev", body: DevBody(username: username)))
+    }
+
+    func signInWithGoogle(idToken: String) async throws -> AuthResponse {
+        try await signIn(http.request("POST", "auth/google", body: ["idToken": idToken]))
+    }
+
+    func emailSignUp(email: String, password: String) async throws {
+        _ = try await http.data(for: http.request("POST", "auth/email/signup", body: ["email": email, "password": password]))
+    }
+
+    func emailVerify(email: String, code: String) async throws -> AuthResponse {
+        try await signIn(http.request("POST", "auth/email/verify", body: ["email": email, "code": code]))
+    }
+
+    func emailResend(email: String) async throws {
+        _ = try await http.data(for: http.request("POST", "auth/email/resend", body: ["email": email]))
+    }
+
+    func emailSignIn(email: String, password: String) async throws -> AuthResponse {
+        try await signIn(http.request("POST", "auth/email/signin", body: ["email": email, "password": password]))
+    }
+
+    func passwordForgot(email: String) async throws {
+        _ = try await http.data(for: http.request("POST", "auth/password/forgot", body: ["email": email]))
+    }
+
+    func passwordReset(email: String, code: String, newPassword: String) async throws -> AuthResponse {
+        let body = ["email": email, "code": code, "newPassword": newPassword]
+        return try await signIn(http.request("POST", "auth/password/reset", body: body))
     }
 
     func me() async throws -> SelfUser {

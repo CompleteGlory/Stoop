@@ -9,6 +9,10 @@ settings:
     DEVELOPMENT_TEAM: W4D7HW9L4Y
     CODE_SIGN_STYLE: Automatic
     SWIFT_VERSION: "6.0"
+packages:
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    exactVersion: 10.1.0
 targets:
   PlaceRating:
     type: application
@@ -21,6 +25,10 @@ targets:
         TARGETED_DEVICE_FAMILY: "1"
         ENABLE_USER_SCRIPT_SANDBOXING: NO
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        # Google sign-in: the iOS OAuth client id from Google Cloud and its reversed form.
+        # Left empty, the Google button stays hidden.
+        GOOGLE_CLIENT_ID: ""
+        GOOGLE_REVERSED_CLIENT_ID: com.googleusercontent.apps.not-configured
         SWIFT_EMIT_LOC_STRINGS: YES
         LOCALIZATION_PREFERS_STRING_CATALOGS: YES
     info:
@@ -31,9 +39,17 @@ targets:
           - en
           - ar
         UILaunchScreen: {}
+        GIDClientID: $(GOOGLE_CLIENT_ID)
+        CFBundleURLTypes:
+          - CFBundleURLName: google-sign-in
+            CFBundleURLSchemes:
+              - $(GOOGLE_REVERSED_CLIENT_ID)
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
         NSLocationWhenInUseUsageDescription: Your location is shown to friends you accept, while the app is open.
+    dependencies:
+      - package: GoogleSignIn
+        products: [GoogleSignIn, GoogleSignInSwift]
     entitlements:
       path: PlaceRating/PlaceRating.entitlements
       properties:
