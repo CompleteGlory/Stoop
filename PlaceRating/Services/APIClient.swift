@@ -7,7 +7,8 @@ protocol APIClientProtocol: Sendable {
     func devSignIn(username: String) async throws -> AuthResponse
     func signInWithGoogle(idToken: String) async throws -> AuthResponse
     /// Emails a 6-digit code; the account exists only once the code is entered.
-    func emailSignUp(email: String, password: String) async throws
+    /// `username`, when given, goes to the account once the code is entered (if it is still free).
+    func emailSignUp(email: String, password: String, username: String?) async throws
     func emailVerify(email: String, code: String) async throws -> AuthResponse
     func emailResend(email: String) async throws
     func emailSignIn(email: String, password: String) async throws -> AuthResponse
@@ -17,6 +18,8 @@ protocol APIClientProtocol: Sendable {
     func updateProfile(username: String, displayName: String?) async throws -> SelfUser
     func updateAvatar(_ avatar: Avatar) async throws -> SelfUser
     func usernameAvailability(_ username: String) async throws -> UsernameAvailability
+    /// The same check signed out, for the email sign-up screen.
+    func publicUsernameAvailability(_ username: String) async throws -> UsernameAvailability
     func signOut() async
 }
 
@@ -49,8 +52,9 @@ struct APIClient: APIClientProtocol {
         try await signIn(http.request("POST", "auth/google", body: ["idToken": idToken]))
     }
 
-    func emailSignUp(email: String, password: String) async throws {
-        _ = try await http.data(for: http.request("POST", "auth/email/signup", body: ["email": email, "password": password]))
+    func emailSignUp(email: String, password: String, username: String?) async throws {
+        let body = SignUpBody(email: email, password: password, username: username)
+        _ = try await http.data(for: http.request("POST", "auth/email/signup", body: body))
     }
 
     func emailVerify(email: String, code: String) async throws -> AuthResponse {
@@ -91,6 +95,12 @@ struct APIClient: APIClientProtocol {
     func usernameAvailability(_ username: String) async throws -> UsernameAvailability {
         let query = [URLQueryItem(name: "username", value: username)]
         return try await authorized { try http.request("GET", "users/availability", query: query, token: $0) }
+    }
+
+    func publicUsernameAvailability(_ username: String) async throws -> UsernameAvailability {
+        let query = [URLQueryItem(name: "username", value: username)]
+        let data = try await http.data(for: http.request("GET", "users/availability", query: query))
+        return try JSONDecoder.api.decode(UsernameAvailability.self, from: data)
     }
 
     /// Always ends the local session, even if the server can't be reached.
@@ -154,4 +164,10 @@ private struct AvatarBody: Encodable { let avatar: Avatar }
 private struct ProfileBody: Encodable {
     let username: String
     let displayName: String?
+}
+
+private struct SignUpBody: Encodable {
+    let email: String
+    let password: String
+    let username: String?
 }

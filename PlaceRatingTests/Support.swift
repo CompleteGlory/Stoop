@@ -79,7 +79,11 @@ final class FakeAPI: APIClientProtocol, @unchecked Sendable {
         emailCalls.append(route)
         if let error = emailErrors[route] { throw error }
     }
-    func emailSignUp(email: String, password: String) async throws { try self.email("signup") }
+    var signUpUsernames: [String?] = []
+    func emailSignUp(email: String, password: String, username: String?) async throws {
+        signUpUsernames.append(username)
+        try self.email("signup")
+    }
     func emailVerify(email: String, code: String) async throws -> AuthResponse {
         try self.email("verify")
         return makeAuth(access: "a", refresh: "r", user: emailUser)
@@ -105,6 +109,11 @@ final class FakeAPI: APIClientProtocol, @unchecked Sendable {
     }
     func usernameAvailability(_ username: String) async throws -> UsernameAvailability {
         checked.append(username)
+        return try availabilityResult.get()
+    }
+    var publicChecked: [String] = []
+    func publicUsernameAvailability(_ username: String) async throws -> UsernameAvailability {
+        publicChecked.append(username)
         return try availabilityResult.get()
     }
     func signOut() async { signedOut = true }

@@ -146,6 +146,16 @@ strings = {
     "Remove %@ from your friends?": "إزالة %@ من أصدقائك؟",
     "You're already friends.": "أنتما صديقان بالفعل.",
     "We couldn't find that. It may have been removed.": "تعذّر العثور عليه. ربما تمت إزالته.",
+    "Username": "اسم المستخدم",
+    "Confirm password": "تأكيد كلمة المرور",
+    "Passwords don't match.": "كلمتا المرور غير متطابقتين.",
+    "Passwords match.": "كلمتا المرور متطابقتان.",
+    "Weak": "ضعيفة",
+    "Fair": "مقبولة",
+    "Good": "جيدة",
+    "Strong": "قوية",
+    "Longer is better. Mix in capitals, numbers or symbols.": "الأطول أفضل. أضف أحرفًا كبيرة أو أرقامًا أو رموزًا.",
+    "Password strength: %@": "قوة كلمة المرور: %@",
 }
 
 # Strings whose wording depends on a number. Arabic has six plural forms.
