@@ -2,10 +2,12 @@ import SwiftUI
 
 /// Make a DiceBear character: pick a style, then every part, with a live preview of the map marker.
 struct CharacterView: View {
+    let session: SessionStore
     let user: SelfUser
     @State private var model: CharacterViewModel
 
     init(session: SessionStore, user: SelfUser, renderer: (any AvatarRendering)? = nil) {
+        self.session = session
         self.user = user
         _model = State(initialValue: CharacterViewModel(
             session: session,
@@ -28,9 +30,18 @@ struct CharacterView: View {
 
     private var header: some View {
         VStack(spacing: 10) {
-            Text("Make your character")
-                .font(.system(.title2, design: .rounded, weight: .bold))
-                .foregroundStyle(Brand.foreground)
+            ZStack {
+                Text("Make your character")
+                    .font(.system(.title2, design: .rounded, weight: .bold))
+                    .foregroundStyle(Brand.foreground)
+                if user.avatar != nil {
+                    // editing an existing character: allow leaving without saving
+                    Button("Cancel") { session.cancelCharacterEdit() }
+                        .font(.callout.weight(.semibold))
+                        .foregroundStyle(Brand.foreground.opacity(0.75))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
             ZStack {
                 Brand.surface
                 StreetPattern(color: Brand.street)

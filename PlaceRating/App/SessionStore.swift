@@ -49,6 +49,16 @@ final class SessionStore {
         enter(user)
     }
 
+    /// Opens the character screen for someone who already has a character.
+    func editCharacter() {
+        if case .ready(let user) = phase { phase = .needsCharacter(user) }
+    }
+
+    /// Leaves the character screen without saving, back to the map.
+    func cancelCharacterEdit() {
+        if case .needsCharacter(let user) = phase, user.avatar != nil { phase = .ready(user) }
+    }
+
     func sessionExpired() {
         phase = .signedOut
     }

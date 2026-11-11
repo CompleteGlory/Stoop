@@ -56,6 +56,36 @@ strings = {
     "Face": "الوجه",
     "Next": "التالي",
     "Back": "رجوع",
+    "Profile": "الملف الشخصي",
+    "Ghost mode": "وضع التخفي",
+    "Ghost mode on": "وضع التخفي مفعّل",
+    "Recenter": "توسيط الخريطة",
+    "Turn on location to share with friends": "فعّل الموقع لتشاركه مع أصدقائك",
+    "Settings": "الإعدادات",
+    "Show friends where you are?": "هل تريد أن يرى أصدقاؤك مكانك؟",
+    "Your location is shown to friends you accept, while the app is open.": "يظهر موقعك للأصدقاء الذين تقبلهم أثناء فتح التطبيق.",
+    "Turn on location": "تفعيل الموقع",
+    "Not now": "ليس الآن",
+    "You": "أنت",
+    "Search places": "ابحث عن الأماكن",
+    "Find friends": "ابحث عن أصدقاء",
+    "Edit character": "تعديل الشخصية",
+    "Cancel": "إلغاء",
+}
+
+# Strings whose wording depends on a number. Arabic has six plural forms.
+plurals = {
+    "Sharing with %lld friends": {
+        "en": {"one": "Sharing with %lld friend", "other": "Sharing with %lld friends"},
+        "ar": {
+            "zero": "لا تشارك موقعك مع أحد",
+            "one": "مشاركة مع صديق واحد",
+            "two": "مشاركة مع صديقين",
+            "few": "مشاركة مع %lld أصدقاء",
+            "many": "مشاركة مع %lld صديقًا",
+            "other": "مشاركة مع %lld صديق",
+        },
+    },
 }
 plist = {
     "NSLocationWhenInUseUsageDescription": (
@@ -68,5 +98,9 @@ def write(name, body):
     with open(os.path.join(root, name), "w", encoding="utf-8") as f:
         json.dump({"sourceLanguage": "en", "strings": body, "version": "1.0"}, f, ensure_ascii=False, indent=2, sort_keys=True)
         f.write("\n")
-write("Localizable.xcstrings", {k: {"localizations": {"ar": unit(v)}} for k, v in strings.items()})
+def plural(forms): return {"variations": {"plural": {form: unit(text) for form, text in forms.items()}}}
+body = {k: {"localizations": {"ar": unit(v)}} for k, v in strings.items()}
+for key, languages in plurals.items():
+    body[key] = {"localizations": {lang: plural(forms) for lang, forms in languages.items()}}
+write("Localizable.xcstrings", body)
 write("InfoPlist.xcstrings", {k: {"localizations": {"en": unit(e), "ar": unit(a)}} for k, (e, a) in plist.items()})

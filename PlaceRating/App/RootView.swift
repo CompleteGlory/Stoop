@@ -19,8 +19,9 @@ struct RootView: View {
                 UsernameView(session: session, user: user)
             case .needsCharacter(let user):
                 CharacterView(session: session, user: user)
-            case .ready:
-                MapScreen(session: session)
+            case .ready(let user):
+                MapScreen(session: session, user: user)
+                    .id(user.id)
             case .unavailable:
                 UnavailableView(session: session)
             }
