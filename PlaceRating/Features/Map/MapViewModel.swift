@@ -38,6 +38,10 @@ final class MapViewModel {
     private(set) var ghost: Bool
     private(set) var access: LocationAccess
     private(set) var isConnected = false
+    /// The connection dropped after having worked: show the offline banner and dim markers.
+    private(set) var connectionLost = false
+    /// Another device took over the connection; sharing from here resumes on the next foreground.
+    private(set) var isPaused = false
     private(set) var now: Date
     /// Rated places in the visible area (the API also returns unrated ones; those get no pin).
     private(set) var places: [Place] = []
@@ -53,7 +57,10 @@ final class MapViewModel {
     let user: SelfUser
     private let location: any LocationServiceProtocol
     private let socket: any LiveSocketProtocol
-    private let people: [String: Person]
+    private let onSessionExpired: () -> Void
+    private var lastLocation: CLLocation?
+    private var isRefreshingFriends = false
+    private var askedAboutFriends: Set<String> = []
     private let clock: () -> Date
     private let placesAPI: any PlacesAPI
     private let friendsAPI: any FriendsAPI
@@ -67,7 +74,7 @@ final class MapViewModel {
         user: SelfUser,
         location: any LocationServiceProtocol,
         socket: any LiveSocketProtocol,
-        people: [Person],
+        onSessionExpired: @escaping () -> Void = {},
         places: any PlacesAPI = UnavailablePlacesAPI(),
         friendsAPI: any FriendsAPI = UnavailableFriendsAPI(),
         photosAPI: any PhotosAPI = UnavailablePhotosAPI(),
@@ -81,7 +88,7 @@ final class MapViewModel {
         self.user = user
         self.location = location
         self.socket = socket
-        self.people = Dictionary(people.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        self.onSessionExpired = onSessionExpired
         self.clock = clock
         ghost = user.ghostMode
         access = location.access
@@ -90,10 +97,17 @@ final class MapViewModel {
     }
 
     var visibleFriends: [VisibleFriend] {
-        friends.fixes.values
+        let people = Dictionary(
+            friendsList.friends.map { ($0.user.id, Person(id: $0.user.id, name: $0.user.name, avatar: $0.user.avatar)) },
+            uniquingKeysWith: { first, _ in first }
+        )
+        return friends.fixes.values
             .compactMap { fix in
                 people[fix.userId].map {
-                    VisibleFriend(person: $0, coordinate: fix.coordinate, isDimmed: friends.isDimmed(fix.userId, now: now))
+                    VisibleFriend(
+                        person: $0, coordinate: fix.coordinate,
+                        isDimmed: connectionLost || friends.isDimmed(fix.userId, now: now)
+                    )
                 }
             }
             .sorted { $0.person.name < $1.person.name }
@@ -110,6 +124,7 @@ final class MapViewModel {
         if access == .allowed { startLocation() }
         tasks.append(Task { [weak self] in await self?.loadFriends() })
         let events = socket.connect()
+        isPaused = false
         tasks.append(Task { [weak self] in
             for await event in events { self?.handle(event) }
         })
@@ -254,14 +269,29 @@ final class MapViewModel {
 
     func handle(_ event: LiveEvent) {
         switch event {
-        case .hello(let isGhost, _):
+        case .hello(let isGhost, let known):
             ghost = isGhost
             isConnected = true
+            connectionLost = false
+            isPaused = false
+            refreshFriendsIfUnknown(known.map(\.userId))
+            // a new connection starts clean: tell friends where you are right away
+            throttle = SendThrottle()
+            if let lastLocation { sendIfDue(lastLocation) }
+        case .loc(let fix):
+            refreshFriendsIfUnknown([fix.userId])
         case .ghost(let on):
             ghost = on
         case .disconnected:
             isConnected = false
-        case .loc, .gone:
+            connectionLost = true
+        case .replaced:
+            isConnected = false
+            isPaused = true
+        case .unauthorized:
+            isConnected = false
+            onSessionExpired()
+        case .gone:
             break
         }
         friends.apply(event)
@@ -270,14 +300,34 @@ final class MapViewModel {
     func tick() {
         now = clock()
         friends.prune(now: now)
+        // standing still: the server forgets you after 60 s, so repeat the last position every 15 s
+        if isConnected, let lastLocation { sendIfDue(lastLocation) }
     }
 
     func received(_ position: CLLocation) {
         me = position.coordinate
+        lastLocation = position
+        sendIfDue(position)
+    }
+
+    private func sendIfDue(_ position: CLLocation) {
         let at = clock()
         guard !ghost, throttle.shouldSend(position, now: at) else { return }
         throttle.didSend(position, at: at)
         socket.send(position)
+    }
+
+    /// Someone you just became friends with can show up on the socket before the friends list knows them.
+    private func refreshFriendsIfUnknown(_ ids: [String]) {
+        let known = Set(friendsList.friends.map(\.user.id))
+        let unknown = Set(ids).subtracting(known).subtracting(askedAboutFriends)
+        guard !isRefreshingFriends, !unknown.isEmpty else { return }
+        askedAboutFriends.formUnion(unknown) // ask once per person, not on every position
+        isRefreshingFriends = true
+        Task {
+            await loadFriends()
+            isRefreshingFriends = false
+        }
     }
 
     private func startLocation() {

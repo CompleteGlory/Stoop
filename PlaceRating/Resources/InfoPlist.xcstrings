@@ -1,6 +1,22 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "NSCameraUsageDescription": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التقط صورة لمكان أو قائمته لإضافتها إلى Stoop."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Take a photo of a place or its menu to add it to Stoop."
+          }
+        }
+      }
+    },
     "NSLocationWhenInUseUsageDescription": {
       "localizations": {
         "ar": {

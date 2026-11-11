@@ -50,6 +50,7 @@ targets:
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
         NSLocationWhenInUseUsageDescription: Your location is shown to friends you accept, while the app is open.
+        NSCameraUsageDescription: Take a photo of a place or its menu to add it to Stoop.
     dependencies:
       - package: GoogleSignIn
         products: [GoogleSignIn, GoogleSignInSwift]

@@ -22,10 +22,14 @@ enum LiveEvent: Equatable, Sendable {
     case gone(userId: String)
     case ghost(Bool)
     case disconnected
+    /// Another device (or an older socket of ours) took over the connection. Sharing is paused
+    /// here until the app returns to the foreground.
+    case replaced
+    /// The server no longer accepts this session: sign out.
+    case unauthorized
 }
 
-/// The live location connection. The real `/live` WebSocket arrives in milestone 8;
-/// until then `MockLiveSocket` plays friends walking around.
+/// The live location connection: `LiveSocketClient` is the real `/live` WebSocket.
 @MainActor
 protocol LiveSocketProtocol: AnyObject {
     func connect() -> AsyncStream<LiveEvent>
@@ -51,7 +55,7 @@ struct FriendsState: Equatable {
             fixes[fix.userId] = fix
         case .gone(let userId):
             fixes[userId] = nil
-        case .ghost, .disconnected:
+        case .ghost, .disconnected, .replaced, .unauthorized:
             break
         }
     }
@@ -66,102 +70,9 @@ struct FriendsState: Equatable {
     }
 }
 
-/// A person the app can show: friends come from `GET /friends` later; the mock invents them.
+/// A friend as the map draws them: friends come from `GET /friends`, positions from the socket.
 struct Person: Equatable, Sendable, Identifiable {
     let id: String
     let name: String
     let avatar: Avatar?
-}
-
-/// Fake friends who stroll around near you, one of whom goes quiet now and then so the
-/// dim-and-remove rules can be seen. Used until the real socket lands in milestone 8.
-@MainActor
-final class MockLiveSocket: LiveSocketProtocol {
-    static let people: [Person] = [
-        Person(id: "mock-nia", name: "nia", avatar: .sampleNia),
-        Person(id: "mock-omar", name: "omar", avatar: .sampleOmar),
-        Person(id: "mock-sara", name: "sara", avatar: .sampleSara),
-        Person(id: "mock-yusuf", name: "yusuf", avatar: Avatar(style: "personas", options: [
-            "hair": "fade", "hairColor": "362c47", "skinColor": "b16a5b", "eyes": "happy", "mouth": "smile",
-            "body": "rounded", "clothingColor": "6dbb58", "facialHair": "none", "nose": "smallRound",
-        ])),
-    ]
-
-    private var continuation: AsyncStream<LiveEvent>.Continuation?
-    private var walker: Task<Void, Never>?
-    private var center = CLLocationCoordinate2D(latitude: 30.0444, longitude: 31.2357)
-    private var hasRealCenter = false
-    private var positions: [String: CLLocationCoordinate2D] = [:]
-    private let tick: Duration
-
-    init(tick: Duration = .seconds(2)) {
-        self.tick = tick
-    }
-
-    func connect() -> AsyncStream<LiveEvent> {
-        disconnect()
-        let (stream, continuation) = AsyncStream<LiveEvent>.makeStream()
-        self.continuation = continuation
-        placeFriends()
-        continuation.yield(.hello(ghost: false, friends: Self.people.map { fix(for: $0.id) }))
-        walker = Task { [weak self] in await self?.walk() }
-        return stream
-    }
-
-    func disconnect() {
-        walker?.cancel()
-        walker = nil
-        continuation?.finish()
-        continuation = nil
-    }
-
-    func send(_ location: CLLocation) {
-        guard !hasRealCenter else { return }
-        // the first real fix: move the friends from the default spot to around you
-        hasRealCenter = true
-        center = location.coordinate
-        placeFriends()
-        for person in Self.people { continuation?.yield(.loc(fix(for: person.id))) }
-    }
-
-    func setGhost(_ on: Bool) {
-        continuation?.yield(.ghost(on))
-    }
-
-    private func placeFriends() {
-        for (index, person) in Self.people.enumerated() {
-            let angle = Double(index) / Double(Self.people.count) * 2 * .pi
-            positions[person.id] = offset(center, north: cos(angle) * 220, east: sin(angle) * 220)
-        }
-    }
-
-    private func walk() async {
-        var step = 0
-        while !Task.isCancelled {
-            try? await Task.sleep(for: tick)
-            guard !Task.isCancelled else { return }
-            step += 1
-            for person in Self.people {
-                // yusuf goes quiet for about 70 s out of every 100 s, so he dims and then disappears
-                if person.id == "mock-yusuf", step % 50 >= 15 { continue }
-                if let here = positions[person.id] {
-                    positions[person.id] = offset(here, north: .random(in: -14...14), east: .random(in: -14...14))
-                }
-                continuation?.yield(.loc(fix(for: person.id)))
-            }
-        }
-    }
-
-    private func fix(for id: String) -> FriendFix {
-        let here = positions[id] ?? center
-        return FriendFix(userId: id, latitude: here.latitude, longitude: here.longitude, heading: nil, receivedAt: Date())
-    }
-
-    private func offset(_ from: CLLocationCoordinate2D, north: Double, east: Double) -> CLLocationCoordinate2D {
-        let metersPerDegree = 111_320.0
-        return CLLocationCoordinate2D(
-            latitude: from.latitude + north / metersPerDegree,
-            longitude: from.longitude + east / (metersPerDegree * cos(from.latitude * .pi / 180))
-        )
-    }
 }

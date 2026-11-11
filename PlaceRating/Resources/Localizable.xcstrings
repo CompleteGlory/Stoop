@@ -433,6 +433,16 @@
         }
       }
     },
+    "Choose from library": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختيار من المعرض"
+          }
+        }
+      }
+    },
     "Clear": {
       "localizations": {
         "ar": {
@@ -1443,6 +1453,16 @@
         }
       }
     },
+    "Sharing is paused: Stoop is open on another device.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تمت إيقاف المشاركة مؤقتًا: Stoop مفتوح على جهاز آخر."
+          }
+        }
+      }
+    },
     "Sharing with %lld friends": {
       "localizations": {
         "ar": {
@@ -1643,6 +1663,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "فاجئني"
+          }
+        }
+      }
+    },
+    "Take photo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التقاط صورة"
           }
         }
       }
@@ -1933,6 +1963,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "أنتما صديقان بالفعل."
+          }
+        }
+      }
+    },
+    "You're offline. Reconnecting…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أنت غير متصل. جارٍ إعادة الاتصال…"
           }
         }
       }

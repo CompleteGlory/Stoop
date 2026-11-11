@@ -8,6 +8,8 @@ struct PlacePhotosSection: View {
     let model: PlacePhotosViewModel
     @State private var picked: PhotosPickerItem?
     @State private var viewing: PlacePhoto?
+    @State private var showsLibrary = false
+    @State private var showsCamera = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -59,13 +61,27 @@ struct PlacePhotosSection: View {
                 picked = nil
             }
         }
+        .photosPicker(isPresented: $showsLibrary, selection: $picked, matching: .images, preferredItemEncoding: .compatible)
+        .fullScreenCover(isPresented: $showsCamera) {
+            CameraCapture { image in
+                guard let data = image.jpegData(compressionQuality: 0.95) else { return }
+                Task { await model.add(imageData: data) }
+            }
+            .ignoresSafeArea()
+        }
         .fullScreenCover(item: $viewing) { photo in
             PhotoViewer(model: model, photos: model.photos, start: photo)
         }
     }
 
+    /// Take a photo with the camera (when the device has one) or pick one from the library.
     private var addTile: some View {
-        PhotosPicker(selection: $picked, matching: .images, preferredItemEncoding: .compatible) {
+        Menu {
+            if CameraCapture.isAvailable {
+                Button(String(localized: "Take photo"), systemImage: "camera") { showsCamera = true }
+            }
+            Button(String(localized: "Choose from library"), systemImage: "photo.on.rectangle") { showsLibrary = true }
+        } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
                     .strokeBorder(Brand.accent.opacity(0.7), style: StrokeStyle(lineWidth: 1.5, dash: [5, 4]))

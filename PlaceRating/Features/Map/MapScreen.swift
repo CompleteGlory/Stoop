@@ -13,8 +13,8 @@ struct MapScreen: View {
         _model = State(initialValue: MapViewModel(
             user: user,
             location: LiveLocationService(),
-            socket: MockLiveSocket(),
-            people: MockLiveSocket.people,
+            socket: LiveSocketClient(url: { AppConfig.current.liveURL }, auth: session.liveAuth),
+            onSessionExpired: { session.sessionExpired() },
             places: session.places,
             friendsAPI: session.friends,
             photosAPI: session.photos
@@ -90,6 +90,11 @@ struct MapScreen: View {
                                 label: String(localized: "Ghost mode"), isOn: model.ghost) { model.toggleGhost() }
                     RoundButton(systemImage: "location.fill", label: String(localized: "Recenter")) { model.recenter() }
                 }
+            }
+            if model.isPaused {
+                StatusBanner(systemImage: "pause.circle.fill", text: String(localized: "Sharing is paused: Stoop is open on another device."))
+            } else if model.connectionLost {
+                StatusBanner(systemImage: "wifi.slash", text: String(localized: "You're offline. Reconnecting…"))
             }
             if model.access == .denied {
                 LocationDeniedBanner { openURL(URL(string: UIApplication.openSettingsURLString)!) }
@@ -201,6 +206,23 @@ private struct RoundButton: View {
                 .shadow(color: .black.opacity(0.15), radius: 6, y: 2)
         }
         .accessibilityLabel(Text(label))
+    }
+}
+
+/// A one-line notice under the top bar (offline, sharing paused).
+private struct StatusBanner: View {
+    let systemImage: String
+    let text: String
+
+    var body: some View {
+        Label(text, systemImage: systemImage)
+            .font(.footnote.weight(.medium))
+            .foregroundStyle(Brand.foreground)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .background(Brand.background.opacity(0.95), in: .rect(cornerRadius: 14))
+            .accessibilityElement(children: .combine)
+            .transition(.opacity)
     }
 }
 

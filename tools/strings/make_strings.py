@@ -179,6 +179,10 @@ strings = {
     "That photo couldn't be used. Try another one.": "تعذّر استخدام الصورة. جرّب صورة أخرى.",
     "That photo is too big. Try a smaller one.": "الصورة كبيرة جدًا. جرّب صورة أصغر.",
     "The upload didn't finish. Try again.": "لم يكتمل الرفع. حاول مرة أخرى.",
+    "Take photo": "التقاط صورة",
+    "Choose from library": "اختيار من المعرض",
+    "Sharing is paused: Stoop is open on another device.": "تمت إيقاف المشاركة مؤقتًا: Stoop مفتوح على جهاز آخر.",
+    "You're offline. Reconnecting…": "أنت غير متصل. جارٍ إعادة الاتصال…",
 }
 
 # Strings whose wording depends on a number. Arabic has six plural forms.
@@ -232,6 +236,10 @@ plist = {
     "NSLocationWhenInUseUsageDescription": (
         "Your location is shown to friends you accept, while the app is open.",
         "يظهر موقعك للأصدقاء الذين تقبلهم أثناء فتح التطبيق.",
+    ),
+    "NSCameraUsageDescription": (
+        "Take a photo of a place or its menu to add it to Stoop.",
+        "التقط صورة لمكان أو قائمته لإضافتها إلى Stoop.",
     ),
 }
 def unit(v): return {"stringUnit": {"state": "translated", "value": v}}
