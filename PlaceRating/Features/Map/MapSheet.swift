@@ -15,6 +15,10 @@ struct MapSheet: View {
                     PlaceSheet(model: place) { model.showBrowse() }
                         .id(place.placeId)
                 }
+            case .friends:
+                if let friends = model.friendsModel {
+                    FriendsSheet(model: friends) { model.showBrowse() }
+                }
             }
         }
         .foregroundStyle(Brand.foreground)
@@ -48,19 +52,39 @@ private struct BrowseSheet: View {
                 Text(error).font(.footnote).foregroundStyle(Brand.negative.text)
             }
 
-            if model.visibleFriends.isEmpty {
-                Label("Find friends", systemImage: "person.badge.plus")
+            HStack {
+                Text("Friends").font(.subheadline.weight(.semibold)).foregroundStyle(Brand.foreground.opacity(0.7))
+                Spacer()
+                Button { model.showFriends() } label: {
+                    HStack(spacing: 6) {
+                        Label("Find friends", systemImage: "person.badge.plus")
+                        if !model.friendsList.incoming.isEmpty {
+                            Text(model.friendsList.incoming.count, format: .number)
+                                .font(.caption2.weight(.bold))
+                                .foregroundStyle(Brand.background)
+                                .padding(.horizontal, 6)
+                                .frame(minWidth: 18, minHeight: 18)
+                                .background(Brand.accent, in: .capsule)
+                                .accessibilityLabel(Text("\(model.friendsList.incoming.count) requests"))
+                        }
+                    }
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(Brand.accent)
-            } else {
+                }
+            }
+
+            if !model.friendsList.friends.isEmpty {
                 ScrollView(.horizontal) {
                     HStack(spacing: 14) {
-                        ForEach(model.visibleFriends) { friend in
-                            Button { model.focus(on: friend) } label: {
+                        ForEach(model.friendsList.friends) { entry in
+                            let live = model.liveFriend(entry.user.id)
+                            Button {
+                                if let live { model.focus(on: live) } else { model.showFriends() }
+                            } label: {
                                 VStack(spacing: 4) {
-                                    AvatarImage(avatar: friend.person.avatar, size: 44)
-                                        .opacity(friend.isDimmed ? 0.5 : 1)
-                                    Text(verbatim: friend.person.name)
+                                    AvatarImage(avatar: entry.user.avatar, size: 44)
+                                        .opacity(live == nil || live?.isDimmed == true ? 0.5 : 1)
+                                    Text(verbatim: entry.user.name)
                                         .font(.caption2.weight(.medium))
                                         .lineLimit(1)
                                 }

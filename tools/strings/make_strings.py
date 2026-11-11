@@ -127,6 +127,25 @@ strings = {
     "School": "مدرسة",
     "Attraction": "معلم سياحي",
     "Landmark": "معلم",
+    "Search by username": "ابحث باسم المستخدم",
+    "Clear": "مسح",
+    "Type at least 3 letters of a username.": "اكتب 3 أحرف على الأقل من اسم المستخدم.",
+    "No one with that username.": "لا يوجد أحد بهذا الاسم.",
+    "Add": "إضافة",
+    "Accept": "قبول",
+    "Requested": "تم الطلب",
+    "Cancels the request": "يلغي الطلب",
+    "Requests": "الطلبات",
+    "Decline": "رفض",
+    "Your friends": "أصدقاؤك",
+    "Search for a username to add your first friend.": "ابحث عن اسم مستخدم لتضيف أول صديق لك.",
+    "Remove friend": "إزالة الصديق",
+    "More": "المزيد",
+    "Sent": "المُرسلة",
+    "You'll stop seeing each other on the map.": "لن يرى أحدكما الآخر على الخريطة بعد الآن.",
+    "Remove %@ from your friends?": "إزالة %@ من أصدقائك؟",
+    "You're already friends.": "أنتما صديقان بالفعل.",
+    "We couldn't find that. It may have been removed.": "تعذّر العثور عليه. ربما تمت إزالته.",
 }
 
 # Strings whose wording depends on a number. Arabic has six plural forms.
@@ -162,6 +181,17 @@ plurals = {
             "few": "%lld نجوم",
             "many": "%lld نجمة",
             "other": "%lld نجمة",
+        },
+    },
+    "%lld requests": {
+        "en": {"one": "%lld request", "other": "%lld requests"},
+        "ar": {
+            "zero": "لا طلبات",
+            "one": "طلب واحد",
+            "two": "طلبان",
+            "few": "%lld طلبات",
+            "many": "%lld طلبًا",
+            "other": "%lld طلب",
         },
     },
 }
