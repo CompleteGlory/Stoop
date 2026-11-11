@@ -37,6 +37,8 @@
 		C479CDDC6EC43FA34E224622 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CED63BAEDD2D2986634EC4 /* HTTP.swift */; };
 		C870AF335F94FBA01213E549 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB100B765DE4983E2EE7E413 /* LocationService.swift */; };
 		CA27D9AEC778F8B129505AA5 /* UsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A67EC8C8EA14AAB78DF58F /* UsernameView.swift */; };
+		D362C5DED00E4DA1B4519E90 /* AvatarDiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B78DED4F92664D9886048 /* AvatarDiskCacheTests.swift */; };
+		D64B8D4148517B37A3F5484C /* AvatarDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A63534CE5347352B0EF383 /* AvatarDiskCache.swift */; };
 		D91E2947050135032173A239 /* CharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8E26D56C225864BE94D9C8 /* CharacterView.swift */; };
 		E155B53C7958672F2888A09E /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EBC5381B7EF1D0817A3442 /* SessionStore.swift */; };
 		E26EF1AE4222F957BF81B492 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6957D199014440BC91E7E4 /* Brand.swift */; };
@@ -86,6 +88,7 @@
 		86CED63BAEDD2D2986634EC4 /* HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		8A9D66AA92B67E2FCCE748D6 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
 		916BB98FFAEDF16C0D2D9AFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A1A63534CE5347352B0EF383 /* AvatarDiskCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarDiskCache.swift; sourceTree = "<group>"; };
 		A596139524AC660362AC57E2 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		A897D65C8828EF34574F6326 /* StoopMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoopMark.swift; sourceTree = "<group>"; };
 		AF16794DE26345160637C283 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -100,6 +103,7 @@
 		E3EBC5381B7EF1D0817A3442 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		EB6957D199014440BC91E7E4 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		EC2F118870F5A4099BC5909D /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		F49B78DED4F92664D9886048 /* AvatarDiskCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarDiskCacheTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -120,6 +124,7 @@
 				EC2F118870F5A4099BC5909D /* APIClient.swift */,
 				B9D700AC2A9289987C01996C /* AppleSignIn.swift */,
 				4FAABBAFB4A5382BF2C6BEF9 /* AuthSession.swift */,
+				A1A63534CE5347352B0EF383 /* AvatarDiskCache.swift */,
 				5E389AC2E8ED61F49813EAE8 /* AvatarRenderer.swift */,
 				86CED63BAEDD2D2986634EC4 /* HTTP.swift */,
 				2928FA4AC5528F082B2EAFF5 /* JSONCoding.swift */,
@@ -182,6 +187,7 @@
 				8A9D66AA92B67E2FCCE748D6 /* APIClientTests.swift */,
 				181CDB8D2F88F8D6C4FB66F4 /* AppConfigTests.swift */,
 				399698D5A07F3806F679EC65 /* AuthSessionTests.swift */,
+				F49B78DED4F92664D9886048 /* AvatarDiskCacheTests.swift */,
 				6D2DA232C62063E92E3DFEA0 /* MapTests.swift */,
 				33E48D0AF34E851924F00263 /* OnboardingTests.swift */,
 				CEA8187310DC86E5653B5921 /* Support.swift */,
@@ -357,6 +363,7 @@
 				8FF62788A731C5F26FB9AC64 /* AppConfig.swift in Sources */,
 				679725E518F35AB72AE61422 /* AppleSignIn.swift in Sources */,
 				83DB1D363158B049B18DF3FB /* AuthSession.swift in Sources */,
+				D64B8D4148517B37A3F5484C /* AvatarDiskCache.swift in Sources */,
 				045A4CD0D2B4BAE906523E25 /* AvatarRenderer.swift in Sources */,
 				E26EF1AE4222F957BF81B492 /* Brand.swift in Sources */,
 				0935D2D854CC077B9F7E3F66 /* BrandViews.swift in Sources */,
@@ -390,6 +397,7 @@
 				F78874D21A0B4EEF24C785F3 /* APIClientTests.swift in Sources */,
 				1952CDCCF15B4FBA05D4D227 /* AppConfigTests.swift in Sources */,
 				3F5985B97058D91C50D0FF80 /* AuthSessionTests.swift in Sources */,
+				D362C5DED00E4DA1B4519E90 /* AvatarDiskCacheTests.swift in Sources */,
 				E5B8477053FF8A55DDE80B61 /* MapTests.swift in Sources */,
 				8A1AC9D8BDB2654A67EB5C65 /* OnboardingTests.swift in Sources */,
 				A66C5A754A7E14B40E493115 /* Support.swift in Sources */,

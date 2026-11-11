@@ -64,6 +64,7 @@ final class DiceBearRenderer: NSObject, AvatarRendering, WKNavigationDelegate, W
     private var pending: [Int: CheckedContinuation<String, Error>] = [:]
     private var nextID = 0
     private let cache = NSCache<NSString, UIImage>()
+    private let disk = AvatarDiskCache.shared
     private var cachedStyles: [CharacterStyle]?
 
     override private init() {
@@ -96,18 +97,24 @@ final class DiceBearRenderer: NSObject, AvatarRendering, WKNavigationDelegate, W
         return Avatar(style: style, options: options)
     }
 
+    /// Memory first, then the disk cache, and only then a fresh drawing (which is saved for next time).
     func image(for avatar: Avatar, pixels: Int) async throws -> UIImage {
-        let key = Self.cacheKey(avatar, pixels) as NSString
-        if let cached = cache.object(forKey: key) { return cached }
+        let key = Self.cacheKey(avatar, pixels)
+        if let cached = cache.object(forKey: key as NSString) { return cached }
+        if let data = await disk.data(for: key), let image = UIImage(data: data, scale: 1) {
+            cache.setObject(image, forKey: key as NSString)
+            return image
+        }
         let base64: String = try decode(try await invoke("png", [avatar.style, avatar.options, pixels]))
         guard let data = Data(base64Encoded: base64), let image = UIImage(data: data, scale: 1) else {
             throw AvatarRendererError.badResult
         }
-        cache.setObject(image, forKey: key)
+        cache.setObject(image, forKey: key as NSString)
+        await disk.store(data, for: key)
         return image
     }
 
-    static func cacheKey(_ avatar: Avatar, _ pixels: Int) -> String {
+    nonisolated static func cacheKey(_ avatar: Avatar, _ pixels: Int) -> String {
         let options = avatar.options.sorted { $0.key < $1.key }.map { "\($0.key)=\($0.value)" }.joined(separator: "&")
         return "\(avatar.style)|\(options)|\(pixels)"
     }
