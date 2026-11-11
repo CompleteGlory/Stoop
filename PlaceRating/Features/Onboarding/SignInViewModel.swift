@@ -9,10 +9,22 @@ final class SignInViewModel {
     private(set) var errorText: String?
 
     private let session: SessionStore
+    let google: any GoogleSignInProviding
     private var rawNonce = ""
 
-    init(session: SessionStore) {
+    init(session: SessionStore, google: any GoogleSignInProviding) {
         self.session = session
+        self.google = google
+    }
+
+    func signInWithGoogle() async {
+        errorText = nil
+        do {
+            guard let idToken = try await google.signIn() else { return } // cancelled
+            await run { try await self.session.api.signInWithGoogle(idToken: idToken) }
+        } catch {
+            errorText = String(localized: "Sign in failed. Try again.")
+        }
     }
 
     /// Returns the hashed nonce to hand to Apple, and remembers the raw one for the server.

@@ -1,6 +1,16 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "6-digit code": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رمز من 6 أرقام"
+          }
+        }
+      }
+    },
     "Accessories": {
       "localizations": {
         "ar": {
@@ -17,6 +27,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "لون الإكسسوارات"
+          }
+        }
+      }
+    },
+    "At least 8 characters.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8 أحرف على الأقل."
           }
         }
       }
@@ -41,6 +61,16 @@
         }
       }
     },
+    "Back to sign in": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "العودة إلى تسجيل الدخول"
+          }
+        }
+      }
+    },
     "By continuing you accept the Terms and Privacy Policy.": {
       "localizations": {
         "ar": {
@@ -61,6 +91,16 @@
         }
       }
     },
+    "Check the email and password. Passwords need at least 8 characters.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تحقّق من البريد الإلكتروني وكلمة المرور. كلمة المرور 8 أحرف على الأقل."
+          }
+        }
+      }
+    },
     "Checking…": {
       "localizations": {
         "ar": {
@@ -71,12 +111,82 @@
         }
       }
     },
+    "Choose a new password": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر كلمة مرور جديدة"
+          }
+        }
+      }
+    },
+    "Confirm": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تأكيد"
+          }
+        }
+      }
+    },
+    "Confirm your email": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أكّد بريدك الإلكتروني"
+          }
+        }
+      }
+    },
+    "Confirm your email first. We sent you a new code.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أكّد بريدك الإلكتروني أولًا. أرسلنا إليك رمزًا جديدًا."
+          }
+        }
+      }
+    },
     "Continue": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "متابعة"
+          }
+        }
+      }
+    },
+    "Continue with email": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المتابعة بالبريد الإلكتروني"
+          }
+        }
+      }
+    },
+    "Create account": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إنشاء حساب"
+          }
+        }
+      }
+    },
+    "Create your account": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أنشئ حسابك"
           }
         }
       }
@@ -117,6 +227,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تعديل الشخصية"
+          }
+        }
+      }
+    },
+    "Email": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البريد الإلكتروني"
           }
         }
       }
@@ -211,6 +331,26 @@
         }
       }
     },
+    "Forgot password?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نسيت كلمة المرور؟"
+          }
+        }
+      }
+    },
+    "Forgot your password?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هل نسيت كلمة المرور؟"
+          }
+        }
+      }
+    },
     "Friends see it on the map.": {
       "localizations": {
         "ar": {
@@ -301,6 +441,26 @@
         }
       }
     },
+    "Have an account? Sign in": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لديك حساب؟ سجّل الدخول"
+          }
+        }
+      }
+    },
+    "If %@ has an account, we sent it a 6-digit code.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إذا كان لدى %@ حساب، فقد أرسلنا إليه رمزًا من 6 أرقام."
+          }
+        }
+      }
+    },
     "Make your character": {
       "localizations": {
         "ar": {
@@ -327,6 +487,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "الفم"
+          }
+        }
+      }
+    },
+    "New here? Create an account": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جديد هنا؟ أنشئ حسابًا"
+          }
+        }
+      }
+    },
+    "New password": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كلمة مرور جديدة"
           }
         }
       }
@@ -381,6 +561,16 @@
         }
       }
     },
+    "Password": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كلمة المرور"
+          }
+        }
+      }
+    },
     "Pick your name": {
       "localizations": {
         "ar": {
@@ -411,12 +601,42 @@
         }
       }
     },
+    "Save password": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حفظ كلمة المرور"
+          }
+        }
+      }
+    },
     "Search places": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "ابحث عن الأماكن"
+          }
+        }
+      }
+    },
+    "Send a new code": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسل رمزًا جديدًا"
+          }
+        }
+      }
+    },
+    "Send code": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إرسال الرمز"
           }
         }
       }
@@ -505,12 +725,32 @@
         }
       }
     },
+    "Sign in": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل الدخول"
+          }
+        }
+      }
+    },
     "Sign in failed. Try again.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "فشل تسجيل الدخول. حاول مرة أخرى."
+          }
+        }
+      }
+    },
+    "Sign in with email": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تسجيل الدخول بالبريد الإلكتروني"
           }
         }
       }
@@ -571,6 +811,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تعذّر حفظ الشخصية. جرّب مظهرًا آخر."
+          }
+        }
+      }
+    },
+    "That code is wrong or has expired.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هذا الرمز غير صحيح أو انتهت صلاحيته."
           }
         }
       }
@@ -655,12 +905,12 @@
         }
       }
     },
-    "Use a different Apple ID": {
+    "Use a different account": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "استخدم حساب Apple آخر"
+            "value": "استخدم حسابًا آخر"
           }
         }
       }
@@ -671,6 +921,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "تعذّر الوصول إلى الخادم."
+          }
+        }
+      }
+    },
+    "We sent a 6-digit code to %@.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسلنا رمزًا من 6 أرقام إلى %@."
+          }
+        }
+      }
+    },
+    "We sent a new code.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أرسلنا رمزًا جديدًا."
+          }
+        }
+      }
+    },
+    "Wrong email or password.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "البريد الإلكتروني أو كلمة المرور غير صحيحة."
           }
         }
       }

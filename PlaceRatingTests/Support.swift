@@ -64,6 +64,36 @@ final class FakeAPI: APIClientProtocol, @unchecked Sendable {
         makeAuth(access: "a", refresh: "r", user: makeUser(username: nil, displayName: ""))
     }
     func devSignIn(username: String) async throws -> AuthResponse { makeAuth(access: "a", refresh: "r") }
+
+    var googleTokens: [String] = []
+    var emailCalls: [String] = []
+    /// Answers for the email routes, keyed by route name; missing means success.
+    var emailErrors: [String: Error] = [:]
+    var emailUser = makeUser(username: nil, displayName: "")
+
+    func signInWithGoogle(idToken: String) async throws -> AuthResponse {
+        googleTokens.append(idToken)
+        return makeAuth(access: "a", refresh: "r", user: makeUser(username: nil, displayName: "G"))
+    }
+    private func email(_ route: String) throws {
+        emailCalls.append(route)
+        if let error = emailErrors[route] { throw error }
+    }
+    func emailSignUp(email: String, password: String) async throws { try self.email("signup") }
+    func emailVerify(email: String, code: String) async throws -> AuthResponse {
+        try self.email("verify")
+        return makeAuth(access: "a", refresh: "r", user: emailUser)
+    }
+    func emailResend(email: String) async throws { try self.email("resend") }
+    func emailSignIn(email: String, password: String) async throws -> AuthResponse {
+        try self.email("signin")
+        return makeAuth(access: "a", refresh: "r", user: emailUser)
+    }
+    func passwordForgot(email: String) async throws { try self.email("forgot") }
+    func passwordReset(email: String, code: String, newPassword: String) async throws -> AuthResponse {
+        try self.email("reset")
+        return makeAuth(access: "a", refresh: "r", user: emailUser)
+    }
     func me() async throws -> SelfUser { try meResult.get() }
     func updateProfile(username: String, displayName: String?) async throws -> SelfUser {
         updates.append((username, displayName))

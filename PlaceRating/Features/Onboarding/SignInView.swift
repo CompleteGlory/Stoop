@@ -1,4 +1,5 @@
 import AuthenticationServices
+import GoogleSignInSwift
 import SwiftUI
 
 struct SignInView: View {
@@ -8,8 +9,12 @@ struct SignInView: View {
     @State private var server = DebugServer.selected
     #endif
 
-    init(session: SessionStore) {
-        _model = State(initialValue: SignInViewModel(session: session))
+    let session: SessionStore
+    @State private var showsEmail = false
+
+    init(session: SessionStore, google: (any GoogleSignInProviding)? = nil) {
+        self.session = session
+        _model = State(initialValue: SignInViewModel(session: session, google: google ?? GoogleSignInService()))
     }
 
     var body: some View {
@@ -49,6 +54,26 @@ struct SignInView: View {
                 .clipShape(.rect(cornerRadius: 14))
                 .disabled(model.isBusy)
 
+                if model.google.isConfigured {
+                    // Google's own button, as its branding rules ask
+                    GoogleSignInButton(scheme: .light, style: .wide, state: model.isBusy ? .disabled : .normal) {
+                        Task { await model.signInWithGoogle() }
+                    }
+                    .frame(height: 52)
+                    .clipShape(.rect(cornerRadius: 14))
+                }
+
+                Button {
+                    showsEmail = true
+                } label: {
+                    Label("Continue with email", systemImage: "envelope.fill")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, minHeight: 52)
+                        .foregroundStyle(Brand.foreground)
+                        .background(Brand.surface, in: .rect(cornerRadius: 14))
+                }
+                .accessibilityIdentifier("continueWithEmail")
+
                 Text("By continuing you accept the Terms and Privacy Policy.")
                     .font(.caption2)
                     .foregroundStyle(Brand.foreground.opacity(0.55))
@@ -62,6 +87,10 @@ struct SignInView: View {
             .padding(.bottom, 12)
         }
         .background(Brand.background)
+        .sheet(isPresented: $showsEmail) {
+            EmailAuthView(session: session)
+                .presentationDetents([.large])
+        }
     }
 
     #if DEBUG
