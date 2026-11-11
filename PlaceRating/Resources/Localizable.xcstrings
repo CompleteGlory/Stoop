@@ -203,6 +203,16 @@
         }
       }
     },
+    "Abuse or harassment": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إساءة أو مضايقة"
+          }
+        }
+      }
+    },
     "Accept": {
       "localizations": {
         "ar": {
@@ -249,6 +259,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "أضف تعليقًا (اختياري)"
+          }
+        }
+      }
+    },
+    "Add menu": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف القائمة"
+          }
+        }
+      }
+    },
+    "Add photo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف صورة"
           }
         }
       }
@@ -509,6 +539,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "رفض"
+          }
+        }
+      }
+    },
+    "Delete photo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف الصورة"
+          }
+        }
+      }
+    },
+    "Delete this photo?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف هذه الصورة؟"
           }
         }
       }
@@ -853,6 +903,26 @@
         }
       }
     },
+    "Impersonation": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انتحال شخصية"
+          }
+        }
+      }
+    },
+    "Inappropriate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "غير لائق"
+          }
+        }
+      }
+    },
     "Landmark": {
       "localizations": {
         "ar": {
@@ -899,6 +969,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ذكر"
+          }
+        }
+      }
+    },
+    "Menu": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "القائمة"
           }
         }
       }
@@ -963,12 +1043,32 @@
         }
       }
     },
+    "No menu photos yet.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد صور للقائمة بعد."
+          }
+        }
+      }
+    },
     "No one with that username.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "لا يوجد أحد بهذا الاسم."
+          }
+        }
+      }
+    },
+    "No photos yet.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد صور بعد."
           }
         }
       }
@@ -1103,12 +1203,52 @@
         }
       }
     },
+    "Photo by %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صورة من %@"
+          }
+        }
+      }
+    },
+    "Photo type": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نوع الصورة"
+          }
+        }
+      }
+    },
+    "Photos": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصور"
+          }
+        }
+      }
+    },
     "Pick your name": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "اختر اسمك"
+          }
+        }
+      }
+    },
+    "Place": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المكان"
           }
         }
       }
@@ -1159,6 +1299,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إزالة تقييمي"
+          }
+        }
+      }
+    },
+    "Report photo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإبلاغ عن الصورة"
           }
         }
       }
@@ -1437,12 +1587,32 @@
         }
       }
     },
+    "Something else": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سبب آخر"
+          }
+        }
+      }
+    },
     "Something went wrong. Try again.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "حدث خطأ ما. حاول مرة أخرى."
+          }
+        }
+      }
+    },
+    "Spam": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "محتوى مزعج"
           }
         }
       }
@@ -1477,6 +1647,16 @@
         }
       }
     },
+    "Thanks. We'll take a look.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شكرًا. سنراجع ذلك."
+          }
+        }
+      }
+    },
     "That character couldn't be saved. Try another look.": {
       "localizations": {
         "ar": {
@@ -1497,6 +1677,36 @@
         }
       }
     },
+    "That photo couldn't be read. Try another one.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّرت قراءة الصورة. جرّب صورة أخرى."
+          }
+        }
+      }
+    },
+    "That photo couldn't be used. Try another one.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تعذّر استخدام الصورة. جرّب صورة أخرى."
+          }
+        }
+      }
+    },
+    "That photo is too big. Try a smaller one.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الصورة كبيرة جدًا. جرّب صورة أصغر."
+          }
+        }
+      }
+    },
     "That username is taken.": {
       "localizations": {
         "ar": {
@@ -1513,6 +1723,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اسم المستخدم هذا غير متاح."
+          }
+        }
+      }
+    },
+    "The upload didn't finish. Try again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يكتمل الرفع. حاول مرة أخرى."
           }
         }
       }
@@ -1663,6 +1883,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ضعيفة"
+          }
+        }
+      }
+    },
+    "Why are you reporting this photo?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لماذا تبلّغ عن هذه الصورة؟"
           }
         }
       }

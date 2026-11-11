@@ -17,6 +17,7 @@ struct PlaceSheet: View {
                     retry(error) { Task { await model.load() } }
                 } else {
                     yourRating
+                    PlacePhotosSection(model: model.photos)
                     ratingsList
                 }
             }
@@ -56,7 +57,18 @@ struct PlaceSheet: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Your rating").font(.subheadline.weight(.semibold)).foregroundStyle(Brand.foreground.opacity(0.7))
             StarPicker(stars: model.stars) { model.setStars($0) }
-            TextField(text: Binding(get: { model.comment }, set: { model.comment = $0 }), axis: .vertical) {
+            // a vertical field grows with the text, but Return should finish (and save), not add a line
+            TextField(text: Binding(
+                get: { model.comment },
+                set: { text in
+                    if text.contains("\n") {
+                        model.comment = text.replacingOccurrences(of: "\n", with: "")
+                        commentFocused = false
+                    } else {
+                        model.comment = text
+                    }
+                }
+            ), axis: .vertical) {
                 Text("Add a comment (optional)").foregroundStyle(Brand.foreground.opacity(0.4))
             }
             .lineLimit(1...4)

@@ -17,6 +17,7 @@ final class PlaceViewModel {
     private(set) var errorText: String?
     /// The last save failed: show a retry instead of queueing it (offline never queues writes).
     private(set) var saveFailed = false
+    let photos: PlacePhotosViewModel
 
     private let api: any PlacesAPI
     private let myId: String
@@ -34,9 +35,11 @@ final class PlaceViewModel {
         placeId: String,
         api: any PlacesAPI,
         myId: String,
+        photosAPI: any PhotosAPI = UnavailablePhotosAPI(),
         debounce: Duration = .milliseconds(600),
         onPlaceChanged: @escaping (Place) -> Void = { _ in }
     ) {
+        photos = PlacePhotosViewModel(placeId: placeId, api: photosAPI, myId: myId)
         self.placeId = placeId
         self.api = api
         self.myId = myId

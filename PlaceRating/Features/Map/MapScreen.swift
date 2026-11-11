@@ -16,7 +16,8 @@ struct MapScreen: View {
             socket: MockLiveSocket(),
             people: MockLiveSocket.people,
             places: session.places,
-            friendsAPI: session.friends
+            friendsAPI: session.friends,
+            photosAPI: session.photos
         ))
     }
 

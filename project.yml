@@ -13,6 +13,9 @@ packages:
   GoogleSignIn:
     url: https://github.com/google/GoogleSignIn-iOS
     exactVersion: 10.1.0
+  Nuke:
+    url: https://github.com/kean/Nuke
+    exactVersion: 13.2.3
 targets:
   PlaceRating:
     type: application
@@ -50,6 +53,8 @@ targets:
     dependencies:
       - package: GoogleSignIn
         products: [GoogleSignIn, GoogleSignInSwift]
+      - package: Nuke
+        products: [Nuke, NukeUI]
     entitlements:
       path: PlaceRating/PlaceRating.entitlements
       properties:
