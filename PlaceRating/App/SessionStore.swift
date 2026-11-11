@@ -17,9 +17,12 @@ final class SessionStore {
 
     private(set) var phase: Phase = .launching
     let api: any APIClientProtocol
+    /// Places, ratings and friends; the real client provides both.
+    let places: any PlacesAPI
 
-    init(api: any APIClientProtocol) {
+    init(api: any APIClientProtocol, places: (any PlacesAPI)? = nil) {
         self.api = api
+        self.places = places ?? (api as? any PlacesAPI) ?? UnavailablePlacesAPI()
     }
 
     func start() async {

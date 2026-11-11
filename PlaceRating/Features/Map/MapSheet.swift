@@ -10,6 +10,11 @@ struct MapSheet: View {
             switch model.sheet {
             case .browse: BrowseSheet(model: model)
             case .profile: ProfileSheet(model: model, session: session)
+            case .place:
+                if let place = model.placeModel {
+                    PlaceSheet(model: place) { model.showBrowse() }
+                        .id(place.placeId)
+                }
             }
         }
         .foregroundStyle(Brand.foreground)
@@ -33,6 +38,15 @@ private struct BrowseSheet: View {
             .padding(.horizontal, 14)
             .frame(height: 44)
             .background(Brand.surface, in: .rect(cornerRadius: 12))
+
+            if model.isResolvingPlace {
+                HStack(spacing: 8) {
+                    ProgressView().tint(Brand.foreground).controlSize(.small)
+                    Text("Opening place…").font(.footnote)
+                }
+            } else if let error = model.placeErrorText {
+                Text(error).font(.footnote).foregroundStyle(Brand.negative.text)
+            }
 
             if model.visibleFriends.isEmpty {
                 Label("Find friends", systemImage: "person.badge.plus")

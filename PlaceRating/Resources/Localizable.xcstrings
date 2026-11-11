@@ -1,6 +1,134 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%lld ratings": {
+      "localizations": {
+        "ar": {
+          "variations": {
+            "plural": {
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld تقييمات"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld تقييمًا"
+                }
+              },
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "تقييم واحد"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld تقييم"
+                }
+              },
+              "two": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "تقييمان"
+                }
+              },
+              "zero": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "لا تقييمات"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld rating"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld ratings"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld stars": {
+      "localizations": {
+        "ar": {
+          "variations": {
+            "plural": {
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld نجوم"
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld نجمة"
+                }
+              },
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "نجمة واحدة"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld نجمة"
+                }
+              },
+              "two": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "نجمتان"
+                }
+              },
+              "zero": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "لا نجوم"
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld star"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld stars"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "6-digit code": {
       "localizations": {
         "ar": {
@@ -31,12 +159,32 @@
         }
       }
     },
+    "Add a comment (optional)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أضف تعليقًا (اختياري)"
+          }
+        }
+      }
+    },
     "At least 8 characters.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "8 أحرف على الأقل."
+          }
+        }
+      }
+    },
+    "Attraction": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معلم سياحي"
           }
         }
       }
@@ -71,12 +219,52 @@
         }
       }
     },
+    "Bakery": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مخبز"
+          }
+        }
+      }
+    },
+    "Bar": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حانة"
+          }
+        }
+      }
+    },
+    "Beach": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شاطئ"
+          }
+        }
+      }
+    },
     "By continuing you accept the Terms and Privacy Policy.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "بالمتابعة فإنك توافق على الشروط وسياسة الخصوصية."
+          }
+        }
+      }
+    },
+    "Café": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مقهى"
           }
         }
       }
@@ -117,6 +305,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اختر كلمة مرور جديدة"
+          }
+        }
+      }
+    },
+    "Close": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إغلاق"
           }
         }
       }
@@ -241,6 +439,16 @@
         }
       }
     },
+    "Everyone": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الجميع"
+          }
+        }
+      }
+    },
     "Eye color": {
       "localizations": {
         "ar": {
@@ -351,6 +559,16 @@
         }
       }
     },
+    "Friends": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأصدقاء"
+          }
+        }
+      }
+    },
     "Friends see it on the map.": {
       "localizations": {
         "ar": {
@@ -397,6 +615,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "لون النظارات"
+          }
+        }
+      }
+    },
+    "Gym": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نادٍ رياضي"
           }
         }
       }
@@ -451,12 +679,52 @@
         }
       }
     },
+    "Hospital": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مستشفى"
+          }
+        }
+      }
+    },
+    "Hotel": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فندق"
+          }
+        }
+      }
+    },
     "If %@ has an account, we sent it a 6-digit code.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "إذا كان لدى %@ حساب، فقد أرسلنا إليه رمزًا من 6 أرقام."
+          }
+        }
+      }
+    },
+    "Landmark": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "معلم"
+          }
+        }
+      }
+    },
+    "Library": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مكتبة"
           }
         }
       }
@@ -491,6 +759,16 @@
         }
       }
     },
+    "Museum": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متحف"
+          }
+        }
+      }
+    },
     "New here? Create an account": {
       "localizations": {
         "ar": {
@@ -521,6 +799,26 @@
         }
       }
     },
+    "No ratings yet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد تقييمات بعد"
+          }
+        }
+      }
+    },
+    "No ratings yet. Be the first.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا توجد تقييمات بعد. كن أول من يقيّم."
+          }
+        }
+      }
+    },
     "Nose": {
       "localizations": {
         "ar": {
@@ -537,6 +835,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ليس الآن"
+          }
+        }
+      }
+    },
+    "Opening place…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ فتح المكان…"
           }
         }
       }
@@ -561,12 +869,32 @@
         }
       }
     },
+    "Park": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حديقة"
+          }
+        }
+      }
+    },
     "Password": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "كلمة المرور"
+          }
+        }
+      }
+    },
+    "Pharmacy": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صيدلية"
           }
         }
       }
@@ -601,12 +929,52 @@
         }
       }
     },
+    "Remove my rating": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إزالة تقييمي"
+          }
+        }
+      }
+    },
+    "Restaurant": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مطعم"
+          }
+        }
+      }
+    },
     "Save password": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "حفظ كلمة المرور"
+          }
+        }
+      }
+    },
+    "Saving…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ الحفظ…"
+          }
+        }
+      }
+    },
+    "School": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مدرسة"
           }
         }
       }
@@ -715,12 +1083,32 @@
         }
       }
     },
+    "Shop": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متجر"
+          }
+        }
+      }
+    },
     "Show friends where you are?": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "هل تريد أن يرى أصدقاؤك مكانك؟"
+          }
+        }
+      }
+    },
+    "Show more": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عرض المزيد"
           }
         }
       }
@@ -841,6 +1229,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اسم المستخدم هذا غير متاح."
+          }
+        }
+      }
+    },
+    "Theater": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسرح"
           }
         }
       }
@@ -981,6 +1379,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "يظهر موقعك للأصدقاء الذين تقبلهم أثناء فتح التطبيق."
+          }
+        }
+      }
+    },
+    "Your rating": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تقييمك"
           }
         }
       }
