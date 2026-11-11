@@ -111,14 +111,15 @@ struct CharacterView: View {
             .pickerStyle(.segmented)
             .colorScheme(.dark)
 
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 84), spacing: 12)], spacing: 14) {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 86), spacing: 10)], spacing: 14) {
                 ForEach(model.styles) { style in
                     Button {
                         Task { await model.selectStyle(style.id) }
                     } label: {
                         VStack(spacing: 6) {
-                            AvatarImage(avatar: model.styleSamples[style.id], size: 72)
-                                .overlay(SelectionRing(isOn: model.avatar?.style == style.id))
+                            Selectable(isOn: model.avatar?.style == style.id, size: 72) {
+                                AvatarImage(avatar: model.styleSamples[style.id], size: 72)
+                            }
                             Text(verbatim: style.title)
                                 .font(.caption.weight(.medium))
                                 .foregroundStyle(Brand.foreground.opacity(0.85))
@@ -197,55 +198,85 @@ private struct SquareButton: View {
     }
 }
 
-/// One part of the character: thumbnails of the character wearing each choice, or color swatches.
+/// One part of the character as a grid that fills the width: thumbnails of the character
+/// wearing each choice, or color swatches. Only the cells on screen are drawn.
 private struct OptionRow: View {
     let group: OptionGroup
     let model: CharacterViewModel
 
+    private var columns: [GridItem] {
+        switch group.kind {
+        case .choice: [GridItem(.adaptive(minimum: 76, maximum: 110), spacing: 10)]
+        case .color: [GridItem(.adaptive(minimum: 46, maximum: 60), spacing: 8)]
+        }
+    }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 10) {
             SectionTitle(text: OptionNames.title(for: group.name))
-            ScrollView(.horizontal) {
-                LazyHStack(spacing: 10) {
-                    ForEach(group.values, id: \.self) { value in
-                        Button {
-                            model.set(group.name, to: value)
-                        } label: {
-                            label(for: value)
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel(Text(verbatim: "\(OptionNames.title(for: group.name)) \(value)"))
-                        .accessibilityAddTraits(model.isSelected(group.name, value) ? .isSelected : [])
+            LazyVGrid(columns: columns, spacing: group.kind == .choice ? 12 : 8) {
+                ForEach(group.values, id: \.self) { value in
+                    Button {
+                        model.set(group.name, to: value)
+                    } label: {
+                        cell(for: value)
                     }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel(Text(verbatim: "\(OptionNames.title(for: group.name)) \(value)"))
+                    .accessibilityAddTraits(model.isSelected(group.name, value) ? .isSelected : [])
                 }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 3)
             }
-            .scrollIndicators(.hidden)
+            .padding(.horizontal, 20)
         }
     }
 
     @ViewBuilder
-    private func label(for value: String) -> some View {
+    private func cell(for value: String) -> some View {
         let isOn = model.isSelected(group.name, value)
         switch group.kind {
         case .color:
-            Circle()
-                .fill(Color(hexString: value))
-                .frame(width: 34, height: 34)
-                .overlay(Circle().stroke(Brand.foreground.opacity(0.25), lineWidth: 1))
-                .overlay(SelectionRing(isOn: isOn, inset: -4))
+            Selectable(isOn: isOn, size: 34) {
+                Circle()
+                    .fill(Color(hexString: value))
+                    .overlay(Circle().stroke(Brand.foreground.opacity(0.25), lineWidth: 1))
+            }
         case .choice:
-            AvatarImage(avatar: model.preview(group.name, value), size: 60)
-                .overlay {
-                    if value == "none" {
-                        Image(systemName: "nosign").font(.caption.weight(.bold)).foregroundStyle(Brand.background.opacity(0.5))
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                            .padding(4)
+            Selectable(isOn: isOn, size: 68) {
+                AvatarImage(avatar: model.preview(group.name, value), size: 68)
+                    .overlay(alignment: .bottomTrailing) {
+                        if value == "none" {
+                            Image(systemName: "nosign")
+                                .font(.caption.weight(.bold))
+                                .foregroundStyle(Brand.background.opacity(0.5))
+                                .padding(6)
+                        }
                     }
-                }
-                .overlay(SelectionRing(isOn: isOn))
+            }
         }
+    }
+}
+
+/// A circle with room for its selection ring around it, so the ring is never clipped by
+/// a scroll view or a neighbour: the cell is the circle plus the ring's width and a gap.
+struct Selectable<Content: View>: View {
+    let isOn: Bool
+    let size: CGFloat
+    @ViewBuilder let content: Content
+
+    private let gap: CGFloat = 3
+    private let ring: CGFloat = 3
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .strokeBorder(Brand.accent, lineWidth: isOn ? ring : 0)
+            content
+                .frame(width: size, height: size)
+                .clipShape(.circle)
+        }
+        .frame(width: size + 2 * (gap + ring), height: size + 2 * (gap + ring))
+        .animation(.snappy(duration: 0.15), value: isOn)
+        .contentShape(.circle)
     }
 }
 
@@ -260,17 +291,6 @@ private struct SectionTitle: View {
     }
 }
 
-private struct SelectionRing: View {
-    let isOn: Bool
-    var inset: CGFloat = -3
-
-    var body: some View {
-        Circle()
-            .inset(by: inset)
-            .stroke(Brand.accent, lineWidth: isOn ? 3 : 0)
-            .animation(.snappy(duration: 0.15), value: isOn)
-    }
-}
 
 /// Readable, translated names for DiceBear's option groups.
 enum OptionNames {

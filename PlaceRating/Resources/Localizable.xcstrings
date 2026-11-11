@@ -1,506 +1,508 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "Accessories": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الإكسسوارات"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Accessories" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإكسسوارات"
           }
         }
       }
     },
-    "Accessory color": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لون الإكسسوارات"
+    "Accessory color" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لون الإكسسوارات"
           }
         }
       }
     },
-    "Available": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "متاح"
+    "Available" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متاح"
           }
         }
       }
     },
-    "Back": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "رجوع"
+    "Back" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رجوع"
           }
         }
       }
     },
-    "By continuing you accept the Terms and Privacy Policy.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "بالمتابعة فإنك توافق على الشروط وسياسة الخصوصية."
+    "By continuing you accept the Terms and Privacy Policy." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بالمتابعة فإنك توافق على الشروط وسياسة الخصوصية."
           }
         }
       }
     },
-    "Checking…": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "جارٍ التحقق…"
+    "Checking…" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جارٍ التحقق…"
           }
         }
       }
     },
-    "Continue": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "متابعة"
+    "Continue" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متابعة"
           }
         }
       }
     },
-    "Details": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تفاصيل"
+    "Details" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تفاصيل"
           }
         }
       }
     },
-    "Earring color": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لون الأقراط"
+    "Earring color" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لون الأقراط"
           }
         }
       }
     },
-    "Earrings": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الأقراط"
+    "Earrings" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الأقراط"
           }
         }
       }
     },
-    "Eye color": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لون العينين"
+    "Eye color" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لون العينين"
           }
         }
       }
     },
-    "Eyebrow color": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لون الحاجبين"
+    "Eyebrow color" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لون الحاجبين"
           }
         }
       }
     },
-    "Eyebrows": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الحاجبان"
+    "Eyebrows" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الحاجبان"
           }
         }
       }
     },
-    "Eyes": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "العينان"
+    "Eyes" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "العينان"
           }
         }
       }
     },
-    "Face": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الوجه"
+    "Face" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الوجه"
           }
         }
       }
     },
-    "Facial hair": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "شعر الوجه"
+    "Facial hair" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شعر الوجه"
           }
         }
       }
     },
-    "Facial hair color": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لون شعر الوجه"
+    "Facial hair color" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لون شعر الوجه"
           }
         }
       }
     },
-    "Female": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "أنثى"
+    "Female" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أنثى"
           }
         }
       }
     },
-    "Friends see it on the map.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "يراها أصدقاؤك على الخريطة."
+    "Friends see it on the map." : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يراها أصدقاؤك على الخريطة."
           }
         }
       }
     },
-    "Glasses": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "النظارات"
+    "Glasses" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "النظارات"
           }
         }
       }
     },
-    "Glasses color": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لون النظارات"
+    "Glasses color" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لون النظارات"
           }
         }
       }
     },
-    "Hair": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الشعر"
+    "Hair" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الشعر"
           }
         }
       }
     },
-    "Hair color": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لون الشعر"
+    "Hair color" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لون الشعر"
           }
         }
       }
     },
-    "Hairstyles": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تسريحات الشعر"
+    "Hairstyles" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تسريحات الشعر"
           }
         }
       }
     },
-    "Hat color": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لون القبعة"
+    "Hat color" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لون القبعة"
           }
         }
       }
     },
-    "Make your character": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اصنع شخصيتك"
+    "Make your character" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اصنع شخصيتك"
           }
         }
       }
     },
-    "Male": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "ذكر"
+    "Male" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ذكر"
           }
         }
       }
     },
-    "Mouth": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الفم"
+    "Mouth" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الفم"
           }
         }
       }
     },
-    "Next": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "التالي"
+    "Next" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التالي"
           }
         }
       }
     },
-    "Nose": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الأنف"
+    "Nose" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الأنف"
           }
         }
       }
     },
-    "Outfit": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "الملابس"
+    "Outfit" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الملابس"
           }
         }
       }
     },
-    "Outfit color": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "لون الملابس"
+    "Outfit color" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لون الملابس"
           }
         }
       }
     },
-    "Pick your name": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اختر اسمك"
+    "Pick your name" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اختر اسمك"
           }
         }
       }
     },
-    "Sign in failed. Try again.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "فشل تسجيل الدخول. حاول مرة أخرى."
+    "Sign in failed. Try again." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فشل تسجيل الدخول. حاول مرة أخرى."
           }
         }
       }
     },
-    "Sign out": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تسجيل الخروج"
+    "Sign out" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تسجيل الخروج"
           }
         }
       }
     },
-    "Skin": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "البشرة"
+    "Skin" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البشرة"
           }
         }
       }
     },
-    "Something went wrong. Try again.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "حدث خطأ ما. حاول مرة أخرى."
+    "Something went wrong. Try again." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حدث خطأ ما. حاول مرة أخرى."
           }
         }
       }
     },
-    "Style": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "النمط"
+    "Style" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "النمط"
           }
         }
       }
     },
-    "Surprise me": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "فاجئني"
+    "Surprise me" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فاجئني"
           }
         }
       }
     },
-    "That character couldn't be saved. Try another look.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تعذّر حفظ الشخصية. جرّب مظهرًا آخر."
+    "That character couldn't be saved. Try another look." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعذّر حفظ الشخصية. جرّب مظهرًا آخر."
           }
         }
       }
     },
-    "That username is taken.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اسم المستخدم هذا مأخوذ."
+    "That username is taken." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسم المستخدم هذا مأخوذ."
           }
         }
       }
     },
-    "That username isn't available.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اسم المستخدم هذا غير متاح."
+    "That username isn't available." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسم المستخدم هذا غير متاح."
           }
         }
       }
     },
-    "This is how friends see you on the map.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "هكذا يراك أصدقاؤك على الخريطة."
+    "This is how friends see you on the map." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هكذا يراك أصدقاؤك على الخريطة."
           }
         }
       }
     },
-    "Too many attempts. Try again later.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "محاولات كثيرة جدًا. حاول لاحقًا."
+    "Too many attempts. Try again later." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "محاولات كثيرة جدًا. حاول لاحقًا."
           }
         }
       }
     },
-    "Try again": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "حاول مرة أخرى"
+    "Try again" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حاول مرة أخرى"
           }
         }
       }
     },
-    "Use 3 to 20 letters, digits, _ or .": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "استخدم من 3 إلى 20 حرفًا إنجليزيًا أو رقمًا أو _ أو ."
+    "Use 3 to 20 letters, digits, _ or ." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استخدم من 3 إلى 20 حرفًا إنجليزيًا أو رقمًا أو _ أو ."
           }
         }
       }
     },
-    "Use a different Apple ID": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "استخدم حساب Apple آخر"
+    "Use a different Apple ID" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استخدم حساب Apple آخر"
           }
         }
       }
     },
-    "We couldn't reach the server.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "تعذّر الوصول إلى الخادم."
+    "We couldn't reach the server." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعذّر الوصول إلى الخادم."
           }
         }
       }
     },
-    "Your friends, your places, one map": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "أصدقاؤك وأماكنك على خريطة واحدة"
+    "Your friends, your places, one map" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أصدقاؤك وأماكنك على خريطة واحدة"
           }
         }
       }
     },
-    "Your session has expired. Sign in again.": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "انتهت جلستك. سجّل الدخول مرة أخرى."
+    "Your session has expired. Sign in again." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انتهت جلستك. سجّل الدخول مرة أخرى."
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }
