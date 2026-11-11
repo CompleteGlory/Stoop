@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		011D2DBA355897E7CEC5331E /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046C2D6B2AE0622EA932C9EF /* APIError.swift */; };
+		0935D2D854CC077B9F7E3F66 /* BrandViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D348F332E0D69779FED284 /* BrandViews.swift */; };
 		13A866C9AD3F56F16B472F26 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F118870F5A4099BC5909D /* APIClient.swift */; };
 		1952CDCCF15B4FBA05D4D227 /* AppConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CDB8D2F88F8D6C4FB66F4 /* AppConfigTests.swift */; };
 		387B6778C7EDB7EA1920D012 /* StoopMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = A897D65C8828EF34574F6326 /* StoopMark.swift */; };
@@ -72,6 +73,7 @@
 		A596139524AC660362AC57E2 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		A897D65C8828EF34574F6326 /* StoopMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoopMark.swift; sourceTree = "<group>"; };
 		AF16794DE26345160637C283 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		B3D348F332E0D69779FED284 /* BrandViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandViews.swift; sourceTree = "<group>"; };
 		B92F63461C0E392ED3B9897F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		B9D700AC2A9289987C01996C /* AppleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignIn.swift; sourceTree = "<group>"; };
 		C929E1FA27E4DDC1D2E7DD2B /* UsernameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameViewModel.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			children = (
 				7F1E900F7F897D64A47AB9A0 /* AppConfig.swift */,
 				EB6957D199014440BC91E7E4 /* Brand.swift */,
+				B3D348F332E0D69779FED284 /* BrandViews.swift */,
 				0E55E856CE655C7B7416E659 /* PlaceRatingApp.swift */,
 				AF16794DE26345160637C283 /* RootView.swift */,
 				E3EBC5381B7EF1D0817A3442 /* SessionStore.swift */,
@@ -327,6 +330,7 @@
 				679725E518F35AB72AE61422 /* AppleSignIn.swift in Sources */,
 				83DB1D363158B049B18DF3FB /* AuthSession.swift in Sources */,
 				E26EF1AE4222F957BF81B492 /* Brand.swift in Sources */,
+				0935D2D854CC077B9F7E3F66 /* BrandViews.swift in Sources */,
 				39D6D405F8483A4C337E05F6 /* ErrorText.swift in Sources */,
 				C479CDDC6EC43FA34E224622 /* HTTP.swift in Sources */,
 				97088123568981B9461E9387 /* JSONCoding.swift in Sources */,

@@ -10,6 +10,9 @@ struct RootView: View {
             switch session.phase {
             case .launching:
                 ProgressView()
+                    .tint(Brand.foreground)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Brand.background)
             case .signedOut:
                 SignInView(session: session)
             case .needsUsername(let user):
@@ -32,7 +35,10 @@ private struct UnavailableView: View {
             Label("We couldn't reach the server.", systemImage: "wifi.slash")
         } actions: {
             Button("Try again") { Task { await session.start() } }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(BrandButtonStyle())
+                .frame(maxWidth: 220)
         }
+        .foregroundStyle(Brand.foreground)
+        .background(Brand.background)
     }
 }

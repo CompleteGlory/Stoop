@@ -11,22 +11,22 @@
         }
       }
     },
+    "By continuing you accept the Terms and Privacy Policy.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بالمتابعة فإنك توافق على الشروط وسياسة الخصوصية."
+          }
+        }
+      }
+    },
     "Checking…": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "جارٍ التحقق…"
-          }
-        }
-      }
-    },
-    "Choose a username": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "اختر اسم مستخدم"
           }
         }
       }
@@ -41,22 +41,12 @@
         }
       }
     },
-    "Friends find you by this name.": {
+    "Pick your name": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يجدك أصدقاؤك بهذا الاسم."
-          }
-        }
-      }
-    },
-    "Rate places with your friends": {
-      "localizations": {
-        "ar": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "قيّم الأماكن مع أصدقائك"
+            "value": "اختر اسمك"
           }
         }
       }
@@ -111,6 +101,16 @@
         }
       }
     },
+    "This is how friends see you on the map.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هكذا يراك أصدقاؤك على الخريطة."
+          }
+        }
+      }
+    },
     "Too many attempts. Try again later.": {
       "localizations": {
         "ar": {
@@ -141,12 +141,12 @@
         }
       }
     },
-    "Username": {
+    "Use a different Apple ID": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "اسم المستخدم"
+            "value": "استخدم حساب Apple آخر"
           }
         }
       }
@@ -157,6 +157,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تعذّر الوصول إلى الخادم."
+          }
+        }
+      }
+    },
+    "Your friends, your places, one map": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أصدقاؤك وأماكنك على خريطة واحدة"
           }
         }
       }
