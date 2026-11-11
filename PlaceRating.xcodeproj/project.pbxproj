@@ -48,12 +48,14 @@
 		BC85FA87FB7968FAC42B2DF4 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCE87FC92BF3515C7A20D0E /* Place.swift */; };
 		C479CDDC6EC43FA34E224622 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CED63BAEDD2D2986634EC4 /* HTTP.swift */; };
 		C536BC85E27EC64542B406CC /* GoogleSignInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62B05E4B546A2A13E60206C6 /* GoogleSignInService.swift */; };
+		C84724A41F57A22F77D2082E /* PasswordStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5251352DE2641353F398B0B9 /* PasswordStrength.swift */; };
 		C870AF335F94FBA01213E549 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB100B765DE4983E2EE7E413 /* LocationService.swift */; };
 		CA27D9AEC778F8B129505AA5 /* UsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A67EC8C8EA14AAB78DF58F /* UsernameView.swift */; };
 		D362C5DED00E4DA1B4519E90 /* AvatarDiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B78DED4F92664D9886048 /* AvatarDiskCacheTests.swift */; };
 		D4510F6447374D0262834716 /* PlaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5DEAAA423E205B9198CD80 /* PlaceTests.swift */; };
 		D64B8D4148517B37A3F5484C /* AvatarDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A63534CE5347352B0EF383 /* AvatarDiskCache.swift */; };
 		D91E2947050135032173A239 /* CharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8E26D56C225864BE94D9C8 /* CharacterView.swift */; };
+		DBD3E9A80F9A8A4B69CEABAB /* UsernameChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C7D4A43EC8D248E733304 /* UsernameChecker.swift */; };
 		E155B53C7958672F2888A09E /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EBC5381B7EF1D0817A3442 /* SessionStore.swift */; };
 		E26EF1AE4222F957BF81B492 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6957D199014440BC91E7E4 /* Brand.swift */; };
 		E5B8477053FF8A55DDE80B61 /* MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2DA232C62063E92E3DFEA0 /* MapTests.swift */; };
@@ -96,6 +98,7 @@
 		4F92BF116E04DCD339588902 /* LiveSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveSocket.swift; sourceTree = "<group>"; };
 		4FAABBAFB4A5382BF2C6BEF9 /* AuthSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSession.swift; sourceTree = "<group>"; };
 		4FDE7DFEF7D54E2C09F73619 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		5251352DE2641353F398B0B9 /* PasswordStrength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStrength.swift; sourceTree = "<group>"; };
 		53A670C5F542F46D8C3F1EA4 /* PlacesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesAPI.swift; sourceTree = "<group>"; };
 		58C36D1391594ECD395BE4B2 /* PlaceSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSheet.swift; sourceTree = "<group>"; };
 		5E389AC2E8ED61F49813EAE8 /* AvatarRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarRenderer.swift; sourceTree = "<group>"; };
@@ -114,6 +117,7 @@
 		8F1016BB27E30271AA2DF7E9 /* PlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceViewModel.swift; sourceTree = "<group>"; };
 		916BB98FFAEDF16C0D2D9AFC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1A63534CE5347352B0EF383 /* AvatarDiskCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarDiskCache.swift; sourceTree = "<group>"; };
+		A26C7D4A43EC8D248E733304 /* UsernameChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameChecker.swift; sourceTree = "<group>"; };
 		A596139524AC660362AC57E2 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		A897D65C8828EF34574F6326 /* StoopMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoopMark.swift; sourceTree = "<group>"; };
 		AF16794DE26345160637C283 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -229,8 +233,10 @@
 				0568D146A571642DB7C1BE39 /* EmailAuthView.swift */,
 				86D1EC3F5C385F938F652581 /* EmailAuthViewModel.swift */,
 				7C138C0253519C7E019DAB7F /* ErrorText.swift */,
+				5251352DE2641353F398B0B9 /* PasswordStrength.swift */,
 				B92F63461C0E392ED3B9897F /* SignInView.swift */,
 				63B402F9BAD163F9FCAC9300 /* SignInViewModel.swift */,
+				A26C7D4A43EC8D248E733304 /* UsernameChecker.swift */,
 				43A67EC8C8EA14AAB78DF58F /* UsernameView.swift */,
 				C929E1FA27E4DDC1D2E7DD2B /* UsernameViewModel.swift */,
 			);
@@ -458,6 +464,7 @@
 				3E345039F0E1F602B9BF6688 /* MapScreen.swift in Sources */,
 				AC0F23C7829AFEB70066C52A /* MapSheet.swift in Sources */,
 				1C9F9796D4D990E8B54F7377 /* MapViewModel.swift in Sources */,
+				C84724A41F57A22F77D2082E /* PasswordStrength.swift in Sources */,
 				BC85FA87FB7968FAC42B2DF4 /* Place.swift in Sources */,
 				99492ABCAF44FADC0E35FF71 /* PlaceRatingApp.swift in Sources */,
 				2E78445E3BA27111DC054AD2 /* PlaceSheet.swift in Sources */,
@@ -470,6 +477,7 @@
 				387B6778C7EDB7EA1920D012 /* StoopMark.swift in Sources */,
 				4FD92CC21FA7A2991F234083 /* TokenStore.swift in Sources */,
 				5089A3403B4A2DD0E67AB1EC /* User.swift in Sources */,
+				DBD3E9A80F9A8A4B69CEABAB /* UsernameChecker.swift in Sources */,
 				CA27D9AEC778F8B129505AA5 /* UsernameView.swift in Sources */,
 				73D08070D4A087629CF4DA7B /* UsernameViewModel.swift in Sources */,
 			);

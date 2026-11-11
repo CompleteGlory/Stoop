@@ -6,7 +6,7 @@ struct EmailAuthView: View {
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focused: Field?
 
-    private enum Field { case email, password, code, newPassword }
+    private enum Field { case email, username, password, confirmPassword, code, newPassword }
 
     init(session: SessionStore) {
         _model = State(initialValue: EmailAuthViewModel(session: session))
@@ -79,22 +79,62 @@ struct EmailAuthView: View {
     @ViewBuilder
     private var fields: some View {
         switch model.step {
-        case .signIn, .signUp:
-            BrandField(placeholder: String(localized: "Email")) {
-                TextField("", text: $model.email)
-                    .keyboardType(.emailAddress)
-                    .textContentType(.emailAddress)
-                    .focused($focused, equals: .email)
-                    .accessibilityIdentifier("email")
-            }
+        case .signIn:
+            emailField
             BrandField(placeholder: String(localized: "Password")) {
                 SecureField("", text: $model.password)
-                    .textContentType(model.step == .signUp ? .newPassword : .password)
+                    .textContentType(.password)
                     .focused($focused, equals: .password)
                     .accessibilityIdentifier("password")
             }
-            if model.step == .signUp {
-                Text("At least 8 characters.").font(.footnote).foregroundStyle(Brand.foreground.opacity(0.6))
+        case .signUp:
+            emailField
+                .submitLabel(.next)
+                .onSubmit { focused = .username }
+            VStack(alignment: .leading, spacing: 8) {
+                BrandField(placeholder: String(localized: "Username")) {
+                    HStack(spacing: 2) {
+                        Text(verbatim: "@").foregroundStyle(Brand.background.opacity(0.5))
+                        TextField("", text: $model.username)
+                            .textContentType(.username)
+                            .focused($focused, equals: .username)
+                            .submitLabel(.next)
+                            .onSubmit { focused = .password }
+                            .accessibilityIdentifier("username")
+                    }
+                }
+                UsernameStatusLine(status: model.usernameCheck.status)
+                    .animation(.snappy, value: model.usernameCheck.status)
+            }
+            VStack(alignment: .leading, spacing: 8) {
+                BrandField(placeholder: String(localized: "Password")) {
+                    SecureField("", text: $model.password)
+                        .textContentType(.newPassword)
+                        .focused($focused, equals: .password)
+                        .submitLabel(.next)
+                        .onSubmit { focused = .confirmPassword }
+                        .accessibilityIdentifier("password")
+                }
+                StrengthBar(strength: model.passwordStrength)
+            }
+            VStack(alignment: .leading, spacing: 8) {
+                BrandField(placeholder: String(localized: "Confirm password")) {
+                    SecureField("", text: $model.confirmPassword)
+                        .textContentType(.newPassword)
+                        .focused($focused, equals: .confirmPassword)
+                        .submitLabel(.go)
+                        .onSubmit { Task { await model.submit() } }
+                        .accessibilityIdentifier("confirmPassword")
+                }
+                if model.passwordsMismatch {
+                    Label("Passwords don't match.", systemImage: "xmark.circle.fill")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Brand.negative.text)
+                } else if !model.confirmPassword.isEmpty {
+                    Label("Passwords match.", systemImage: "checkmark.circle.fill")
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(Brand.positive.text)
+                }
             }
         case .verify:
             codeField
@@ -112,6 +152,16 @@ struct EmailAuthView: View {
                     .textContentType(.newPassword)
                     .focused($focused, equals: .newPassword)
             }
+        }
+    }
+
+    private var emailField: some View {
+        BrandField(placeholder: String(localized: "Email")) {
+            TextField("", text: $model.email)
+                .keyboardType(.emailAddress)
+                .textContentType(.emailAddress)
+                .focused($focused, equals: .email)
+                .accessibilityIdentifier("email")
         }
     }
 
@@ -167,6 +217,46 @@ private struct BrandField<Field: View>: View {
                 .background(Brand.foreground, in: .rect(cornerRadius: 12))
                 .environment(\.layoutDirection, .leftToRight)
         }
+    }
+}
+
+/// Four segments that fill and change colour as the password gets harder to guess.
+private struct StrengthBar: View {
+    let strength: PasswordStrength
+
+    private var color: Color {
+        switch strength {
+        case .empty: Brand.foreground.opacity(0.2)
+        case .tooShort, .weak: Brand.negative.text
+        case .fair: Brand.accent
+        case .good, .strong: Brand.positive.text
+        }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                ForEach(0..<4, id: \.self) { index in
+                    Capsule()
+                        .fill(index < strength.filledSegments ? color : Brand.foreground.opacity(0.15))
+                        .frame(height: 6)
+                }
+            }
+            .environment(\.layoutDirection, .leftToRight)
+            .animation(.snappy, value: strength)
+            if strength != .empty {
+                HStack(spacing: 6) {
+                    Text(strength.label).font(.footnote.weight(.semibold)).foregroundStyle(color)
+                    if let hint = strength.hint {
+                        Text(hint).font(.footnote).foregroundStyle(Brand.foreground.opacity(0.6))
+                    }
+                }
+            } else {
+                Text("At least 8 characters.").font(.footnote).foregroundStyle(Brand.foreground.opacity(0.6))
+            }
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(Text("Password strength: \(strength.label)"))
     }
 }
 

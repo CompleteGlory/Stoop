@@ -1,8 +1,8 @@
 import Foundation
 import Observation
 
-/// Email and password sign-in: create an account, confirm it with a 6-digit code, sign in,
-/// and reset a forgotten password with a code.
+/// Email and password sign-in: create an account (email, password twice and a username on one
+/// screen), confirm it with a 6-digit code, sign in, and reset a forgotten password with a code.
 @MainActor
 @Observable
 final class EmailAuthViewModel {
@@ -21,15 +21,28 @@ final class EmailAuthViewModel {
     var password = ""
     var code = ""
     var newPassword = ""
+    /// Sign-up only: typed twice so a typo can't lock the person out.
+    var confirmPassword = ""
+    /// Sign-up only: the username, checked while typing and given to the account with the code.
+    var username = "" {
+        didSet { if username != oldValue { usernameCheck.textChanged(username) } }
+    }
+    let usernameCheck: UsernameChecker
     private(set) var isBusy = false
     private(set) var errorText: String?
     private(set) var infoText: String?
 
     private let session: SessionStore
 
-    init(session: SessionStore) {
+    init(session: SessionStore, usernameDebounce: Duration = .milliseconds(400)) {
         self.session = session
+        usernameCheck = UsernameChecker(debounce: usernameDebounce) { try await session.api.publicUsernameAvailability($0) }
     }
+
+    var passwordStrength: PasswordStrength { PasswordStrength(password) }
+
+    /// Shown under the second password field once it has something in it.
+    var passwordsMismatch: Bool { !confirmPassword.isEmpty && confirmPassword != password }
 
     private var normalizedEmail: String { email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() }
 
@@ -41,7 +54,9 @@ final class EmailAuthViewModel {
         guard !isBusy else { return false }
         switch step {
         case .signIn: return Self.isEmail(normalizedEmail) && !password.isEmpty
-        case .signUp: return Self.isEmail(normalizedEmail) && password.count >= 8
+        case .signUp:
+            return Self.isEmail(normalizedEmail) && password.count >= 8 && confirmPassword == password
+                && usernameCheck.isAcceptable
         case .verify: return code.count == 6
         case .forgot: return Self.isEmail(normalizedEmail)
         case .reset: return code.count == 6 && newPassword.count >= 8
@@ -67,7 +82,7 @@ final class EmailAuthViewModel {
             case .signIn:
                 session.signedIn(try await api.emailSignIn(email: email, password: password))
             case .signUp:
-                try await api.emailSignUp(email: email, password: password)
+                try await api.emailSignUp(email: email, password: password, username: UsernameRules.normalized(username))
                 go(to: .verify)
                 infoText = String(localized: "We sent a 6-digit code to \(email).")
             case .verify:
@@ -84,6 +99,10 @@ final class EmailAuthViewModel {
             try? await api.emailResend(email: email)
             go(to: .verify)
             infoText = ErrorText.text(for: error)
+        } catch let error as APIError where step == .signUp && error.code == "username_taken" {
+            usernameCheck.status = .taken
+        } catch let error as APIError where step == .signUp && error.code == "username_reserved" {
+            usernameCheck.status = .reserved
         } catch let error as APIError where error.code == "validation_failed" {
             errorText = String(localized: "Check the email and password. Passwords need at least 8 characters.")
             _ = error

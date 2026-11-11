@@ -86,12 +86,21 @@ struct UsernameView: View {
         .environment(\.layoutDirection, .leftToRight)
     }
 
-    @ViewBuilder
     private var statusChip: some View {
-        if let error = model.errorText {
-            Chip(text: error, colors: Brand.negative)
+        UsernameStatusLine(status: model.status, errorText: model.errorText)
+    }
+}
+
+/// What the username check says, as a small coloured chip under the field.
+struct UsernameStatusLine: View {
+    let status: UsernameChecker.Status
+    var errorText: String?
+
+    var body: some View {
+        if let errorText {
+            Chip(text: errorText, colors: Brand.negative)
         } else {
-            switch model.status {
+            switch status {
             case .idle, .unknown:
                 EmptyView()
             case .checking:
