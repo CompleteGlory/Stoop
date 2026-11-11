@@ -15,15 +15,18 @@
 		1952CDCCF15B4FBA05D4D227 /* AppConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CDB8D2F88F8D6C4FB66F4 /* AppConfigTests.swift */; };
 		1C9F9796D4D990E8B54F7377 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C760C38B9EB5DCC1C052B1D /* MapViewModel.swift */; };
 		2695F1889992031ABD5267FD /* FriendsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33367FA0C387FA6189A07018 /* FriendsAPI.swift */; };
+		2AF0DEE6122B1EB7F63F1E01 /* PhotosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5772AA5B847595CC415C3552 /* PhotosTests.swift */; };
 		2E78445E3BA27111DC054AD2 /* PlaceSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C36D1391594ECD395BE4B2 /* PlaceSheet.swift */; };
 		33A5DBB836968DE8F6480F54 /* FriendsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE64AA04153A5385E90E7A2 /* FriendsTests.swift */; };
 		387B6778C7EDB7EA1920D012 /* StoopMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = A897D65C8828EF34574F6326 /* StoopMark.swift */; };
 		39D6D405F8483A4C337E05F6 /* ErrorText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C138C0253519C7E019DAB7F /* ErrorText.swift */; };
 		3B4539F70B0AD4980700FD4A /* EmailAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0568D146A571642DB7C1BE39 /* EmailAuthView.swift */; };
+		3C60CC73ECB7FDC498A28AAA /* PhotosAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D873FAB3FFF29D4C3DBF5F /* PhotosAPI.swift */; };
 		3E345039F0E1F602B9BF6688 /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DF40FC71D0CE4E77D9FFAF /* MapScreen.swift */; };
 		3F5985B97058D91C50D0FF80 /* AuthSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 399698D5A07F3806F679EC65 /* AuthSessionTests.swift */; };
 		4FD92CC21FA7A2991F234083 /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 307B09767DA25257F87FCC64 /* TokenStore.swift */; };
 		5089A3403B4A2DD0E67AB1EC /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1299E843EAC297E0CC844A81 /* User.swift */; };
+		5346D238F95264DBE2A64353 /* PlacePhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC88C05E2CE135170789F2C /* PlacePhotosViewModel.swift */; };
 		53CFD733967E698891D35DDE /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A596139524AC660362AC57E2 /* Localizable.xcstrings */; };
 		592A77FB02A6B430F439FCBE /* dicebear.js in Resources */ = {isa = PBXBuildFile; fileRef = 2CAAF44F8F892589BA10DB54 /* dicebear.js */; };
 		679725E518F35AB72AE61422 /* AppleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D700AC2A9289987C01996C /* AppleSignIn.swift */; };
@@ -32,7 +35,9 @@
 		73D08070D4A087629CF4DA7B /* UsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C929E1FA27E4DDC1D2E7DD2B /* UsernameViewModel.swift */; };
 		7AF29A540CBC310FBB8453A0 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 4FDE7DFEF7D54E2C09F73619 /* InfoPlist.xcstrings */; };
 		7CD429F73B378CA7C1EB88EC /* FriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA7B07443BD2CCCB8CCA376 /* FriendsViewModel.swift */; };
+		7D7C488191D92523A176C0B0 /* PlacePhotosSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594214B48AB702A0C766089 /* PlacePhotosSection.swift */; };
 		83DB1D363158B049B18DF3FB /* AuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAABBAFB4A5382BF2C6BEF9 /* AuthSession.swift */; };
+		849404E5A6D34C50B1556B01 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4B85D0FEAA22F49EB055D47A /* NukeUI */; };
 		8A1AC9D8BDB2654A67EB5C65 /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E48D0AF34E851924F00263 /* OnboardingTests.swift */; };
 		8FF62788A731C5F26FB9AC64 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1E900F7F897D64A47AB9A0 /* AppConfig.swift */; };
 		955E0618AD13D07611DB2014 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 0B811CB368ADFB54A9ED7771 /* GoogleSignIn */; };
@@ -56,6 +61,7 @@
 		D64B8D4148517B37A3F5484C /* AvatarDiskCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A63534CE5347352B0EF383 /* AvatarDiskCache.swift */; };
 		D91E2947050135032173A239 /* CharacterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B8E26D56C225864BE94D9C8 /* CharacterView.swift */; };
 		DBD3E9A80F9A8A4B69CEABAB /* UsernameChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26C7D4A43EC8D248E733304 /* UsernameChecker.swift */; };
+		DE402F2FB35A793A133B77F0 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = E7ABA7FF7C548D5C633384D2 /* Nuke */; };
 		E155B53C7958672F2888A09E /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EBC5381B7EF1D0817A3442 /* SessionStore.swift */; };
 		E26EF1AE4222F957BF81B492 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6957D199014440BC91E7E4 /* Brand.swift */; };
 		E5B8477053FF8A55DDE80B61 /* MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2DA232C62063E92E3DFEA0 /* MapTests.swift */; };
@@ -79,6 +85,7 @@
 /* Begin PBXFileReference section */
 		046C2D6B2AE0622EA932C9EF /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		0568D146A571642DB7C1BE39 /* EmailAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthView.swift; sourceTree = "<group>"; };
+		0AC88C05E2CE135170789F2C /* PlacePhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePhotosViewModel.swift; sourceTree = "<group>"; };
 		0B8E26D56C225864BE94D9C8 /* CharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterView.swift; sourceTree = "<group>"; };
 		0E55E856CE655C7B7416E659 /* PlaceRatingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRatingApp.swift; sourceTree = "<group>"; };
 		1299E843EAC297E0CC844A81 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -100,6 +107,7 @@
 		4FDE7DFEF7D54E2C09F73619 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		5251352DE2641353F398B0B9 /* PasswordStrength.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStrength.swift; sourceTree = "<group>"; };
 		53A670C5F542F46D8C3F1EA4 /* PlacesAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesAPI.swift; sourceTree = "<group>"; };
+		5772AA5B847595CC415C3552 /* PhotosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosTests.swift; sourceTree = "<group>"; };
 		58C36D1391594ECD395BE4B2 /* PlaceSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSheet.swift; sourceTree = "<group>"; };
 		5E389AC2E8ED61F49813EAE8 /* AvatarRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarRenderer.swift; sourceTree = "<group>"; };
 		62B05E4B546A2A13E60206C6 /* GoogleSignInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInService.swift; sourceTree = "<group>"; };
@@ -111,6 +119,7 @@
 		7B3C8F4698CAE8F990C42FBB /* PlaceRating.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PlaceRating.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C138C0253519C7E019DAB7F /* ErrorText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorText.swift; sourceTree = "<group>"; };
 		7F1E900F7F897D64A47AB9A0 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		8594214B48AB702A0C766089 /* PlacePhotosSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePhotosSection.swift; sourceTree = "<group>"; };
 		86CED63BAEDD2D2986634EC4 /* HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
 		86D1EC3F5C385F938F652581 /* EmailAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthViewModel.swift; sourceTree = "<group>"; };
 		8A9D66AA92B67E2FCCE748D6 /* APIClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientTests.swift; sourceTree = "<group>"; };
@@ -130,6 +139,7 @@
 		DB100B765DE4983E2EE7E413 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		DBCE87FC92BF3515C7A20D0E /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		DF769BB1A82AB1ED4D5D4F7A /* MapSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSheet.swift; sourceTree = "<group>"; };
+		E3D873FAB3FFF29D4C3DBF5F /* PhotosAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosAPI.swift; sourceTree = "<group>"; };
 		E3EBC5381B7EF1D0817A3442 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		EB6957D199014440BC91E7E4 /* Brand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brand.swift; sourceTree = "<group>"; };
 		EC2F118870F5A4099BC5909D /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
@@ -145,6 +155,8 @@
 			files = (
 				955E0618AD13D07611DB2014 /* GoogleSignIn in Frameworks */,
 				FC9CFA8C12272AA88DD8E477 /* GoogleSignInSwift in Frameworks */,
+				DE402F2FB35A793A133B77F0 /* Nuke in Frameworks */,
+				849404E5A6D34C50B1556B01 /* NukeUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +188,7 @@
 				2928FA4AC5528F082B2EAFF5 /* JSONCoding.swift */,
 				4F92BF116E04DCD339588902 /* LiveSocket.swift */,
 				DB100B765DE4983E2EE7E413 /* LocationService.swift */,
+				E3D873FAB3FFF29D4C3DBF5F /* PhotosAPI.swift */,
 				53A670C5F542F46D8C3F1EA4 /* PlacesAPI.swift */,
 				307B09767DA25257F87FCC64 /* TokenStore.swift */,
 			);
@@ -253,6 +266,7 @@
 				1CE64AA04153A5385E90E7A2 /* FriendsTests.swift */,
 				6D2DA232C62063E92E3DFEA0 /* MapTests.swift */,
 				33E48D0AF34E851924F00263 /* OnboardingTests.swift */,
+				5772AA5B847595CC415C3552 /* PhotosTests.swift */,
 				4F5DEAAA423E205B9198CD80 /* PlaceTests.swift */,
 				4647F0A410F73005856CC691 /* SignInTests.swift */,
 				CEA8187310DC86E5653B5921 /* Support.swift */,
@@ -296,6 +310,8 @@
 		E2102896F232D60FA288C888 /* Place */ = {
 			isa = PBXGroup;
 			children = (
+				8594214B48AB702A0C766089 /* PlacePhotosSection.swift */,
+				0AC88C05E2CE135170789F2C /* PlacePhotosViewModel.swift */,
 				58C36D1391594ECD395BE4B2 /* PlaceSheet.swift */,
 				8F1016BB27E30271AA2DF7E9 /* PlaceViewModel.swift */,
 			);
@@ -350,6 +366,8 @@
 			packageProductDependencies = (
 				0B811CB368ADFB54A9ED7771 /* GoogleSignIn */,
 				180D850218732007DBD4C113 /* GoogleSignInSwift */,
+				E7ABA7FF7C548D5C633384D2 /* Nuke */,
+				4B85D0FEAA22F49EB055D47A /* NukeUI */,
 			);
 			productName = PlaceRating;
 			productReference = 7B3C8F4698CAE8F990C42FBB /* PlaceRating.app */;
@@ -386,6 +404,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				4EC995B9D21F5D2E63501B15 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				3A5E5269CE96CF0C7568E689 /* XCRemoteSwiftPackageReference "Nuke" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2EB5D1BED46CE9C171A480FC /* Products */;
@@ -465,7 +484,10 @@
 				AC0F23C7829AFEB70066C52A /* MapSheet.swift in Sources */,
 				1C9F9796D4D990E8B54F7377 /* MapViewModel.swift in Sources */,
 				C84724A41F57A22F77D2082E /* PasswordStrength.swift in Sources */,
+				3C60CC73ECB7FDC498A28AAA /* PhotosAPI.swift in Sources */,
 				BC85FA87FB7968FAC42B2DF4 /* Place.swift in Sources */,
+				7D7C488191D92523A176C0B0 /* PlacePhotosSection.swift in Sources */,
+				5346D238F95264DBE2A64353 /* PlacePhotosViewModel.swift in Sources */,
 				99492ABCAF44FADC0E35FF71 /* PlaceRatingApp.swift in Sources */,
 				2E78445E3BA27111DC054AD2 /* PlaceSheet.swift in Sources */,
 				B6368EF7D0AA2BFE251A952C /* PlaceViewModel.swift in Sources */,
@@ -494,6 +516,7 @@
 				33A5DBB836968DE8F6480F54 /* FriendsTests.swift in Sources */,
 				E5B8477053FF8A55DDE80B61 /* MapTests.swift in Sources */,
 				8A1AC9D8BDB2654A67EB5C65 /* OnboardingTests.swift in Sources */,
+				2AF0DEE6122B1EB7F63F1E01 /* PhotosTests.swift in Sources */,
 				D4510F6447374D0262834716 /* PlaceTests.swift in Sources */,
 				BA717EC91DDE0815E478F177 /* SignInTests.swift in Sources */,
 				A66C5A754A7E14B40E493115 /* Support.swift in Sources */,
@@ -745,6 +768,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3A5E5269CE96CF0C7568E689 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke";
+			requirement = {
+				kind = exactVersion;
+				version = 13.2.3;
+			};
+		};
 		4EC995B9D21F5D2E63501B15 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -765,6 +796,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4EC995B9D21F5D2E63501B15 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		4B85D0FEAA22F49EB055D47A /* NukeUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A5E5269CE96CF0C7568E689 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = NukeUI;
+		};
+		E7ABA7FF7C548D5C633384D2 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3A5E5269CE96CF0C7568E689 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

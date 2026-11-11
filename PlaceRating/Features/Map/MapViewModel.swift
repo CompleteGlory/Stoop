@@ -57,6 +57,7 @@ final class MapViewModel {
     private let clock: () -> Date
     private let placesAPI: any PlacesAPI
     private let friendsAPI: any FriendsAPI
+    private let photosAPI: any PhotosAPI
     private let placesDebounce: Duration
     private var placesTask: Task<Void, Never>?
     private var throttle = SendThrottle()
@@ -69,11 +70,13 @@ final class MapViewModel {
         people: [Person],
         places: any PlacesAPI = UnavailablePlacesAPI(),
         friendsAPI: any FriendsAPI = UnavailableFriendsAPI(),
+        photosAPI: any PhotosAPI = UnavailablePhotosAPI(),
         placesDebounce: Duration = .milliseconds(400),
         clock: @escaping () -> Date = { Date() }
     ) {
         self.placesAPI = places
         self.friendsAPI = friendsAPI
+        self.photosAPI = photosAPI
         self.placesDebounce = placesDebounce
         self.user = user
         self.location = location
@@ -234,7 +237,7 @@ final class MapViewModel {
     }
 
     func open(_ place: Place) {
-        placeModel = PlaceViewModel(placeId: place.id, api: placesAPI, myId: user.id) { [weak self] updated in
+        placeModel = PlaceViewModel(placeId: place.id, api: placesAPI, myId: user.id, photosAPI: photosAPI) { [weak self] updated in
             self?.placeChanged(updated)
         }
         sheet = .place(place.id)
