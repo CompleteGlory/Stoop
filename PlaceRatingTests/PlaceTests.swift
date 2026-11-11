@@ -207,7 +207,7 @@ struct PlaceViewModelTests {
 struct MapPlacesTests {
     private func makeModel(_ api: FakePlacesAPI) -> MapViewModel {
         MapViewModel(user: makeUser(), location: FakeLocation(access: .allowed), socket: FakeLiveSocket(),
-                     people: [], places: api, placesDebounce: .milliseconds(10))
+                     places: api, placesDebounce: .milliseconds(10))
     }
 
     @Test func pinsOnlyRatedPlacesAfterTheCameraSettles() async {

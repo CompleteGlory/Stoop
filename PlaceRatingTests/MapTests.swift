@@ -94,13 +94,20 @@ final class FakeLiveSocket: LiveSocketProtocol {
 
 @MainActor
 struct MapViewModelTests {
-    private let nia = Person(id: "a", name: "nia", avatar: nil)
-
-    private func make(access: LocationAccess = .allowed, now: @escaping () -> Date = { t0 })
-        -> (MapViewModel, FakeLocation, FakeLiveSocket) {
+    private func make(
+        access: LocationAccess = .allowed,
+        now: @escaping () -> Date = { t0 },
+        onSessionExpired: @escaping () -> Void = {}
+    ) -> (MapViewModel, FakeLocation, FakeLiveSocket) {
         let location = FakeLocation(access: access)
         let socket = FakeLiveSocket()
-        let model = MapViewModel(user: makeUser(), location: location, socket: socket, people: [nia], clock: now)
+        let friends = FakeFriendsAPI()
+        let nia = PublicUser(id: "a", username: "nia", displayName: "nia", avatar: nil)
+        friends.list = FriendsList(friends: [FriendshipEntry(id: "f1", user: nia, since: t0)], incoming: [], outgoing: [])
+        let model = MapViewModel(
+            user: makeUser(), location: location, socket: socket, onSessionExpired: onSessionExpired,
+            friendsAPI: friends, clock: now
+        )
         return (model, location, socket)
     }
 
@@ -114,17 +121,19 @@ struct MapViewModelTests {
         model.stop()
     }
 
-    @Test func showsKnownFriendsAndCountsThem() {
+    @Test func showsKnownFriendsAndCountsThem() async {
         let (model, _, _) = make()
+        await model.loadFriends()
         model.handle(.hello(ghost: false, friends: [fix("a"), fix("stranger")]))
         #expect(model.isConnected)
         #expect(model.visibleFriends.map(\.person.name) == ["nia"])
         #expect(model.sharingCount == 2)
     }
 
-    @Test func dimsAndDropsQuietFriendsOnTheTicker() {
+    @Test func dimsAndDropsQuietFriendsOnTheTicker() async {
         var clock = t0
         let (model, _, _) = make(now: { clock })
+        await model.loadFriends()
         model.handle(.loc(fix("a")))
         clock = t0.addingTimeInterval(31)
         model.tick()
@@ -166,6 +175,88 @@ struct MapViewModelTests {
         model.start()
         #expect(socket.connects == 2)
         model.stop()
+    }
+
+    @Test func aNewConnectionTellsFriendsWhereYouAreRightAway() {
+        let (model, _, socket) = make()
+        model.received(place(30, 31))
+        #expect(socket.sent.count == 1)
+        model.handle(.hello(ghost: false, friends: []))
+        #expect(socket.sent.count == 2) // the throttle starts over with every connection
+    }
+
+    @Test func repeatsTheLastPositionEvery15SecondsWhileStandingStill() {
+        var clock = t0
+        let (model, _, socket) = make(now: { clock })
+        model.received(place(30, 31))
+        model.handle(.hello(ghost: false, friends: []))
+        #expect(socket.sent.count == 2)
+
+        clock = t0.addingTimeInterval(10)
+        model.tick()
+        #expect(socket.sent.count == 2)
+        clock = t0.addingTimeInterval(16)
+        model.tick()
+        #expect(socket.sent.count == 3)
+    }
+
+    @Test func staysQuietWhileOfflineAsAGhostOrBeforeAnyFix() {
+        var clock = t0
+        let (model, _, socket) = make(now: { clock })
+        clock = t0.addingTimeInterval(20)
+        model.tick() // no position yet
+        model.received(place(30, 31))
+        model.handle(.hello(ghost: false, friends: []))
+        let before = socket.sent.count
+        model.handle(.disconnected)
+        clock = t0.addingTimeInterval(60)
+        model.tick() // offline: nothing to send to
+        #expect(socket.sent.count == before)
+    }
+
+    @Test func showsOfflineAndDimsFriendsUntilTheNextHello() async {
+        let (model, _, _) = make()
+        await model.loadFriends()
+        model.handle(.hello(ghost: false, friends: [fix("a")]))
+        #expect(!model.connectionLost)
+        #expect(model.visibleFriends.first?.isDimmed == false)
+
+        model.handle(.disconnected)
+        #expect(model.connectionLost)
+        #expect(!model.isConnected)
+        #expect(model.visibleFriends.first?.isDimmed == true)
+
+        model.handle(.hello(ghost: false, friends: [fix("a")]))
+        #expect(!model.connectionLost)
+        #expect(model.visibleFriends.first?.isDimmed == false)
+    }
+
+    @Test func pausesWhenAnotherDeviceTakesOverUntilTheAppReturns() {
+        let (model, _, socket) = make()
+        model.start()
+        model.handle(.replaced)
+        #expect(model.isPaused)
+        #expect(!model.isConnected)
+        model.stop()
+        model.start()
+        #expect(!model.isPaused)
+        #expect(socket.connects == 2)
+        model.stop()
+    }
+
+    @Test func signsOutWhenTheServerRefusesTheSession() {
+        var expired = 0
+        let (model, _, _) = make(onSessionExpired: { expired += 1 })
+        model.handle(.unauthorized)
+        #expect(expired == 1)
+    }
+
+    @Test func asksForFriendsAgainWhenSomeoneUnknownShowsUpOnce() async {
+        let (model, _, _) = make()
+        model.handle(.loc(fix("newcomer")))
+        model.handle(.loc(fix("newcomer")))
+        await Task.yield()
+        #expect(model.friendsList.friends.map(\.user.id) == ["a"])
     }
 
     @Test func profileOpensAtMediumHeight() {

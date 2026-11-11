@@ -25,7 +25,7 @@ protocol APIClientProtocol: Sendable {
 
 struct APIClient: APIClientProtocol {
     let http: HTTPClient
-    private let session: AuthSession
+    let session: AuthSession
 
     init(http: HTTPClient, store: any TokenStore) {
         self.http = http

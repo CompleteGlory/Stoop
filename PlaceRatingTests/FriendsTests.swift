@@ -176,7 +176,7 @@ struct MapFriendsTests {
         let sara = person("s", "sara")
         api.list = FriendsList(friends: [], incoming: [entry("f1", sara)], outgoing: [])
         let model = MapViewModel(user: makeUser(), location: FakeLocation(access: .allowed), socket: FakeLiveSocket(),
-                                 people: [], friendsAPI: api)
+                                 friendsAPI: api)
 
         await model.loadFriends()
         #expect(model.friendsList.incoming.count == 1)
