@@ -26,6 +26,8 @@ enum ErrorText {
         case "invalid_avatar": String(localized: "That character couldn't be saved. Try another look.")
         case "rate_limited": String(localized: "Too many attempts. Try again later.")
         case "unauthorized": String(localized: "Sign in failed. Try again.")
+        case "already_friends": String(localized: "You're already friends.")
+        case "not_found": String(localized: "We couldn't find that. It may have been removed.")
         default: String(localized: "Something went wrong. Try again.")
         }
     }

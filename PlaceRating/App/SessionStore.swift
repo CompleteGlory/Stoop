@@ -19,8 +19,10 @@ final class SessionStore {
     let api: any APIClientProtocol
     /// Places, ratings and friends; the real client provides both.
     let places: any PlacesAPI
+    let friends: any FriendsAPI
 
-    init(api: any APIClientProtocol, places: (any PlacesAPI)? = nil) {
+    init(api: any APIClientProtocol, places: (any PlacesAPI)? = nil, friends: (any FriendsAPI)? = nil) {
+        self.friends = friends ?? (api as? any FriendsAPI) ?? UnavailableFriendsAPI()
         self.api = api
         self.places = places ?? (api as? any PlacesAPI) ?? UnavailablePlacesAPI()
     }

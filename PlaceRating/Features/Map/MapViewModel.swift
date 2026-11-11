@@ -12,6 +12,7 @@ final class MapViewModel {
         case browse
         case profile
         case place(String)
+        case friends
     }
 
     struct VisibleFriend: Identifiable, Equatable {
@@ -45,6 +46,9 @@ final class MapViewModel {
     private(set) var placeModel: PlaceViewModel?
     private(set) var isResolvingPlace = false
     private(set) var placeErrorText: String?
+    /// Your accepted friends and requests, from the API (positions come from the live socket).
+    private(set) var friendsList = FriendsList(friends: [], incoming: [], outgoing: [])
+    private(set) var friendsModel: FriendsViewModel?
 
     let user: SelfUser
     private let location: any LocationServiceProtocol
@@ -52,6 +56,7 @@ final class MapViewModel {
     private let people: [String: Person]
     private let clock: () -> Date
     private let placesAPI: any PlacesAPI
+    private let friendsAPI: any FriendsAPI
     private let placesDebounce: Duration
     private var placesTask: Task<Void, Never>?
     private var throttle = SendThrottle()
@@ -63,10 +68,12 @@ final class MapViewModel {
         socket: any LiveSocketProtocol,
         people: [Person],
         places: any PlacesAPI = UnavailablePlacesAPI(),
+        friendsAPI: any FriendsAPI = UnavailableFriendsAPI(),
         placesDebounce: Duration = .milliseconds(400),
         clock: @escaping () -> Date = { Date() }
     ) {
         self.placesAPI = places
+        self.friendsAPI = friendsAPI
         self.placesDebounce = placesDebounce
         self.user = user
         self.location = location
@@ -98,6 +105,7 @@ final class MapViewModel {
         guard tasks.isEmpty else { return }
         if access == .unknown { showsLocationPrompt = true }
         if access == .allowed { startLocation() }
+        tasks.append(Task { [weak self] in await self?.loadFriends() })
         let events = socket.connect()
         tasks.append(Task { [weak self] in
             for await event in events { self?.handle(event) }
@@ -151,7 +159,25 @@ final class MapViewModel {
     func showBrowse() {
         sheet = .browse
         placeModel = nil
+        friendsModel = nil
         selectedFeature = nil
+    }
+
+    // MARK: friends
+
+    func showFriends() {
+        friendsModel = FriendsViewModel(api: friendsAPI) { [weak self] list in self?.friendsList = list }
+        sheet = .friends
+        detent = .large
+    }
+
+    func loadFriends() async {
+        if let list = try? await friendsAPI.friends() { friendsList = list }
+    }
+
+    /// Where a friend is right now, if they are sharing.
+    func liveFriend(_ userId: String) -> VisibleFriend? {
+        visibleFriends.first { $0.id == userId }
     }
 
     // MARK: places
