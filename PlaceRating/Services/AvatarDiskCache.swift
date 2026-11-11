@@ -8,7 +8,7 @@ import Foundation
 /// empty when space is short; that only costs a redraw.
 actor AvatarDiskCache {
     /// Bump when the drawing changes (DiceBear version or `tools/dicebear/entry.js`), to drop old images.
-    static let version = "dicebear-9.4.2-v1"
+    static let version = "dicebear-9.4.3-v1"
     static let shared = AvatarDiskCache()
 
     private let directory: URL
