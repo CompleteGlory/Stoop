@@ -183,6 +183,9 @@ strings = {
     "Choose from library": "اختيار من المعرض",
     "Sharing is paused: Stoop is open on another device.": "تمت إيقاف المشاركة مؤقتًا: Stoop مفتوح على جهاز آخر.",
     "You're offline. Reconnecting…": "أنت غير متصل. جارٍ إعادة الاتصال…",
+    "Keep typing to search.": "واصل الكتابة للبحث.",
+    "No places found.": "لم يتم العثور على أماكن.",
+    "The search didn't work. Try again.": "لم ينجح البحث. حاول مرة أخرى.",
 }
 
 # Strings whose wording depends on a number. Arabic has six plural forms.

@@ -933,6 +933,16 @@
         }
       }
     },
+    "Keep typing to search.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "واصل الكتابة للبحث."
+          }
+        }
+      }
+    },
     "Landmark": {
       "localizations": {
         "ar": {
@@ -1079,6 +1089,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "لا توجد صور بعد."
+          }
+        }
+      }
+    },
+    "No places found.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يتم العثور على أماكن."
           }
         }
       }
@@ -1753,6 +1773,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اسم المستخدم هذا غير متاح."
+          }
+        }
+      }
+    },
+    "The search didn't work. Try again.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم ينجح البحث. حاول مرة أخرى."
           }
         }
       }

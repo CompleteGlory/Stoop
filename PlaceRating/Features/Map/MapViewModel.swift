@@ -42,6 +42,9 @@ final class MapViewModel {
     private(set) var connectionLost = false
     /// Another device took over the connection; sharing from here resumes on the next foreground.
     private(set) var isPaused = false
+    /// The search field in the bottom sheet.
+    let search: PlaceSearchViewModel
+    private(set) var visibleRegion: MKCoordinateRegion?
     private(set) var now: Date
     /// Rated places in the visible area (the API also returns unrated ones; those get no pin).
     private(set) var places: [Place] = []
@@ -78,6 +81,8 @@ final class MapViewModel {
         places: any PlacesAPI = UnavailablePlacesAPI(),
         friendsAPI: any FriendsAPI = UnavailableFriendsAPI(),
         photosAPI: any PhotosAPI = UnavailablePhotosAPI(),
+        searcher: any PlaceSearching = MapKitPlaceSearch(),
+        searchDebounce: Duration = .milliseconds(400),
         placesDebounce: Duration = .milliseconds(400),
         clock: @escaping () -> Date = { Date() }
     ) {
@@ -89,11 +94,13 @@ final class MapViewModel {
         self.location = location
         self.socket = socket
         self.onSessionExpired = onSessionExpired
+        search = PlaceSearchViewModel(searcher: searcher, debounce: searchDebounce)
         self.clock = clock
         ghost = user.ghostMode
         access = location.access
         now = clock()
         location.onAccessChange = { [weak self] access in self?.accessChanged(access) }
+        search.setRegionProvider { [weak self] in self?.visibleRegion }
     }
 
     var visibleFriends: [VisibleFriend] {
@@ -202,6 +209,9 @@ final class MapViewModel {
 
     /// Called when the camera settles: after a short pause, loads the rated places in view.
     func cameraSettled(center: CLLocationCoordinate2D, latitudeDelta: Double, longitudeDelta: Double) {
+        visibleRegion = MKCoordinateRegion(
+            center: center, span: MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+        )
         placesTask?.cancel()
         guard let box = BoundingBox(center: center, latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta) else {
             return // zoomed out too far to ask; keep what is shown
@@ -249,6 +259,15 @@ final class MapViewModel {
         } catch {
             placeErrorText = ErrorText.text(for: error)
         }
+    }
+
+    /// A search result was tapped: fly there and open its place sheet.
+    func openSearchResult(_ result: PlaceSearchResult) async {
+        search.clear()
+        withAnimation {
+            camera = .region(MKCoordinateRegion(center: result.coordinate, latitudinalMeters: 500, longitudinalMeters: 500))
+        }
+        await resolve(appleId: result.appleId, name: result.name, category: result.category, coordinate: result.coordinate)
     }
 
     func open(_ place: Place) {
