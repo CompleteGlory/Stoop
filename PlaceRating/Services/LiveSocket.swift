@@ -60,8 +60,18 @@ struct FriendsState: Equatable {
         }
     }
 
-    mutating func prune(now: Date) {
-        fixes = fixes.filter { now.timeIntervalSince($0.value.receivedAt) < Self.removeAfter }
+    /// Drops friends not heard from for a minute. Returns whether anyone was dropped.
+    @discardableResult
+    mutating func prune(now: Date) -> Bool {
+        let kept = fixes.filter { now.timeIntervalSince($0.value.receivedAt) < Self.removeAfter }
+        guard kept.count != fixes.count else { return false }
+        fixes = kept
+        return true
+    }
+
+    /// The friends who should look dimmed right now.
+    func dimmedIds(now: Date) -> Set<String> {
+        Set(fixes.keys.filter { isDimmed($0, now: now) })
     }
 
     func isDimmed(_ userId: String, now: Date) -> Bool {

@@ -633,6 +633,16 @@
         }
       }
     },
+    "Could be better": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يمكن أن يكون أفضل"
+          }
+        }
+      }
+    },
     "Create account": {
       "localizations": {
         "ar": {
@@ -923,6 +933,16 @@
         }
       }
     },
+    "Friend": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صديق"
+          }
+        }
+      }
+    },
     "Friends": {
       "localizations": {
         "ar": {
@@ -949,6 +969,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "يرى أصدقاؤك هذا الاسم على الخريطة."
+          }
+        }
+      }
+    },
+    "Friends' average": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوسط الأصدقاء"
           }
         }
       }
@@ -999,6 +1029,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "جيدة"
+          }
+        }
+      }
+    },
+    "Great": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "رائع"
           }
         }
       }
@@ -1183,6 +1223,16 @@
         }
       }
     },
+    "Loading ratings…": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "جارٍ تحميل التقييمات…"
+          }
+        }
+      }
+    },
     "Location": {
       "localizations": {
         "ar": {
@@ -1199,6 +1249,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الأطول أفضل. أضف أحرفًا كبيرة أو أرقامًا أو رموزًا."
+          }
+        }
+      }
+    },
+    "Loved it": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أحببته"
           }
         }
       }
@@ -1403,6 +1463,16 @@
         }
       }
     },
+    "Not for me": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يعجبني"
+          }
+        }
+      }
+    },
     "Not now": {
       "localizations": {
         "ar": {
@@ -1603,6 +1673,16 @@
         }
       }
     },
+    "Rate it first, then add a comment": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "قيّمه أولًا ثم أضف تعليقًا"
+          }
+        }
+      }
+    },
     "Recenter": {
       "localizations": {
         "ar": {
@@ -1703,6 +1783,16 @@
         }
       }
     },
+    "Reviews": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المراجعات"
+          }
+        }
+      }
+    },
     "Satellite": {
       "localizations": {
         "ar": {
@@ -1729,6 +1819,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "حفظ كلمة المرور"
+          }
+        }
+      }
+    },
+    "Saved": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم الحفظ"
           }
         }
       }
@@ -2097,6 +2197,16 @@
         }
       }
     },
+    "Tap a star to rate": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط على نجمة للتقييم"
+          }
+        }
+      }
+    },
     "Terms of Use": {
       "localizations": {
         "ar": {
@@ -2193,6 +2303,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اسم المستخدم هذا غير متاح."
+          }
+        }
+      }
+    },
+    "The bars show the latest ratings.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "توضّح الأشرطة أحدث التقييمات."
           }
         }
       }
@@ -2403,6 +2523,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ضعيفة"
+          }
+        }
+      }
+    },
+    "What stood out? (optional)": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ما الذي لفت انتباهك؟ (اختياري)"
           }
         }
       }

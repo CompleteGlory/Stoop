@@ -128,9 +128,12 @@ struct MapSearchTests {
         await model.search.waitForSearch()
 
         await model.openSearchResult(model.search.results[0])
+        #expect(model.sheet == .place)
+        #expect(model.placeModel?.name == "Stoop Café")
+        await model.placeModel?.load()
 
-        #expect(places.calls == ["resolve I1 Stoop Café"])
-        #expect(model.sheet == .place("p1"))
+        #expect(places.calls.first == "resolve I1 Stoop Café")
+        #expect(model.placeModel?.placeId == "p1")
         #expect(model.detent == .medium)
         #expect(!model.search.isActive)
         #expect(model.search.results.isEmpty)

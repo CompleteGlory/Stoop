@@ -37,6 +37,7 @@
 		5346D238F95264DBE2A64353 /* PlacePhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC88C05E2CE135170789F2C /* PlacePhotosViewModel.swift */; };
 		53CFD733967E698891D35DDE /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A596139524AC660362AC57E2 /* Localizable.xcstrings */; };
 		592A77FB02A6B430F439FCBE /* dicebear.js in Resources */ = {isa = PBXBuildFile; fileRef = 2CAAF44F8F892589BA10DB54 /* dicebear.js */; };
+		64406147A68859AE233D9EC5 /* HexGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D640EBB257190A19F046E27 /* HexGrid.swift */; };
 		679725E518F35AB72AE61422 /* AppleSignIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D700AC2A9289987C01996C /* AppleSignIn.swift */; };
 		6F250AD5AB8BA59BE4036306 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92F63461C0E392ED3B9897F /* SignInView.swift */; };
 		6F68F8D237742766DB7574AF /* CharacterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F04BC7F201EDE6F39A989E /* CharacterViewModel.swift */; };
@@ -56,16 +57,19 @@
 		A188F19266132DA23BC5B777 /* PlacesAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A670C5F542F46D8C3F1EA4 /* PlacesAPI.swift */; };
 		A66C5A754A7E14B40E493115 /* Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA8187310DC86E5653B5921 /* Support.swift */; };
 		A83981442A30EA2592D68552 /* LiveSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F92BF116E04DCD339588902 /* LiveSocket.swift */; };
+		AA6F5954FF9DC0496C7BDB85 /* PlacesChunkCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE97F56C4E41850773207D60 /* PlacesChunkCache.swift */; };
 		AC0F23C7829AFEB70066C52A /* MapSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF769BB1A82AB1ED4D5D4F7A /* MapSheet.swift */; };
 		AD233FAAC101618E5E005246 /* EmailAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D1EC3F5C385F938F652581 /* EmailAuthViewModel.swift */; };
 		B4B5B14B8C83EC86DC920CE2 /* LiveTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAE5B84243608FCE63329B8D /* LiveTests.swift */; };
 		B6368EF7D0AA2BFE251A952C /* PlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1016BB27E30271AA2DF7E9 /* PlaceViewModel.swift */; };
+		BA4A98F89C05D8E683632D5B /* HexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06455E8D8ACF852B36031F76 /* HexTests.swift */; };
 		BA717EC91DDE0815E478F177 /* SignInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4647F0A410F73005856CC691 /* SignInTests.swift */; };
 		BC85FA87FB7968FAC42B2DF4 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCE87FC92BF3515C7A20D0E /* Place.swift */; };
 		C479CDDC6EC43FA34E224622 /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86CED63BAEDD2D2986634EC4 /* HTTP.swift */; };
 		C536BC85E27EC64542B406CC /* GoogleSignInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62B05E4B546A2A13E60206C6 /* GoogleSignInService.swift */; };
 		C84724A41F57A22F77D2082E /* PasswordStrength.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5251352DE2641353F398B0B9 /* PasswordStrength.swift */; };
 		C870AF335F94FBA01213E549 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB100B765DE4983E2EE7E413 /* LocationService.swift */; };
+		C8EA1FA4E04D6433C74CE886 /* MapWarmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E7533F63703AF564F1CDDC0 /* MapWarmer.swift */; };
 		CA27D9AEC778F8B129505AA5 /* UsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43A67EC8C8EA14AAB78DF58F /* UsernameView.swift */; };
 		D362C5DED00E4DA1B4519E90 /* AvatarDiskCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49B78DED4F92664D9886048 /* AvatarDiskCacheTests.swift */; };
 		D39E7F11170552CD504777D5 /* SafetyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E740E45D6801EE3C5418654 /* SafetyViewModel.swift */; };
@@ -102,15 +106,18 @@
 /* Begin PBXFileReference section */
 		046C2D6B2AE0622EA932C9EF /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		0568D146A571642DB7C1BE39 /* EmailAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthView.swift; sourceTree = "<group>"; };
+		06455E8D8ACF852B36031F76 /* HexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexTests.swift; sourceTree = "<group>"; };
 		0AC88C05E2CE135170789F2C /* PlacePhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePhotosViewModel.swift; sourceTree = "<group>"; };
 		0B8E26D56C225864BE94D9C8 /* CharacterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterView.swift; sourceTree = "<group>"; };
 		0E55E856CE655C7B7416E659 /* PlaceRatingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceRatingApp.swift; sourceTree = "<group>"; };
+		0E7533F63703AF564F1CDDC0 /* MapWarmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapWarmer.swift; sourceTree = "<group>"; };
 		1299E843EAC297E0CC844A81 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		181CDB8D2F88F8D6C4FB66F4 /* AppConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigTests.swift; sourceTree = "<group>"; };
 		1CE64AA04153A5385E90E7A2 /* FriendsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTests.swift; sourceTree = "<group>"; };
 		2928FA4AC5528F082B2EAFF5 /* JSONCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCoding.swift; sourceTree = "<group>"; };
 		2C760C38B9EB5DCC1C052B1D /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		2CAAF44F8F892589BA10DB54 /* dicebear.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = dicebear.js; sourceTree = "<group>"; };
+		2D640EBB257190A19F046E27 /* HexGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexGrid.swift; sourceTree = "<group>"; };
 		307B09767DA25257F87FCC64 /* TokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
 		310EC1E207FCFFF34E5A6958 /* CameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCapture.swift; sourceTree = "<group>"; };
 		33367FA0C387FA6189A07018 /* FriendsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsAPI.swift; sourceTree = "<group>"; };
@@ -163,6 +170,7 @@
 		B3D348F332E0D69779FED284 /* BrandViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandViews.swift; sourceTree = "<group>"; };
 		B92F63461C0E392ED3B9897F /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		B9D700AC2A9289987C01996C /* AppleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignIn.swift; sourceTree = "<group>"; };
+		BE97F56C4E41850773207D60 /* PlacesChunkCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesChunkCache.swift; sourceTree = "<group>"; };
 		C929E1FA27E4DDC1D2E7DD2B /* UsernameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameViewModel.swift; sourceTree = "<group>"; };
 		CAA0D1305F63D2F7365E640C /* MapTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTheme.swift; sourceTree = "<group>"; };
 		CEA8187310DC86E5653B5921 /* Support.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Support.swift; sourceTree = "<group>"; };
@@ -218,15 +226,18 @@
 				5E389AC2E8ED61F49813EAE8 /* AvatarRenderer.swift */,
 				33367FA0C387FA6189A07018 /* FriendsAPI.swift */,
 				62B05E4B546A2A13E60206C6 /* GoogleSignInService.swift */,
+				2D640EBB257190A19F046E27 /* HexGrid.swift */,
 				86CED63BAEDD2D2986634EC4 /* HTTP.swift */,
 				2928FA4AC5528F082B2EAFF5 /* JSONCoding.swift */,
 				505B204DDDE811FD153F2C0C /* LiveFrames.swift */,
 				4F92BF116E04DCD339588902 /* LiveSocket.swift */,
 				AFDBC014418A8FE375C01D18 /* LiveSocketClient.swift */,
 				DB100B765DE4983E2EE7E413 /* LocationService.swift */,
+				0E7533F63703AF564F1CDDC0 /* MapWarmer.swift */,
 				8B11766237C19EDD039E142C /* ModerationAPI.swift */,
 				E3D873FAB3FFF29D4C3DBF5F /* PhotosAPI.swift */,
 				53A670C5F542F46D8C3F1EA4 /* PlacesAPI.swift */,
+				BE97F56C4E41850773207D60 /* PlacesChunkCache.swift */,
 				307B09767DA25257F87FCC64 /* TokenStore.swift */,
 			);
 			path = Services;
@@ -306,6 +317,7 @@
 				399698D5A07F3806F679EC65 /* AuthSessionTests.swift */,
 				F49B78DED4F92664D9886048 /* AvatarDiskCacheTests.swift */,
 				1CE64AA04153A5385E90E7A2 /* FriendsTests.swift */,
+				06455E8D8ACF852B36031F76 /* HexTests.swift */,
 				EAE5B84243608FCE63329B8D /* LiveTests.swift */,
 				6D2DA232C62063E92E3DFEA0 /* MapTests.swift */,
 				33E48D0AF34E851924F00263 /* OnboardingTests.swift */,
@@ -555,6 +567,7 @@
 				7CD429F73B378CA7C1EB88EC /* FriendsViewModel.swift in Sources */,
 				C536BC85E27EC64542B406CC /* GoogleSignInService.swift in Sources */,
 				C479CDDC6EC43FA34E224622 /* HTTP.swift in Sources */,
+				64406147A68859AE233D9EC5 /* HexGrid.swift in Sources */,
 				97088123568981B9461E9387 /* JSONCoding.swift in Sources */,
 				224E90F3975F21C782382037 /* LegalNotice.swift in Sources */,
 				0C711DF327FF094BC401AF41 /* LiveFrames.swift in Sources */,
@@ -565,6 +578,7 @@
 				AC0F23C7829AFEB70066C52A /* MapSheet.swift in Sources */,
 				317D420B09CD7449884C0F6F /* MapTheme.swift in Sources */,
 				1C9F9796D4D990E8B54F7377 /* MapViewModel.swift in Sources */,
+				C8EA1FA4E04D6433C74CE886 /* MapWarmer.swift in Sources */,
 				F8FE99383F60B970C2F4D044 /* ModerationAPI.swift in Sources */,
 				C84724A41F57A22F77D2082E /* PasswordStrength.swift in Sources */,
 				3C60CC73ECB7FDC498A28AAA /* PhotosAPI.swift in Sources */,
@@ -576,6 +590,7 @@
 				2E78445E3BA27111DC054AD2 /* PlaceSheet.swift in Sources */,
 				B6368EF7D0AA2BFE251A952C /* PlaceViewModel.swift in Sources */,
 				A188F19266132DA23BC5B777 /* PlacesAPI.swift in Sources */,
+				AA6F5954FF9DC0496C7BDB85 /* PlacesChunkCache.swift in Sources */,
 				F0E5C5DC8005CEE946BC8956 /* RootView.swift in Sources */,
 				D39E7F11170552CD504777D5 /* SafetyViewModel.swift in Sources */,
 				0A5733E5A26738A832BDC509 /* SafetyViews.swift in Sources */,
@@ -602,6 +617,7 @@
 				3F5985B97058D91C50D0FF80 /* AuthSessionTests.swift in Sources */,
 				D362C5DED00E4DA1B4519E90 /* AvatarDiskCacheTests.swift in Sources */,
 				33A5DBB836968DE8F6480F54 /* FriendsTests.swift in Sources */,
+				BA4A98F89C05D8E683632D5B /* HexTests.swift in Sources */,
 				B4B5B14B8C83EC86DC920CE2 /* LiveTests.swift in Sources */,
 				E5B8477053FF8A55DDE80B61 /* MapTests.swift in Sources */,
 				8A1AC9D8BDB2654A67EB5C65 /* OnboardingTests.swift in Sources */,

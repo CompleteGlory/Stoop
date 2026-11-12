@@ -13,7 +13,7 @@ struct MapSheet: View {
             case .place:
                 if let place = model.placeModel {
                     PlaceSheet(model: place) { model.showBrowse() }
-                        .id(place.placeId)
+                        .id(ObjectIdentifier(place))
                 }
             case .friends:
                 if let friends = model.friendsModel {
@@ -59,14 +59,6 @@ private struct BrowseSheet: View {
                 SearchResults(model: model)
             }
 
-            if model.isResolvingPlace {
-                HStack(spacing: 8) {
-                    ProgressView().tint(Brand.foreground).controlSize(.small)
-                    Text("Opening place…").font(.footnote)
-                }
-            } else if let error = model.placeErrorText {
-                Text(error).font(.footnote).foregroundStyle(Brand.negative.text)
-            }
 
             if !model.search.isActive {
                 HStack {

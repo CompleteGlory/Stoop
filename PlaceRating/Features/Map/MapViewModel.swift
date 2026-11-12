@@ -11,7 +11,7 @@ final class MapViewModel {
     enum Sheet: Equatable {
         case browse
         case settings
-        case place(String)
+        case place
         case friends
         case blocked
     }
@@ -48,15 +48,16 @@ final class MapViewModel {
     /// Reports and blocks, shared by every screen that shows other people's content.
     let safety: SafetyViewModel
     private(set) var visibleRegion: MKCoordinateRegion?
-    private(set) var now: Date
+    /// The clock as of the last tick. Not observed: the map only redraws when what it shows changes.
+    @ObservationIgnored private var now: Date
+    /// Friends not heard from for 30 s; updated only when the set changes.
+    private(set) var dimmedFriendIds: Set<String> = []
     /// Rated places in the visible area (the API also returns unrated ones; those get no pin).
     private(set) var places: [Place] = []
     /// A point of interest the person tapped on the map.
     /// What is selected on the map: one of Apple's points of interest (iOS 18 `MapSelection`).
     var mapSelection: MapSelection<String>?
     private(set) var placeModel: PlaceViewModel?
-    private(set) var isResolvingPlace = false
-    private(set) var placeErrorText: String?
     /// Your accepted friends and requests, from the API (positions come from the live socket).
     private(set) var friendsList = FriendsList(friends: [], incoming: [], outgoing: [])
     private(set) var friendsModel: FriendsViewModel?
@@ -73,6 +74,10 @@ final class MapViewModel {
     private let friendsAPI: any FriendsAPI
     private let photosAPI: any PhotosAPI
     private let placesDebounce: Duration
+    private let placesCache: PlacesChunkCache
+    private var visibleCells: [HexCell] = []
+    /// Where you have been standing still, and since when; preloading happens once per spot.
+    private var restingSpot: (location: CLLocation, since: Date, preloaded: Bool)?
     private var placesTask: Task<Void, Never>?
     private var throttle = SendThrottle()
     private var tasks: [Task<Void, Never>] = []
@@ -83,6 +88,7 @@ final class MapViewModel {
         socket: any LiveSocketProtocol,
         onSessionExpired: @escaping () -> Void = {},
         places: any PlacesAPI = UnavailablePlacesAPI(),
+        placesCache: PlacesChunkCache? = nil,
         friendsAPI: any FriendsAPI = UnavailableFriendsAPI(),
         photosAPI: any PhotosAPI = UnavailablePhotosAPI(),
         moderationAPI: any ModerationAPI = UnavailableModerationAPI(),
@@ -95,6 +101,7 @@ final class MapViewModel {
         self.friendsAPI = friendsAPI
         self.photosAPI = photosAPI
         self.placesDebounce = placesDebounce
+        self.placesCache = placesCache ?? PlacesChunkCache(api: places)
         self.user = user
         self.location = location
         self.socket = socket
@@ -108,6 +115,7 @@ final class MapViewModel {
         location.onAccessChange = { [weak self] access in self?.accessChanged(access) }
         search.setRegionProvider { [weak self] in self?.visibleRegion }
         safety.onBlocked = { [weak self] userId in self?.personBlocked(userId) }
+        self.placesCache.onUpdate = { [weak self] in self?.refreshPins() }
     }
 
     var visibleFriends: [VisibleFriend] {
@@ -120,7 +128,7 @@ final class MapViewModel {
                 people[fix.userId].map {
                     VisibleFriend(
                         person: $0, coordinate: fix.coordinate,
-                        isDimmed: connectionLost || friends.isDimmed(fix.userId, now: now)
+                        isDimmed: connectionLost || dimmedFriendIds.contains(fix.userId)
                     )
                 }
             }
@@ -233,19 +241,23 @@ final class MapViewModel {
 
     // MARK: places
 
-    /// Called when the camera settles: after a short pause, loads the rated places in view.
+    /// Called when the camera settles. Pins for the hexagons in view come from the cache at once;
+    /// after a short pause, whatever is missing or stale is fetched in one request.
     func cameraSettled(center: CLLocationCoordinate2D, latitudeDelta: Double, longitudeDelta: Double) {
-        visibleRegion = MKCoordinateRegion(
+        let region = MKCoordinateRegion(
             center: center, span: MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
         )
+        visibleRegion = region
         placesTask?.cancel()
-        guard let box = BoundingBox(center: center, latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta) else {
+        guard let cells = HexGrid.cells(covering: region) else {
             return // zoomed out too far to ask; keep what is shown
         }
-        placesTask = Task { [placesAPI, placesDebounce] in
+        visibleCells = cells
+        refreshPins()
+        placesTask = Task { [placesCache, placesDebounce] in
             try? await Task.sleep(for: placesDebounce)
-            guard !Task.isCancelled, let found = try? await placesAPI.places(in: box) else { return }
-            self.places = found.filter { $0.ratingCount > 0 }
+            guard !Task.isCancelled else { return }
+            await placesCache.load(cells)
         }
     }
 
@@ -254,41 +266,29 @@ final class MapViewModel {
         await placesTask?.value
     }
 
-    /// A point of interest was tapped on the map: ask Apple Maps for its details, then resolve it.
+    /// The pins: rated places in the hexagons on screen.
+    private func refreshPins() {
+        var seen = Set<String>()
+        places = placesCache.places(in: visibleCells).filter { $0.ratingCount > 0 && seen.insert($0.id).inserted }
+    }
+
+    /// A point of interest was tapped on the map: its sheet opens at once with what the map
+    /// knows, and the details (Apple's lookup, then our server) fill in while it is open.
     func select(_ feature: MapFeature) async {
         guard feature.kind == .pointOfInterest else {
             mapSelection = nil
             return
         }
-        isResolvingPlace = true // feedback right away: Apple's lookup alone can take a moment
-        placeErrorText = nil
-        let item = try? await MKMapItemRequest(feature: feature).mapItem
-        let name = item?.name ?? feature.title ?? ""
-        guard !name.isEmpty else {
-            isResolvingPlace = false
-            return
-        }
-        await resolve(
-            appleId: item?.identifier?.rawValue,
-            name: name,
-            category: (item?.pointOfInterestCategory ?? feature.pointOfInterestCategory)?.rawValue,
-            coordinate: feature.coordinate
-        )
-    }
-
-    /// Finds or creates the place for a point of interest, then opens it.
-    func resolve(appleId: String?, name: String, category: String?, coordinate: CLLocationCoordinate2D) async {
-        isResolvingPlace = true
-        placeErrorText = nil
-        defer { isResolvingPlace = false }
-        do {
-            let place = try await placesAPI.resolvePlace(
-                appleId: appleId, name: name, category: category,
+        let preview = PlacePreview(name: feature.title ?? "", category: feature.pointOfInterestCategory?.rawValue)
+        let coordinate = feature.coordinate
+        openPreview(preview) { [placesAPI] in
+            let item = try? await MKMapItemRequest(feature: feature).mapItem
+            return try await placesAPI.resolvePlace(
+                appleId: item?.identifier?.rawValue,
+                name: item?.name ?? preview.name,
+                category: (item?.pointOfInterestCategory ?? feature.pointOfInterestCategory)?.rawValue,
                 latitude: coordinate.latitude, longitude: coordinate.longitude
             )
-            open(place)
-        } catch {
-            placeErrorText = ErrorText.text(for: error)
         }
     }
 
@@ -298,19 +298,36 @@ final class MapViewModel {
         withAnimation {
             camera = .region(MKCoordinateRegion(center: result.coordinate, latitudinalMeters: 500, longitudinalMeters: 500))
         }
-        await resolve(appleId: result.appleId, name: result.name, category: result.category, coordinate: result.coordinate)
+        openPreview(PlacePreview(name: result.name, category: result.category)) { [placesAPI] in
+            try await placesAPI.resolvePlace(
+                appleId: result.appleId, name: result.name, category: result.category,
+                latitude: result.latitude, longitude: result.longitude
+            )
+        }
+    }
+
+    /// Opens the sheet for a place the server may not know yet.
+    func openPreview(_ preview: PlacePreview, resolve: @escaping () async throws -> Place) {
+        placeModel = PlaceViewModel(
+            preview: preview, resolve: resolve, api: placesAPI, myId: user.id, photosAPI: photosAPI, safety: safety
+        ) { [weak self] updated in
+            self?.placeChanged(updated)
+        }
+        sheet = .place
+        detent = .medium
     }
 
     func open(_ place: Place) {
         placeModel = PlaceViewModel(placeId: place.id, api: placesAPI, myId: user.id, photosAPI: photosAPI, safety: safety) { [weak self] updated in
             self?.placeChanged(updated)
         }
-        sheet = .place(place.id)
+        sheet = .place
         detent = .medium
     }
 
     /// Keeps the pins in step with ratings made in the sheet.
     func placeChanged(_ place: Place) {
+        placesCache.update(place)
         places.removeAll { $0.id == place.id }
         if place.ratingCount > 0 { places.append(place) }
     }
@@ -345,19 +362,57 @@ final class MapViewModel {
             break
         }
         friends.apply(event)
+        refreshDimmed()
+    }
+
+    private func refreshDimmed() {
+        let dimmed = friends.dimmedIds(now: now)
+        if dimmed != dimmedFriendIds { dimmedFriendIds = dimmed }
     }
 
     func tick() {
         now = clock()
-        friends.prune(now: now)
+        // work on a copy: writing the observed state every second would redraw the whole map
+        var pruned = friends
+        if pruned.prune(now: now) { friends = pruned }
+        refreshDimmed()
+        preloadIfResting()
         // standing still: the server forgets you after 60 s, so repeat the last position every 15 s
         if isConnected, let lastLocation { sendIfDue(lastLocation) }
     }
 
     func received(_ position: CLLocation) {
+        let first = lastLocation == nil
         me = position.coordinate
         lastLocation = position
         sendIfDue(position)
+        noteMovement(position, first: first)
+    }
+
+    // MARK: preloading
+
+    /// Standing still this long preloads the wider area around you.
+    static let restBeforePreload: TimeInterval = 20
+    static let restingRadius: CLLocationDistance = 40
+
+    private func noteMovement(_ position: CLLocation, first: Bool) {
+        if first {
+            // the first fix: fill the hexagons around you right away
+            Task { [placesCache] in await placesCache.preload(around: position.coordinate, radius: 2) }
+        }
+        if let spot = restingSpot, position.distance(from: spot.location) < Self.restingRadius { return }
+        restingSpot = (position, clock(), false)
+    }
+
+    /// Called every second by the ticker: after you have stood still for a while, preload a
+    /// wider ring of hexagons and warm the map's tiles around you.
+    private func preloadIfResting() {
+        guard let spot = restingSpot, !spot.preloaded,
+              clock().timeIntervalSince(spot.since) >= Self.restBeforePreload else { return }
+        restingSpot?.preloaded = true
+        let coordinate = spot.location.coordinate
+        Task { [placesCache] in await placesCache.preload(around: coordinate, radius: 4) }
+        MapWarmer.warmTiles(around: coordinate)
     }
 
     private func sendIfDue(_ position: CLLocation) {

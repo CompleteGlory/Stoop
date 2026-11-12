@@ -15,7 +15,9 @@ final class SessionStore {
         case unavailable
     }
 
-    private(set) var phase: Phase = .launching
+    private(set) var phase: Phase = .launching {
+        didSet { warmUp() }
+    }
     let api: any APIClientProtocol
     /// Places, ratings and friends; the real client provides both.
     let places: any PlacesAPI
@@ -23,6 +25,10 @@ final class SessionStore {
     let photos: any PhotosAPI
     let liveAuth: any LiveAuth
     let moderation: any ModerationAPI
+    /// Rated places by hexagon, shared with the map so what loads during sign-in is already there.
+    let placesCache: PlacesChunkCache
+    private var warmedTiles = false
+    private var preloadedPlaces = false
 
     init(api: any APIClientProtocol, places: (any PlacesAPI)? = nil, friends: (any FriendsAPI)? = nil) {
         self.friends = friends ?? (api as? any FriendsAPI) ?? UnavailableFriendsAPI()
@@ -30,7 +36,9 @@ final class SessionStore {
         self.liveAuth = (api as? any LiveAuth) ?? UnavailableLiveAuth()
         self.moderation = (api as? any ModerationAPI) ?? UnavailableModerationAPI()
         self.api = api
-        self.places = places ?? (api as? any PlacesAPI) ?? UnavailablePlacesAPI()
+        let placesAPI = places ?? (api as? any PlacesAPI) ?? UnavailablePlacesAPI()
+        self.places = placesAPI
+        placesCache = PlacesChunkCache(api: placesAPI)
     }
 
     func start() async {
@@ -83,6 +91,28 @@ final class SessionStore {
     func deleteAccount() async throws {
         try await api.deleteAccount()
         phase = .signedOut
+    }
+
+    /// While someone signs in or sets up, load the map around them in the background (only if
+    /// location is already allowed): tiles straight away, rated places once the account has a
+    /// username (the API needs one).
+    private func warmUp() {
+        guard let spot = MapWarmer.lastKnownLocation else { return }
+        if !warmedTiles {
+            warmedTiles = true
+            MapWarmer.warmTiles(around: spot)
+        }
+        switch phase {
+        case .needsCharacter, .ready:
+            guard !preloadedPlaces else { return }
+            preloadedPlaces = true
+            Task { [placesCache] in await placesCache.preload(around: spot, radius: 3) }
+        case .signedOut:
+            preloadedPlaces = false
+            placesCache.removeAll()
+        default:
+            break
+        }
     }
 
     private func enter(_ user: SelfUser) {

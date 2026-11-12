@@ -19,6 +19,7 @@ struct MapScreen: View {
             socket: LiveSocketClient(url: { AppConfig.current.liveURL }, auth: session.liveAuth),
             onSessionExpired: { session.sessionExpired() },
             places: session.places,
+            placesCache: session.placesCache,
             friendsAPI: session.friends,
             photosAPI: session.photos,
             moderationAPI: session.moderation
@@ -154,15 +155,13 @@ private struct PlacePin: View {
 private struct SelfMarker: View {
     let avatar: Avatar?
     let isGhost: Bool
-    @State private var pulse = false
 
     var body: some View {
+        // a still halo: a pulse that animated forever made the map redraw on every frame
         ZStack {
             Circle()
-                .fill(Brand.accent.opacity(0.35))
-                .frame(width: 56, height: 56)
-                .scaleEffect(pulse ? 1.7 : 1)
-                .opacity(pulse || isGhost ? 0 : 1)
+                .fill(Brand.accent.opacity(isGhost ? 0 : 0.28))
+                .frame(width: 72, height: 72)
             AvatarImage(avatar: avatar, size: 48)
                 .overlay(Circle().stroke(Brand.accent, lineWidth: 3))
                 .opacity(isGhost ? 0.5 : 1)
@@ -174,9 +173,6 @@ private struct SelfMarker: View {
                     .background(Brand.background, in: .circle)
                     .offset(x: 18, y: 18)
             }
-        }
-        .onAppear {
-            withAnimation(.easeOut(duration: 1.8).repeatForever(autoreverses: false)) { pulse = true }
         }
         .accessibilityLabel(Text("You"))
     }
