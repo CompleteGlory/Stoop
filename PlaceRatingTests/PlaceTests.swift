@@ -215,12 +215,28 @@ struct MapPlacesTests {
         api.nearby = [makePlace(id: "rated", avg: 4, count: 2), makePlace(id: "unrated")]
         let model = makeModel(api)
 
-        model.cameraSettled(center: .init(latitude: 30, longitude: 31), latitudeDelta: 0.1, longitudeDelta: 0.1)
-        model.cameraSettled(center: .init(latitude: 30.01, longitude: 31), latitudeDelta: 0.1, longitudeDelta: 0.1)
+        // the places sit at 30.05, 31.24
+        model.cameraSettled(center: .init(latitude: 30.04, longitude: 31.24), latitudeDelta: 0.03, longitudeDelta: 0.03)
+        model.cameraSettled(center: .init(latitude: 30.05, longitude: 31.24), latitudeDelta: 0.03, longitudeDelta: 0.03)
         await model.waitForPlaces()
 
         #expect(model.places.map(\.id) == ["rated"])
         #expect(api.calls.filter { $0.hasPrefix("places") }.count == 1) // the first was replaced
+    }
+
+    @Test func showsCachedPinsAtOnceWhenTheCameraComesBack() async {
+        let api = FakePlacesAPI()
+        api.nearby = [makePlace(id: "rated", avg: 4, count: 2)]
+        let model = makeModel(api)
+        model.cameraSettled(center: .init(latitude: 30.05, longitude: 31.24), latitudeDelta: 0.02, longitudeDelta: 0.02)
+        await model.waitForPlaces()
+
+        // look away, then back: the pin is there before any new request
+        model.cameraSettled(center: .init(latitude: 31.5, longitude: 32.5), latitudeDelta: 0.02, longitudeDelta: 0.02)
+        model.cameraSettled(center: .init(latitude: 30.05, longitude: 31.24), latitudeDelta: 0.02, longitudeDelta: 0.02)
+        #expect(model.places.map(\.id) == ["rated"])
+        await model.waitForPlaces()
+        #expect(api.calls.filter { $0.hasPrefix("places") }.count == 1) // still fresh: not asked again
     }
 
     @Test func zoomedFarOutKeepsThePinsWithoutAsking() async {
@@ -233,19 +249,42 @@ struct MapPlacesTests {
         #expect(api.calls.isEmpty)
     }
 
-    @Test func resolvingOpensThePlaceSheet() async {
+    @Test func aTappedPlaceOpensAtOnceAndResolvesInTheSheet() async {
         let api = FakePlacesAPI()
         let model = makeModel(api)
 
-        await model.resolve(appleId: "I1", name: "Stoop Café", category: "MKPOICategoryCafe",
-                            coordinate: .init(latitude: 30.05, longitude: 31.24))
+        model.openPreview(PlacePreview(name: "Stoop Café", category: "MKPOICategoryCafe")) {
+            try await api.resolvePlace(appleId: "I1", name: "Stoop Café", category: "MKPOICategoryCafe",
+                                       latitude: 30.05, longitude: 31.24)
+        }
 
-        #expect(api.calls == ["resolve I1 Stoop Café"])
-        #expect(model.sheet == .place("p1"))
+        // the sheet is up before the server has answered
+        #expect(model.sheet == .place)
+        #expect(model.placeModel?.placeId == nil)
+        #expect(model.placeModel?.name == "Stoop Café")
+        #expect(api.calls.isEmpty)
+
+        await model.placeModel?.load()
+        #expect(api.calls.first == "resolve I1 Stoop Café")
         #expect(model.placeModel?.placeId == "p1")
+        #expect(model.placeModel?.photos != nil)
 
         model.showBrowse()
         #expect(model.placeModel == nil)
+    }
+
+    @Test func aFailedResolveOffersARetryInTheSheet() async {
+        let model = makeModel(FakePlacesAPI())
+        var attempts = 0
+        model.openPreview(PlacePreview(name: "Nowhere", category: nil)) {
+            attempts += 1
+            throw URLError(.notConnectedToInternet)
+        }
+        await model.placeModel?.load()
+        #expect(model.placeModel?.errorText != nil)
+        #expect(model.placeModel?.name == "Nowhere")
+        await model.placeModel?.load()
+        #expect(attempts == 2)
     }
 
     @Test func ratingInTheSheetAddsAndRemovesThePin() {

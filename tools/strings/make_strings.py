@@ -235,6 +235,19 @@ strings = {
     "Food": "طعام",
     "Nature": "طبيعة",
     "Minimal": "بسيط",
+    "Not for me": "لم يعجبني",
+    "Could be better": "يمكن أن يكون أفضل",
+    "Great": "رائع",
+    "Loved it": "أحببته",
+    "Tap a star to rate": "اضغط على نجمة للتقييم",
+    "Friends' average": "متوسط الأصدقاء",
+    "The bars show the latest ratings.": "توضّح الأشرطة أحدث التقييمات.",
+    "Loading ratings…": "جارٍ تحميل التقييمات…",
+    "Saved": "تم الحفظ",
+    "Reviews": "المراجعات",
+    "Friend": "صديق",
+    "Rate it first, then add a comment": "قيّمه أولًا ثم أضف تعليقًا",
+    "What stood out? (optional)": "ما الذي لفت انتباهك؟ (اختياري)",
 }
 
 # Strings whose wording depends on a number. Arabic has six plural forms.

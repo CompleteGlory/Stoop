@@ -57,8 +57,16 @@ enum MapTheme: String, CaseIterable, Identifiable, Sendable {
         self == .night ? .dark : nil
     }
 
-    var style: MapStyle {
-        switch self {
+    /// Built once per theme and reused: handing MapKit a fresh style on every redraw makes it
+    /// reconfigure the whole map, which is what made deep zoom stutter.
+    @MainActor
+    var style: MapStyle { Self.styles[self] ?? Self.makeStyle(.classic) }
+
+    @MainActor
+    private static let styles: [MapTheme: MapStyle] = Dictionary(uniqueKeysWithValues: allCases.map { ($0, makeStyle($0)) })
+
+    private static func makeStyle(_ theme: MapTheme) -> MapStyle {
+        switch theme {
         case .classic:
             .standard(elevation: .flat, emphasis: .automatic, pointsOfInterest: .all)
         case .muted:
