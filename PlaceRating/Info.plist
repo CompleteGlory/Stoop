@@ -50,6 +50,8 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>Take a photo of a place or its menu to add it to Stoop.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>With nearby alerts on, Stoop checks your rough location in the background to tell you when a friend is within 500 m. Nobody sees it on the map.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location is shown to friends you accept, while the app is open.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

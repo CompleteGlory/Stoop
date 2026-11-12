@@ -64,6 +64,7 @@ final class AppSettings {
         didSet {
             defaults.set(language.rawValue, forKey: Keys.language)
             localizer.language = language
+            Self.applyToSystem(language, defaults: defaults)
         }
     }
 
@@ -89,6 +90,18 @@ final class AppSettings {
         self.language = language
         mapTheme = defaults.string(forKey: Keys.mapTheme).flatMap(MapTheme.init) ?? .classic
         localizer.language = language
+        if language != .system { Self.applyToSystem(language, defaults: defaults) }
+    }
+
+    /// Notifications are worded by iOS, not by the app, using the app's preferred language
+    /// (`AppleLanguages`, the same key iOS Settings > Stoop > Language writes). Keep it in step with
+    /// the in-app choice, so pushes come in the language the app shows.
+    private static func applyToSystem(_ language: AppLanguage, defaults: UserDefaults) {
+        if let code = language.localeIdentifier {
+            defaults.set([code], forKey: "AppleLanguages")
+        } else {
+            defaults.removeObject(forKey: "AppleLanguages")
+        }
     }
 
     var locale: Locale {

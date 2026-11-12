@@ -34,6 +34,7 @@ The screenshots are real captures of the app against demo data, laid out with th
 - **Rate any place** by tapping it on the map or finding it with search. Stars save on tap, and the review saves when you finish typing. Friends' reviews come first.
 - **Photos** of the place and its menu, from the camera or the library. Save anyone's photo to your library, or share it.
 - **Share a place** with a link that opens its sheet in Stoop. Without the app, the link opens a web page with Google Maps and Apple Maps links. Each place also has an Open in Google Maps button.
+- **Notifications.** A push when someone sends you a friend request or accepts yours. With **Nearby friends** switched on in Settings, a push when a friend is within 500 m, even with Stoop closed (at most once per friend every 3 hours). Tapping one opens the friends list or that friend on the map.
 - **Safety.** Report people, reviews and photos. Block people, which hides both of you from each other everywhere.
 - **Settings.** Light, dark or system appearance; English or Arabic (right to left) without restarting; your character; ghost mode; account deletion. Nine map themes are picked on the map itself.
 
@@ -186,6 +187,35 @@ flowchart LR
     incoming -- "decline" --> gone["DELETE /friends/:userId"]
 ```
 
+### Notifications
+
+```mermaid
+sequenceDiagram
+    actor B as Bob
+    participant BA as Bob's Stoop
+    participant S as Server
+    participant APNs as Apple push service
+    participant AA as Alice's Stoop
+
+    AA->>S: PUT /me/devices/:token (after the map opens, if notifications are allowed)
+    B->>BA: Add Alice
+    BA->>S: POST /friends/requests
+    S->>APNs: friend-request push to Alice's devices
+    APNs-->>AA: "Bob wants to be friends" (worded by iOS from the string catalog)
+    AA->>AA: tap: PushInbox hands .friends to the map
+```
+
+```mermaid
+flowchart LR
+    move["Phone moves about 500 m<br/>(iOS wakes Stoop, even closed)"] --> rep["NearbyReporter:<br/>POST /me/position"]
+    live["Stoop open:<br/>live socket loc"] --> check
+    rep --> check["Server: friends within 500 m?<br/>not ghost, not blocked,<br/>not alerted in the last 3 h"]
+    check -- "yes" --> push["nearby push to each one<br/>who switched alerts on"]
+    push --> tap["Tap: the map shows that friend,<br/>or the friends list if they aren't sharing"]
+```
+
+Nearby alerts need three things, which the Settings switch asks for in order: notifications, the server's `nearbyAlerts`, and location set to **Always** (with **While Using**, iOS only reports moves while Stoop is open, and Settings says so). The background position is coarse, kept by the server for 30 minutes and never shown on a map. Signing out removes the phone's push token from the server and stops the reports.
+
 ### Safety
 
 ```mermaid
@@ -303,6 +333,17 @@ classDiagram
     <<protocol>> PhotosAPI
     class ModerationAPI
     <<protocol>> ModerationAPI
+    class NotificationsAPI
+    <<protocol>> NotificationsAPI
+    class PushRegistering
+    <<protocol>> PushRegistering
+    class PushRegistrar
+    class NearbyReporting
+    <<protocol>> NearbyReporting
+    class NearbyReporter
+    class PushInbox
+    class NotificationSettingsModel
+    class AppDelegate
     class LiveAuth
     <<protocol>> LiveAuth
     class AuthSession
@@ -332,6 +373,7 @@ classDiagram
         displayName
         avatar
         ghostMode
+        nearbyAlerts
     }
     class PublicUser
     class Avatar {
@@ -371,6 +413,19 @@ classDiagram
     SessionStore --> APIClientProtocol
     SessionStore --> PlacesChunkCache
     SessionStore ..> DeepLink
+    SessionStore --> NotificationsAPI
+    SessionStore --> PushRegistering
+    SessionStore --> NearbyReporting
+    PushRegistering <|.. PushRegistrar
+    NearbyReporting <|.. NearbyReporter
+    NotificationsAPI <|.. APIClient
+    PushRegistrar --> NotificationsAPI
+    NearbyReporter --> NotificationsAPI
+    AppDelegate ..> PushRegistrar
+    AppDelegate ..> PushInbox
+    PushInbox ..> DeepLink
+    NotificationSettingsModel --> PushRegistering
+    NotificationSettingsModel --> NearbyReporting
     MapViewModel --> PlacesAPI
     MapViewModel --> FriendsAPI
     MapViewModel --> LiveSocketProtocol
@@ -478,4 +533,4 @@ docs/app-store.md   App Store listing, privacy answers and review notes
 
 ## Privacy
 
-Location is shared only while the app is open and only with accepted friends. The server keeps a position for 60 seconds and never writes it to a database. Photos are re-encoded on the server, which removes their location metadata. The privacy manifest is `PlaceRating/PrivacyInfo.xcprivacy`, and the API serves the privacy policy at `/privacy`.
+Location is shared only while the app is open and only with accepted friends. The server keeps a position for 60 seconds and never writes it to a database. The one exception is the opt-in **Nearby friends** alert: then the phone sends a rough position after it moves about 500 m, even in the background; the server keeps only the latest one, rounded to about 110 m, for 30 minutes, compares it with friends' positions and never shows it to anyone. Photos are re-encoded on the server, which removes their location metadata. The privacy manifest is `PlaceRating/PrivacyInfo.xcprivacy`, and the API serves the privacy policy at `/privacy`.

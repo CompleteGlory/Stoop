@@ -8,6 +8,7 @@ struct SettingsSheet: View {
     @Environment(AppSettings.self) private var settings
     @Environment(\.openURL) private var openURL
     @State private var vm: SettingsViewModel
+    @State private var alerts: NotificationSettingsModel
     @State private var editingName = false
     @State private var nameDraft = ""
     @State private var confirmingDelete = false
@@ -18,6 +19,11 @@ struct SettingsSheet: View {
         self.model = model
         self.session = session
         _vm = State(initialValue: SettingsViewModel(user: model.user, session: session))
+        _alerts = State(initialValue: NotificationSettingsModel(
+            session: session,
+            push: session.push ?? PushRegistrar.shared,
+            nearby: session.nearby ?? NearbyReporter.shared
+        ))
     }
 
     var body: some View {
@@ -33,6 +39,7 @@ struct SettingsSheet: View {
                 appearanceGroup
                 characterGroup
                 sharingGroup
+                notificationsGroup
                 storageGroup
                 helpGroup
                 accountGroup
@@ -44,6 +51,7 @@ struct SettingsSheet: View {
             .padding(20)
         }
         .scrollIndicators(.hidden)
+        .task { await alerts.appeared() }
         .alert(Text("Your name"), isPresented: $editingName) {
             TextField(text: $nameDraft) { Text("Display name") }
             Button("Save") { Task { await vm.saveDisplayName(nameDraft) } }
@@ -144,6 +152,62 @@ struct SettingsSheet: View {
             }
             .buttonStyle(.plain)
         }
+    }
+
+    private var notificationsGroup: some View {
+        Group_(title: "Notifications") {
+            notificationsRow
+            Divider().overlay(Brand.foreground.opacity(0.1))
+            Toggle(isOn: Binding(get: { alerts.nearbyOn }, set: { on in Task { await alerts.setNearby(on) } })) {
+                Label("Nearby friends", systemImage: "person.2.wave.2")
+            }
+            .tint(Brand.accent)
+            .disabled(alerts.isSaving)
+            .padding(14)
+            Text("Get a notification when a friend is within 500 m, at most once every 3 hours. Stoop checks your rough location in the background, even when it's closed. Nobody sees it on the map.")
+                .font(.footnote)
+                .foregroundStyle(Brand.foreground.opacity(0.6))
+                .padding(.horizontal, 14)
+                .padding(.bottom, 12)
+            if alerts.needsAlwaysLocation {
+                Divider().overlay(Brand.foreground.opacity(0.1))
+                Button {
+                    if alerts.location == .unknown { alerts.askForAlwaysLocation() } else { openSettings() }
+                } label: {
+                    Row(title: "Location", systemImage: "location.circle", detail: tr("Set to Always so alerts work while Stoop is closed."))
+                }
+                .buttonStyle(.plain)
+            }
+            if let error = alerts.error {
+                Text(error)
+                    .font(.footnote)
+                    .foregroundStyle(Brand.negative.text)
+                    .padding(.horizontal, 14)
+                    .padding(.bottom, 12)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var notificationsRow: some View {
+        switch alerts.notifications {
+        case .allowed:
+            Row(title: "Friend requests", systemImage: "bell", detail: tr("On"), showsChevron: false)
+        case .denied:
+            Button { openSettings() } label: {
+                Row(title: "Friend requests", systemImage: "bell.slash", detail: tr("Off. Open Settings to turn it on."))
+            }
+            .buttonStyle(.plain)
+        case .unknown:
+            Button { Task { await alerts.allowNotifications() } } label: {
+                Row(title: "Friend requests", systemImage: "bell", detail: tr("Not set up yet"))
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    private func openSettings() {
+        openURL(URL(string: UIApplication.openSettingsURLString)!)
     }
 
     private var storageGroup: some View {

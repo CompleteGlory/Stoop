@@ -15,6 +15,8 @@ struct SelfUser: Codable, Equatable, Sendable {
     let avatar: Avatar?
     let ghostMode: Bool
     let createdAt: Date
+    /// "A friend is nearby" pushes. Nil from servers that predate them.
+    var nearbyAlerts: Bool? = nil
 }
 
 struct AuthResponse: Codable, Equatable, Sendable {

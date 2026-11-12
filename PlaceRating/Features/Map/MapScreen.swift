@@ -84,7 +84,16 @@ struct MapScreen: View {
             model.openShared(link)
         }
         .onChange(of: scenePhase) { _, phase in
-            if phase == .active { model.start() } else { model.stop() }
+            if phase == .active {
+                model.start()
+                Task { await session.mapAppeared() }
+            } else {
+                model.stop()
+            }
+        }
+        .task { await session.mapAppeared() }
+        .onChange(of: PushInbox.shared.friendsRevision) {
+            Task { await model.friendsChanged() }
         }
     }
 

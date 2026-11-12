@@ -17,6 +17,22 @@
         }
       }
     },
+    "NSLocationAlwaysAndWhenInUseUsageDescription": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "عند تفعيل تنبيهات الأصدقاء القريبين، يتحقق Stoop من موقعك التقريبي في الخلفية ليخبرك عندما يكون صديق على بعد 500 متر أو أقل. لا يراه أحد على الخريطة."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "With nearby alerts on, Stoop checks your rough location in the background to tell you when a friend is within 500 m. Nobody sees it on the map."
+          }
+        }
+      }
+    },
     "NSLocationWhenInUseUsageDescription": {
       "localizations": {
         "ar": {

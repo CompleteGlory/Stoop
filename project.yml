@@ -60,6 +60,7 @@ targets:
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
         NSLocationWhenInUseUsageDescription: Your location is shown to friends you accept, while the app is open.
+        NSLocationAlwaysAndWhenInUseUsageDescription: With nearby alerts on, Stoop checks your rough location in the background to tell you when a friend is within 500 m. Nobody sees it on the map.
         NSCameraUsageDescription: Take a photo of a place or its menu to add it to Stoop.
         NSPhotoLibraryAddUsageDescription: Save place and menu photos from Stoop to your library.
     dependencies:
@@ -74,6 +75,8 @@ targets:
           - Default
         com.apple.developer.associated-domains:
           - applinks:place-rating-api-production.up.railway.app
+        # development here; exporting for App Store Connect switches it to production
+        aps-environment: development
     postBuildScripts:
       - name: Allow local networking in Debug
         basedOnDependencyAnalysis: false

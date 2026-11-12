@@ -1,12 +1,42 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%@ accepted your friend request": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم قبول طلب صداقتك مع %@"
+          }
+        }
+      }
+    },
+    "%@ is nearby": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ على مقربة منك"
+          }
+        }
+      }
+    },
     "%@ on Stoop": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "%@ على Stoop"
+          }
+        }
+      }
+    },
+    "%@ wants to be friends": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلب صداقة جديد من %@"
           }
         }
       }
@@ -299,6 +329,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "اسمح لـ Stoop بإضافة الصور من الإعدادات لحفظها."
+          }
+        }
+      }
+    },
+    "Allow notifications for Stoop in Settings to get nearby alerts.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسمح بإشعارات Stoop من الإعدادات لتصلك تنبيهات الأصدقاء القريبين."
           }
         }
       }
@@ -963,6 +1003,36 @@
         }
       }
     },
+    "Friend nearby": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صديق قريب"
+          }
+        }
+      }
+    },
+    "Friend request": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلب صداقة"
+          }
+        }
+      }
+    },
+    "Friend requests": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طلبات الصداقة"
+          }
+        }
+      }
+    },
     "Friends": {
       "localizations": {
         "ar": {
@@ -999,6 +1069,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "متوسط الأصدقاء"
+          }
+        }
+      }
+    },
+    "Get a notification when a friend is within 500 m, at most once every 3 hours. Stoop checks your rough location in the background, even when it's closed. Nobody sees it on the map.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يصلك إشعار عندما يكون صديق على بعد 500 متر أو أقل، مرة واحدة كل 3 ساعات على الأكثر. يتحقق Stoop من موقعك التقريبي في الخلفية حتى وهو مغلق. لا يراه أحد على الخريطة."
           }
         }
       }
@@ -1383,6 +1463,26 @@
         }
       }
     },
+    "Nearby friends": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الأصدقاء القريبون"
+          }
+        }
+      }
+    },
+    "New friend": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صديق جديد"
+          }
+        }
+      }
+    },
     "New here? Create an account": {
       "localizations": {
         "ar": {
@@ -1533,12 +1633,32 @@
         }
       }
     },
+    "Notifications": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإشعارات"
+          }
+        }
+      }
+    },
     "Off. Open Settings to turn it on.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "متوقف. افتح الإعدادات لتفعيله."
+          }
+        }
+      }
+    },
+    "On": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفعّلة"
           }
         }
       }
@@ -1959,6 +2079,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "المُرسلة"
+          }
+        }
+      }
+    },
+    "Set to Always so alerts work while Stoop is closed.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر «دائمًا» لتعمل التنبيهات وStoop مغلق."
           }
         }
       }

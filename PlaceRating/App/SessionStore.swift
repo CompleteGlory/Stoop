@@ -25,6 +25,10 @@ final class SessionStore {
     let photos: any PhotosAPI
     let liveAuth: any LiveAuth
     let moderation: any ModerationAPI
+    let notifications: any NotificationsAPI
+    /// The phone's push registration and background reporter; the app sets the real ones, tests fakes.
+    var push: (any PushRegistering)?
+    var nearby: (any NearbyReporting)?
     /// Rated places by hexagon, shared with the map so what loads during sign-in is already there.
     let placesCache: PlacesChunkCache
     /// A link that arrived before the map could show it (signed out, onboarding). The map takes it.
@@ -45,6 +49,7 @@ final class SessionStore {
         self.photos = (api as? any PhotosAPI) ?? UnavailablePhotosAPI()
         self.liveAuth = (api as? any LiveAuth) ?? UnavailableLiveAuth()
         self.moderation = (api as? any ModerationAPI) ?? UnavailableModerationAPI()
+        self.notifications = (api as? any NotificationsAPI) ?? UnavailableNotificationsAPI()
         self.api = api
         let placesAPI = places ?? (api as? any PlacesAPI) ?? UnavailablePlacesAPI()
         self.places = placesAPI
@@ -89,10 +94,15 @@ final class SessionStore {
     }
 
     func sessionExpired() {
+        nearby?.stop()
+        push?.forget()
         phase = .signedOut
     }
 
+    /// Stops pushes and background reports to this phone first, while the session can still say so.
     func signOut() async {
+        nearby?.stop()
+        await push?.unregister()
         await api.signOut()
         phase = .signedOut
     }
@@ -100,7 +110,25 @@ final class SessionStore {
     /// Deletes the account on the server; only when that worked does the app return to sign-in.
     func deleteAccount() async throws {
         try await api.deleteAccount()
+        nearby?.stop()
+        push?.forget()
         phase = .signedOut
+    }
+
+    /// The map is showing: register for pushes if allowed, and match the nearby reporter to the
+    /// account (the switch may have been flipped on another phone, or the app reinstalled).
+    func mapAppeared() async {
+        guard case .ready(let user) = phase else { return }
+        if let on = user.nearbyAlerts, let nearby, on != nearby.isEnabled {
+            if on { nearby.start() } else { nearby.stop() }
+        }
+        await push?.refresh()
+    }
+
+    /// The first time the friends list opens, ask whether requests may notify you.
+    func askForNotificationsOnce() async {
+        guard let push, push.access == .unknown else { return }
+        _ = await push.requestAccess()
     }
 
     /// While someone signs in or sets up, load the map around them in the background (only if
