@@ -66,7 +66,7 @@ final class PlacePhotosViewModel {
     /// Adds a photo picked from the library, as the kind of the tab that is open.
     func add(imageData: Data) async {
         guard let jpeg = Self.preparedJPEG(from: imageData) else {
-            errorText = String(localized: "That photo couldn't be read. Try another one.")
+            errorText = tr("That photo couldn't be read. Try another one.")
             return
         }
         isUploading = true

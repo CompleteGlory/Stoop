@@ -43,7 +43,7 @@ struct AvatarImage: View {
 
     var body: some View {
         Circle()
-            .fill(Brand.foreground)
+            .fill(Brand.paper)
             .frame(width: size, height: size)
             .overlay {
                 if let image, avatar != nil {
@@ -53,7 +53,7 @@ struct AvatarImage: View {
                         .resizable()
                         .scaledToFit()
                         .padding(size * 0.24)
-                        .foregroundStyle(Brand.background.opacity(0.3))
+                        .foregroundStyle(Brand.ink.opacity(0.3))
                 }
             }
             .clipShape(.circle)
@@ -88,11 +88,11 @@ struct MapMarker: View {
             Text(verbatim: name)
                 .font(.caption.weight(.semibold))
                 .fontDesign(.rounded)
-                .foregroundStyle(Brand.background)
+                .foregroundStyle(Brand.ink)
                 .lineLimit(1)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 3)
-                .background(Brand.foreground, in: .capsule)
+                .background(Brand.paper, in: .capsule)
         }
     }
 }

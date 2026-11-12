@@ -157,9 +157,9 @@ struct CharacterView: View {
             }
             HStack(spacing: 10) {
                 if model.step != model.steps.first {
-                    SquareButton(systemImage: "chevron.backward", label: String(localized: "Back")) { model.back() }
+                    SquareButton(systemImage: "chevron.backward", label: tr("Back")) { model.back() }
                 }
-                SquareButton(systemImage: "dice", label: String(localized: "Surprise me")) {
+                SquareButton(systemImage: "dice", label: tr("Surprise me")) {
                     Task { await model.randomize() }
                 }
                 .accessibilityIdentifier("randomize")
@@ -168,7 +168,7 @@ struct CharacterView: View {
                     Button {
                         Task { await model.save() }
                     } label: {
-                        if model.isSaving { ProgressView().tint(Brand.background) } else { Text("Continue") }
+                        if model.isSaving { ProgressView().tint(Brand.ink) } else { Text("Continue") }
                     }
                     .buttonStyle(BrandButtonStyle())
                     .disabled(model.avatar == nil || model.isLoading)
@@ -188,7 +188,7 @@ struct CharacterView: View {
     }
 
     static func title(of step: String) -> String {
-        step == CharacterViewModel.stylePage ? String(localized: "Style") : OptionNames.title(for: step)
+        step == CharacterViewModel.stylePage ? tr("Style") : OptionNames.title(for: step)
     }
 }
 
@@ -258,7 +258,7 @@ private struct OptionRow: View {
                         if value == "none" {
                             Image(systemName: "nosign")
                                 .font(.caption.weight(.bold))
-                                .foregroundStyle(Brand.background.opacity(0.5))
+                                .foregroundStyle(Brand.ink.opacity(0.5))
                                 .padding(6)
                         }
                     }
@@ -307,27 +307,27 @@ private struct SectionTitle: View {
 enum OptionNames {
     static func title(for name: String) -> String {
         switch name {
-        case "top", "hair", "head": String(localized: "Hair")
-        case "hairColor": String(localized: "Hair color")
-        case "skinColor", "baseColor": String(localized: "Skin")
-        case "eyes": String(localized: "Eyes")
-        case "eyesColor": String(localized: "Eye color")
-        case "eyebrows", "brows": String(localized: "Eyebrows")
-        case "eyebrowsColor": String(localized: "Eyebrow color")
-        case "mouth", "lips", "face": String(localized: "Mouth")
-        case "nose": String(localized: "Nose")
-        case "facialHair", "beard": String(localized: "Facial hair")
-        case "facialHairColor": String(localized: "Facial hair color")
-        case "clothing", "clothes", "body", "shirt": String(localized: "Outfit")
-        case "clothesColor", "clothingColor", "shirtColor": String(localized: "Outfit color")
-        case "accessories": String(localized: "Accessories")
-        case "accessoriesColor": String(localized: "Accessory color")
-        case "glasses": String(localized: "Glasses")
-        case "glassesColor": String(localized: "Glasses color")
-        case "earrings", "ears": String(localized: "Earrings")
-        case "earringsColor", "earringColor": String(localized: "Earring color")
-        case "features", "freckles": String(localized: "Details")
-        case "hatColor": String(localized: "Hat color")
+        case "top", "hair", "head": tr("Hair")
+        case "hairColor": tr("Hair color")
+        case "skinColor", "baseColor": tr("Skin")
+        case "eyes": tr("Eyes")
+        case "eyesColor": tr("Eye color")
+        case "eyebrows", "brows": tr("Eyebrows")
+        case "eyebrowsColor": tr("Eyebrow color")
+        case "mouth", "lips", "face": tr("Mouth")
+        case "nose": tr("Nose")
+        case "facialHair", "beard": tr("Facial hair")
+        case "facialHairColor": tr("Facial hair color")
+        case "clothing", "clothes", "body", "shirt": tr("Outfit")
+        case "clothesColor", "clothingColor", "shirtColor": tr("Outfit color")
+        case "accessories": tr("Accessories")
+        case "accessoriesColor": tr("Accessory color")
+        case "glasses": tr("Glasses")
+        case "glassesColor": tr("Glasses color")
+        case "earrings", "ears": tr("Earrings")
+        case "earringsColor", "earringColor": tr("Earring color")
+        case "features", "freckles": tr("Details")
+        case "hatColor": tr("Hat color")
         default:
             name.replacing(/([a-z])([A-Z0-9])/) { "\($0.output.1) \($0.output.2)" }.capitalized
         }

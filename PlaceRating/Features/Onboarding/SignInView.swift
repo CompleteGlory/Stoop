@@ -167,7 +167,7 @@ private struct FriendsOnAMap: View {
                                 Image(systemName: "star.fill")
                             }
                             .font(.caption2.weight(.bold))
-                            .foregroundStyle(Brand.background)
+                            .foregroundStyle(Brand.ink)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 3)
                             .background(Brand.accent, in: .capsule)

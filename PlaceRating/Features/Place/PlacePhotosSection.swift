@@ -49,7 +49,7 @@ struct PlacePhotosSection: View {
             } else if model.safety.noticeText != nil {
                 SafetyNotice(safety: model.safety)
             } else if model.photos.isEmpty && !model.isLoading {
-                Text(model.kind == .menu ? String(localized: "No menu photos yet.") : String(localized: "No photos yet."))
+                Text(model.kind == .menu ? tr("No menu photos yet.") : tr("No photos yet."))
                     .font(.footnote).foregroundStyle(Brand.foreground.opacity(0.6))
             }
         }
@@ -78,9 +78,9 @@ struct PlacePhotosSection: View {
     private var addTile: some View {
         Menu {
             if CameraCapture.isAvailable {
-                Button(String(localized: "Take photo"), systemImage: "camera") { showsCamera = true }
+                Button(tr("Take photo"), systemImage: "camera") { showsCamera = true }
             }
-            Button(String(localized: "Choose from library"), systemImage: "photo.on.rectangle") { showsLibrary = true }
+            Button(tr("Choose from library"), systemImage: "photo.on.rectangle") { showsLibrary = true }
         } label: {
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
@@ -90,7 +90,7 @@ struct PlacePhotosSection: View {
                 } else {
                     VStack(spacing: 4) {
                         Image(systemName: "camera.fill").font(.title3)
-                        Text(model.kind == .menu ? String(localized: "Add menu") : String(localized: "Add photo"))
+                        Text(model.kind == .menu ? tr("Add menu") : tr("Add photo"))
                             .font(.caption2.weight(.semibold))
                     }
                     .foregroundStyle(Brand.accent)
@@ -184,7 +184,7 @@ private struct PhotoViewer: View {
                     } else {
                         SafetyMenu(
                             safety: model.safety, user: photo.user,
-                            content: .init(target: .photo, id: photo.id, title: String(localized: "Report photo")),
+                            content: .init(target: .photo, id: photo.id, title: tr("Report photo")),
                             tint: .white
                         )
                         .background(.black.opacity(0.5), in: .circle)

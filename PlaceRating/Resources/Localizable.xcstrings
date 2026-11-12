@@ -283,6 +283,16 @@
         }
       }
     },
+    "Appearance": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المظهر"
+          }
+        }
+      }
+    },
     "At least 8 characters.": {
       "localizations": {
         "ar": {
@@ -443,6 +453,26 @@
         }
       }
     },
+    "Changes your display name": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يغيّر اسم العرض"
+          }
+        }
+      }
+    },
+    "Character": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الشخصية"
+          }
+        }
+      }
+    },
     "Check the email and password. Passwords need at least 8 characters.": {
       "localizations": {
         "ar": {
@@ -483,12 +513,42 @@
         }
       }
     },
+    "Classic": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "كلاسيكي"
+          }
+        }
+      }
+    },
     "Clear": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "مسح"
+          }
+        }
+      }
+    },
+    "Clear cached images": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مسح الصور المخزّنة"
+          }
+        }
+      }
+    },
+    "Cleared": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم المسح"
           }
         }
       }
@@ -593,6 +653,16 @@
         }
       }
     },
+    "Dark": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "داكن"
+          }
+        }
+      }
+    },
     "Decline": {
       "localizations": {
         "ar": {
@@ -659,6 +729,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "تفاصيل"
+          }
+        }
+      }
+    },
+    "Display name": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسم العرض"
           }
         }
       }
@@ -813,6 +893,16 @@
         }
       }
     },
+    "Food": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طعام"
+          }
+        }
+      }
+    },
     "Forgot password?": {
       "localizations": {
         "ar": {
@@ -849,6 +939,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "يراها أصدقاؤك على الخريطة."
+          }
+        }
+      }
+    },
+    "Friends see this name on the map.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يرى أصدقاؤك هذا الاسم على الخريطة."
           }
         }
       }
@@ -963,6 +1063,16 @@
         }
       }
     },
+    "Help and legal": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المساعدة والقانون"
+          }
+        }
+      }
+    },
     "Hospital": {
       "localizations": {
         "ar": {
@@ -979,6 +1089,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "فندق"
+          }
+        }
+      }
+    },
+    "Hybrid": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مختلط"
           }
         }
       }
@@ -1033,12 +1153,42 @@
         }
       }
     },
+    "Language": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اللغة"
+          }
+        }
+      }
+    },
     "Library": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "مكتبة"
+          }
+        }
+      }
+    },
+    "Light": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فاتح"
+          }
+        }
+      }
+    },
+    "Location": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الموقع"
           }
         }
       }
@@ -1073,12 +1223,32 @@
         }
       }
     },
+    "Map style": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "نمط الخريطة"
+          }
+        }
+      }
+    },
     "Menu": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "القائمة"
+          }
+        }
+      }
+    },
+    "Minimal": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "بسيط"
           }
         }
       }
@@ -1113,6 +1283,16 @@
         }
       }
     },
+    "Nature": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "طبيعة"
+          }
+        }
+      }
+    },
     "New here? Create an account": {
       "localizations": {
         "ar": {
@@ -1139,6 +1319,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "التالي"
+          }
+        }
+      }
+    },
+    "Night": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ليلي"
           }
         }
       }
@@ -1219,6 +1409,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "ليس الآن"
+          }
+        }
+      }
+    },
+    "Not set up yet": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم يُفعَّل بعد"
+          }
+        }
+      }
+    },
+    "Off. Open Settings to turn it on.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "متوقف. افتح الإعدادات لتفعيله."
+          }
+        }
+      }
+    },
+    "On while Stoop is open": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مفعّل أثناء فتح Stoop"
           }
         }
       }
@@ -1483,6 +1703,26 @@
         }
       }
     },
+    "Satellite": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أقمار صناعية"
+          }
+        }
+      }
+    },
+    "Save": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حفظ"
+          }
+        }
+      }
+    },
     "Save password": {
       "localizations": {
         "ar": {
@@ -1579,6 +1819,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الإعدادات"
+          }
+        }
+      }
+    },
+    "Sharing and privacy": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المشاركة والخصوصية"
           }
         }
       }
@@ -1737,6 +1987,16 @@
         }
       }
     },
+    "Soft": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "هادئ"
+          }
+        }
+      }
+    },
     "Something else": {
       "localizations": {
         "ar": {
@@ -1763,6 +2023,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "محتوى مزعج"
+          }
+        }
+      }
+    },
+    "Stoop %@": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stoop %@"
+          }
+        }
+      }
+    },
+    "Storage": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التخزين"
           }
         }
       }
@@ -1797,6 +2077,16 @@
         }
       }
     },
+    "System": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النظام"
+          }
+        }
+      }
+    },
     "Take photo": {
       "localizations": {
         "ar": {
@@ -1813,6 +2103,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "شروط الاستخدام"
+          }
+        }
+      }
+    },
+    "Terrain": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تضاريس"
           }
         }
       }
@@ -1927,6 +2227,16 @@
         }
       }
     },
+    "Theme": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "النمط"
+          }
+        }
+      }
+    },
     "This is how friends see you on the map.": {
       "localizations": {
         "ar": {
@@ -2003,6 +2313,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "إلغاء الحظر"
+          }
+        }
+      }
+    },
+    "Use 1 to 40 characters.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "استخدم من 1 إلى 40 حرفًا."
           }
         }
       }
@@ -2193,6 +2513,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "يظهر موقعك للأصدقاء الذين تقبلهم أثناء فتح التطبيق."
+          }
+        }
+      }
+    },
+    "Your name": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسمك"
           }
         }
       }

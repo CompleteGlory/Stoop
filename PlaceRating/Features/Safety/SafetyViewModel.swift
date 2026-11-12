@@ -41,7 +41,7 @@ final class SafetyViewModel {
         errorText = nil
         do {
             try await api.report(target, id: id, reason: reason)
-            showNotice(String(localized: "Thanks. We'll take a look."))
+            showNotice(tr("Thanks. We'll take a look."))
         } catch {
             errorText = ErrorText.text(for: error)
         }
@@ -53,7 +53,7 @@ final class SafetyViewModel {
         do {
             try await api.block(userId: user.id)
             blocked.insert(user, at: 0)
-            showNotice(String(localized: "Blocked \(user.name)."))
+            showNotice(tr("Blocked \(user.name)."))
             onBlocked(user.id)
         } catch {
             errorText = ErrorText.text(for: error)

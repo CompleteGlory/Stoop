@@ -124,7 +124,7 @@ final class PlaceSearchViewModel {
             } catch {
                 guard !Task.isCancelled else { return }
                 results = []
-                errorText = String(localized: "The search didn't work. Try again.")
+                errorText = tr("The search didn't work. Try again.")
             }
             isSearching = false
         }

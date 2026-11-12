@@ -259,11 +259,11 @@ struct MapViewModelTests {
         #expect(model.friendsList.friends.map(\.user.id) == ["a"])
     }
 
-    @Test func profileOpensAtMediumHeight() {
+    @Test func settingsOpenAtFullHeight() {
         let (model, _, _) = make()
-        model.showProfile()
-        #expect(model.sheet == .profile)
-        #expect(model.detent == .medium)
+        model.showSettings()
+        #expect(model.sheet == .settings)
+        #expect(model.detent == .large)
         model.showBrowse()
         #expect(model.sheet == .browse)
     }

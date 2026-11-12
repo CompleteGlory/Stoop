@@ -84,13 +84,13 @@ final class EmailAuthViewModel {
             case .signUp:
                 try await api.emailSignUp(email: email, password: password, username: UsernameRules.normalized(username))
                 go(to: .verify)
-                infoText = String(localized: "We sent a 6-digit code to \(email).")
+                infoText = tr("We sent a 6-digit code to \(email).")
             case .verify:
                 session.signedIn(try await api.emailVerify(email: email, code: code))
             case .forgot:
                 try await api.passwordForgot(email: email)
                 go(to: .reset)
-                infoText = String(localized: "If \(email) has an account, we sent it a 6-digit code.")
+                infoText = tr("If \(email) has an account, we sent it a 6-digit code.")
             case .reset:
                 session.signedIn(try await api.passwordReset(email: email, code: code, newPassword: newPassword))
             }
@@ -104,7 +104,7 @@ final class EmailAuthViewModel {
         } catch let error as APIError where step == .signUp && error.code == "username_reserved" {
             usernameCheck.status = .reserved
         } catch let error as APIError where error.code == "validation_failed" {
-            errorText = String(localized: "Check the email and password. Passwords need at least 8 characters.")
+            errorText = tr("Check the email and password. Passwords need at least 8 characters.")
             _ = error
         } catch {
             errorText = ErrorText.text(for: error)
@@ -122,7 +122,7 @@ final class EmailAuthViewModel {
             default: return
             }
             errorText = nil
-            infoText = String(localized: "We sent a new code.")
+            infoText = tr("We sent a new code.")
         } catch {
             errorText = ErrorText.text(for: error)
         }
