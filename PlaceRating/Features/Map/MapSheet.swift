@@ -18,6 +18,8 @@ struct MapSheet: View {
             case .friends:
                 if let friends = model.friendsModel {
                     FriendsSheet(model: friends, safety: model.safety) { model.showBrowse() }
+                        // the moment friend requests matter: ask once whether they may notify you
+                        .task { await session.askForNotificationsOnce() }
                 }
             case .blocked:
                 BlockedSheet(safety: model.safety) { model.showSettings() }

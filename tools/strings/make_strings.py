@@ -256,6 +256,21 @@ strings = {
     "Friend": "صديق",
     "Rate it first, then add a comment": "قيّمه أولًا ثم أضف تعليقًا",
     "What stood out? (optional)": "ما الذي لفت انتباهك؟ (اختياري)",
+    # Settings > Notifications
+    "Notifications": "الإشعارات",
+    "Friend requests": "طلبات الصداقة",
+    "Nearby friends": "الأصدقاء القريبون",
+    "On": "مفعّلة",
+    "Get a notification when a friend is within 500 m, at most once every 3 hours. Stoop checks your rough location in the background, even when it's closed. Nobody sees it on the map.": "يصلك إشعار عندما يكون صديق على بعد 500 متر أو أقل، مرة واحدة كل 3 ساعات على الأكثر. يتحقق Stoop من موقعك التقريبي في الخلفية حتى وهو مغلق. لا يراه أحد على الخريطة.",
+    "Set to Always so alerts work while Stoop is closed.": "اختر «دائمًا» لتعمل التنبيهات وStoop مغلق.",
+    "Allow notifications for Stoop in Settings to get nearby alerts.": "اسمح بإشعارات Stoop من الإعدادات لتصلك تنبيهات الأصدقاء القريبين.",
+    # Push notifications: the server sends these as loc-key, iOS looks them up here (api-contract.md)
+    "Friend request": "طلب صداقة",
+    "%@ wants to be friends": "طلب صداقة جديد من %@",
+    "New friend": "صديق جديد",
+    "%@ accepted your friend request": "تم قبول طلب صداقتك مع %@",
+    "Friend nearby": "صديق قريب",
+    "%@ is nearby": "%@ على مقربة منك",
 }
 
 # Strings whose wording depends on a number. Arabic has six plural forms.
@@ -309,6 +324,10 @@ plist = {
     "NSLocationWhenInUseUsageDescription": (
         "Your location is shown to friends you accept, while the app is open.",
         "يظهر موقعك للأصدقاء الذين تقبلهم أثناء فتح التطبيق.",
+    ),
+    "NSLocationAlwaysAndWhenInUseUsageDescription": (
+        "With nearby alerts on, Stoop checks your rough location in the background to tell you when a friend is within 500 m. Nobody sees it on the map.",
+        "عند تفعيل تنبيهات الأصدقاء القريبين، يتحقق Stoop من موقعك التقريبي في الخلفية ليخبرك عندما يكون صديق على بعد 500 متر أو أقل. لا يراه أحد على الخريطة.",
     ),
     "NSPhotoLibraryAddUsageDescription": (
         "Save place and menu photos from Stoop to your library.",

@@ -5,6 +5,10 @@ import Foundation
 /// or `stoop://place/<placeId>`, which that web page's Open in Stoop button uses.
 enum DeepLink: Equatable, Sendable {
     case place(id: String)
+    /// The friends list, from a friend request notification. Never parsed from a URL.
+    case friends
+    /// A friend's marker (or the friends list when they aren't sharing), from a "nearby" notification.
+    case friend(id: String)
 
     static let scheme = "stoop"
 

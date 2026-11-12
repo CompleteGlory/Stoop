@@ -234,6 +234,11 @@ final class MapViewModel {
         if let list = try? await friendsAPI.friends() { friendsList = list }
     }
 
+    /// A friend request or acceptance arrived: reload the list, and the open friends sheet with it.
+    func friendsChanged() async {
+        if let friendsModel { await friendsModel.load() } else { await loadFriends() }
+    }
+
     /// Where a friend is right now, if they are sharing.
     func liveFriend(_ userId: String) -> VisibleFriend? {
         visibleFriends.first { $0.id == userId }
@@ -319,9 +324,26 @@ final class MapViewModel {
 
     func open(_ place: Place) { open(placeId: place.id) }
 
-    /// A shared link was opened: show the place's sheet at once, then fly to it once it is known.
+    /// A shared link or a tapped notification. A place opens its sheet at once and the map flies
+    /// there once it is known; a friend is shown on the map when they are sharing, otherwise the
+    /// friends list opens.
     func openShared(_ link: DeepLink) {
-        guard case .place(let id) = link else { return }
+        let id: String
+        switch link {
+        case .friends:
+            showFriends()
+            return
+        case .friend(let friendId):
+            if let friend = liveFriend(friendId) {
+                showBrowse()
+                focus(on: friend)
+            } else {
+                showFriends()
+            }
+            return
+        case .place(let placeId):
+            id = placeId
+        }
         search.clear()
         open(placeId: id)
         placeModel?.onFirstLoad = { [weak self] place in
