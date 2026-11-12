@@ -28,7 +28,7 @@ final class MapViewModel {
         }
     }
 
-    static let smallDetent = PresentationDetent.height(150)
+    static let smallDetent = PresentationDetent.height(160)
 
     var camera: MapCameraPosition = .userLocation(fallback: .automatic)
     var sheet: Sheet = .browse

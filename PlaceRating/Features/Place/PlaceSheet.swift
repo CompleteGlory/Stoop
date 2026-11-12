@@ -210,9 +210,9 @@ struct PlaceSheet: View {
             }
         } else if model.saveFailed {
             Button { Task { await model.save() } } label: {
-                Label("Try again", systemImage: "arrow.clockwise").font(.caption.weight(.bold))
+                Label("Try again", systemImage: "arrow.clockwise")
             }
-            .foregroundStyle(Brand.negative.text)
+            .buttonStyle(ChipButtonStyle(tint: Brand.negative.text))
         } else if model.savedRecently {
             Label("Saved", systemImage: "checkmark.circle.fill")
                 .font(.caption.weight(.bold))
@@ -244,9 +244,10 @@ struct PlaceSheet: View {
         HStack(spacing: 10) {
             Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(Brand.negative.text)
             Text(verbatim: message).font(.footnote).frame(maxWidth: .infinity, alignment: .leading)
-            Button("Try again", action: action).font(.footnote.weight(.semibold)).foregroundStyle(Brand.accent)
+            Button("Try again", action: action).buttonStyle(ChipButtonStyle())
         }
-        .padding(12)
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
         .background(Brand.surface, in: .rect(cornerRadius: 14))
     }
 

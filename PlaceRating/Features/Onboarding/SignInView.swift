@@ -84,6 +84,11 @@ struct SignInView: View {
             .padding(.bottom, 12)
         }
         .background(Brand.background)
+        #if DEBUG
+        .task {
+            if let name = ScreenshotRun.signInAs { await model.devSignIn(username: name) }
+        }
+        #endif
         .sheet(isPresented: $showsEmail) {
             EmailAuthView(session: session)
                 .presentationDetents([.large])

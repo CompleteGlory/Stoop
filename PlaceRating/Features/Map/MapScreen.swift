@@ -75,6 +75,9 @@ struct MapScreen: View {
         }
         .onAppear { model.start() }
         .onDisappear { model.stop() }
+        #if DEBUG
+        .task { await ScreenshotRun.openSheet(on: model) }
+        #endif
         .onChange(of: session.pendingLink, initial: true) { _, link in
             guard let link else { return }
             session.pendingLink = nil

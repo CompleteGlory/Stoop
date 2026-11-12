@@ -2,7 +2,30 @@
 
 A one-screen SwiftUI and MapKit app. Friends see each other move on a map (friends only, never strangers), and everyone rates the places they tap: stars, a short review, and photos of the place and its menu. Requires iOS 18 or later. The backend is the separate [`place-rating-api`](https://github.com/CompleteGlory/Stoop-api) repository (NestJS, PostGIS, Redis).
 
-<!-- screenshots -->
+<p align="center">
+  <img src="docs/screenshots/en/01.jpg" width="15%" alt="Your friends, on one map">
+  <img src="docs/screenshots/en/02.jpg" width="15%" alt="Tap a place, see its stars">
+  <img src="docs/screenshots/en/03.jpg" width="15%" alt="Rate it in one tap">
+  <img src="docs/screenshots/en/04.jpg" width="15%" alt="Only friends see you">
+  <img src="docs/screenshots/en/05.jpg" width="15%" alt="The night map">
+  <img src="docs/screenshots/en/06.jpg" width="15%" alt="English or Arabic">
+</p>
+
+<details>
+<summary>In Arabic</summary>
+
+<p align="center">
+  <img src="docs/screenshots/ar/01.jpg" width="15%" alt="Your friends, on one map (Arabic)">
+  <img src="docs/screenshots/ar/02.jpg" width="15%" alt="Tap a place, see its stars (Arabic)">
+  <img src="docs/screenshots/ar/03.jpg" width="15%" alt="Rate it in one tap (Arabic)">
+  <img src="docs/screenshots/ar/04.jpg" width="15%" alt="Only friends see you (Arabic)">
+  <img src="docs/screenshots/ar/05.jpg" width="15%" alt="The night map (Arabic)">
+  <img src="docs/screenshots/ar/06.jpg" width="15%" alt="English or Arabic (Arabic)">
+</p>
+
+</details>
+
+The screenshots are real captures of the app against demo data, laid out with the editor in [`marketing/screenshots`](marketing/screenshots) (see its section below).
 
 ## What it does
 
@@ -417,6 +440,20 @@ python3 tools/strings/make_strings.py PlaceRating/Resources
 ## Releasing
 
 Every push to `main` runs `.github/workflows/testflight.yml`: the tests on a simulator, then a Release archive with a new build number (the UTC date and time), uploaded to TestFlight. Signing is automatic, with an App Store Connect API key in the repository secrets `APP_STORE_CONNECT_KEY_ID`, `APP_STORE_CONNECT_ISSUER_ID` and `APP_STORE_CONNECT_KEY` (the `.p8` contents). The key needs the Admin role, so Xcode can create the distribution certificate and profile itself. Google sign-in in those builds needs the repository variables `GOOGLE_CLIENT_ID` and `GOOGLE_REVERSED_CLIENT_ID`. The version shown in the App Store is `MARKETING_VERSION` in `project.yml`.
+
+## Screenshots
+
+`marketing/screenshots` is the App Store screenshot editor from the [app-store-screenshots](https://github.com/ParthJadhav/app-store-screenshots) skill, with Stoop's deck in `app-store-screenshots.json` and the raw captures under `public/screenshots/apple/iphone/{en,ar}/`. To change the copy or layout, run it and press **Export bundle** for every App Store iPhone size in both languages:
+
+```bash
+pnpm --dir marketing/screenshots install
+```
+
+```bash
+pnpm --dir marketing/screenshots exec next dev --port 3100
+```
+
+To retake the captures, run the API locally with demo data and launch a Debug build with the screenshot options in `PlaceRating/Debug/ScreenshotRun.swift` (they sign in, open a place or sheet, and frame the map without tapping). Apple's device bezels are not in git: copy `public/frames/` from the skill's template if you want them instead of the editor's drawn frames.
 
 ## Tests
 

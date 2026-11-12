@@ -39,7 +39,8 @@ private struct UnavailableView: View {
         } actions: {
             Button("Try again") { Task { await session.start() } }
                 .buttonStyle(BrandButtonStyle())
-                .frame(maxWidth: 220)
+                // the actions area offers only the text's width: give the button a real size
+                .frame(width: 220)
         }
         .foregroundStyle(Brand.foreground)
         .background(Brand.background)

@@ -58,6 +58,23 @@ extension Color {
 }
 
 /// The gold primary button.
+/// A small tinted pill for inline actions such as Try again: roomy enough to read and to tap.
+struct ChipButtonStyle: ButtonStyle {
+    var tint: Color = Brand.accent
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.footnote.weight(.semibold))
+            .foregroundStyle(tint)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
+            .frame(minHeight: 36)
+            .background(tint.opacity(configuration.isPressed ? 0.22 : 0.14), in: .capsule)
+            .contentShape(.capsule)
+            .animation(.snappy(duration: 0.15), value: configuration.isPressed)
+    }
+}
+
 struct BrandButtonStyle: ButtonStyle {
     @Environment(\.isEnabled) private var isEnabled
 
@@ -66,6 +83,7 @@ struct BrandButtonStyle: ButtonStyle {
             .font(.headline)
             .fontDesign(.rounded)
             .foregroundStyle(isEnabled ? Brand.ink : Brand.foreground.opacity(0.4))
+            .padding(.horizontal, 20)
             .frame(maxWidth: .infinity, minHeight: 52)
             .background(isEnabled ? Brand.accent : Brand.surface, in: .rect(cornerRadius: 14))
             .scaleEffect(configuration.isPressed ? 0.98 : 1)
