@@ -23,7 +23,7 @@ final class SignInViewModel {
             guard let idToken = try await google.signIn() else { return } // cancelled
             await run { try await self.session.api.signInWithGoogle(idToken: idToken) }
         } catch {
-            errorText = String(localized: "Sign in failed. Try again.")
+            errorText = tr("Sign in failed. Try again.")
         }
     }
 
@@ -37,14 +37,14 @@ final class SignInViewModel {
         switch result {
         case .success(let authorization):
             guard let credential = AppleCredential(authorization) else {
-                errorText = String(localized: "Sign in failed. Try again.")
+                errorText = tr("Sign in failed. Try again.")
                 return
             }
             await signIn(with: credential)
         case .failure(let error as ASAuthorizationError) where error.code == .canceled:
             errorText = nil
         case .failure:
-            errorText = String(localized: "Sign in failed. Try again.")
+            errorText = tr("Sign in failed. Try again.")
         }
     }
 

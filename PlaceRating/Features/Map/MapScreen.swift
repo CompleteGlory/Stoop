@@ -6,6 +6,9 @@ struct MapScreen: View {
     let session: SessionStore
     @State private var model: MapViewModel
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(AppSettings.self) private var settings
+    @Environment(\.colorScheme) private var colorScheme
+    @State private var showsThemes = false
     @Environment(\.openURL) private var openURL
 
     init(session: SessionStore, user: SelfUser) {
@@ -45,7 +48,8 @@ struct MapScreen: View {
                 .annotationTitles(.hidden)
             }
         }
-        .mapStyle(.standard(pointsOfInterest: .all))
+        .mapStyle(settings.mapTheme.style)
+        .environment(\.colorScheme, settings.mapTheme.colorScheme ?? colorScheme)
         .mapControlVisibility(.hidden)
         .onMapCameraChange(frequency: .onEnd) { context in
             let region = context.region
@@ -75,12 +79,12 @@ struct MapScreen: View {
     private var topBar: some View {
         VStack(spacing: 8) {
             HStack(alignment: .top) {
-                Button { model.showProfile() } label: {
+                Button { model.showSettings() } label: {
                     AvatarImage(avatar: model.user.avatar, size: 46)
                         .overlay(Circle().stroke(Brand.foreground, lineWidth: 3))
                         .shadow(color: .black.opacity(0.2), radius: 6, y: 2)
                 }
-                .accessibilityLabel(Text("Profile"))
+                .accessibilityLabel(Text("Settings"))
 
                 Spacer()
                 SharingPill(count: model.sharingCount, isGhost: model.ghost)
@@ -88,14 +92,19 @@ struct MapScreen: View {
 
                 VStack(spacing: 10) {
                     RoundButton(systemImage: model.ghost ? "eye.slash.fill" : "eye.fill",
-                                label: String(localized: "Ghost mode"), isOn: model.ghost) { model.toggleGhost() }
-                    RoundButton(systemImage: "location.fill", label: String(localized: "Recenter")) { model.recenter() }
+                                label: tr("Ghost mode"), isOn: model.ghost) { model.toggleGhost() }
+                    RoundButton(systemImage: "location.fill", label: tr("Recenter")) { model.recenter() }
+                    RoundButton(systemImage: "square.2.layers.3d", label: tr("Map style"), isOn: showsThemes) { showsThemes = true }
+                        .popover(isPresented: $showsThemes) {
+                            MapThemePicker(selection: Bindable(settings).mapTheme)
+                                .presentationCompactAdaptation(.popover)
+                        }
                 }
             }
             if model.isPaused {
-                StatusBanner(systemImage: "pause.circle.fill", text: String(localized: "Sharing is paused: Stoop is open on another device."))
+                StatusBanner(systemImage: "pause.circle.fill", text: tr("Sharing is paused: Stoop is open on another device."))
             } else if model.connectionLost {
-                StatusBanner(systemImage: "wifi.slash", text: String(localized: "You're offline. Reconnecting…"))
+                StatusBanner(systemImage: "wifi.slash", text: tr("You're offline. Reconnecting…"))
             }
             if model.access == .denied {
                 LocationDeniedBanner { openURL(URL(string: UIApplication.openSettingsURLString)!) }
@@ -117,17 +126,17 @@ private struct PlacePin: View {
                 HStack(spacing: 3) {
                     Image(systemName: "star.fill").foregroundStyle(Brand.accent)
                     Text(place.avgRating, format: .number.precision(.fractionLength(1)))
-                        .foregroundStyle(Brand.foreground)
+                        .foregroundStyle(Brand.paper)
                 }
                 .font(.caption.weight(.bold))
                 .padding(.horizontal, 8)
                 .padding(.vertical, 5)
-                .background(Brand.background, in: .capsule)
+                .background(Brand.ink, in: .capsule)
                 .overlay(Capsule().stroke(Brand.accent.opacity(0.8), lineWidth: 1.5))
                 Image(systemName: "triangle.fill")
                     .font(.system(size: 7))
                     .rotationEffect(.degrees(180))
-                    .foregroundStyle(Brand.background)
+                    .foregroundStyle(Brand.ink)
                     .offset(y: -2)
             }
             .shadow(color: .black.opacity(0.25), radius: 4, y: 2)
@@ -177,12 +186,12 @@ private struct SharingPill: View {
 
     var body: some View {
         Label {
-            Text(isGhost ? String(localized: "Ghost mode on") : String(localized: "Sharing with \(count) friends"))
+            Text(isGhost ? tr("Ghost mode on") : tr("Sharing with \(count) friends"))
         } icon: {
             Image(systemName: isGhost ? "eye.slash.fill" : "dot.radiowaves.left.and.right")
         }
         .font(.footnote.weight(.semibold))
-        .foregroundStyle(isGhost ? Brand.background : Brand.foreground)
+        .foregroundStyle(isGhost ? Brand.ink : Brand.foreground)
         .padding(.horizontal, 14)
         .padding(.vertical, 9)
         .background(isGhost ? Brand.accent : Brand.background.opacity(0.92), in: .capsule)
@@ -202,7 +211,7 @@ private struct RoundButton: View {
             Image(systemName: systemImage)
                 .font(.body.weight(.semibold))
                 .frame(width: 44, height: 44)
-                .foregroundStyle(isOn ? Brand.background : Brand.foreground)
+                .foregroundStyle(isOn ? Brand.ink : Brand.foreground)
                 .background(isOn ? Brand.accent : Brand.background.opacity(0.92), in: .circle)
                 .shadow(color: .black.opacity(0.15), radius: 6, y: 2)
         }

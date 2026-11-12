@@ -41,7 +41,7 @@ struct UsernameView: View {
             Button {
                 Task { await model.submit() }
             } label: {
-                if model.isSaving { ProgressView().tint(Brand.background) } else { Text("Continue") }
+                if model.isSaving { ProgressView().tint(Brand.ink) } else { Text("Continue") }
             }
             .buttonStyle(BrandButtonStyle())
             .disabled(!model.canSubmit)
@@ -63,11 +63,11 @@ struct UsernameView: View {
     private var usernameField: some View {
         HStack(spacing: 2) {
             Text(verbatim: "@")
-                .foregroundStyle(Brand.background.opacity(0.4))
+                .foregroundStyle(Brand.ink.opacity(0.4))
             TextField(text: $model.username) {
                 // a Latin example in every language: it shows the allowed format, and an
                 // Arabic placeholder would run into the "@" in this left-to-right field
-                Text(verbatim: "your.name").foregroundStyle(Brand.background.opacity(0.35))
+                Text(verbatim: "your.name").foregroundStyle(Brand.ink.opacity(0.35))
             }
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
@@ -79,10 +79,10 @@ struct UsernameView: View {
             .accessibilityIdentifier("username")
         }
         .font(.title3.weight(.medium))
-        .foregroundStyle(Brand.background)
+        .foregroundStyle(Brand.ink)
         .padding(.horizontal, 16)
         .frame(height: 54)
-        .background(Brand.foreground, in: .rect(cornerRadius: 14))
+        .background(Brand.field, in: .rect(cornerRadius: 14))
         .environment(\.layoutDirection, .leftToRight)
     }
 
@@ -104,15 +104,15 @@ struct UsernameStatusLine: View {
             case .idle, .unknown:
                 EmptyView()
             case .checking:
-                Chip(text: String(localized: "Checking…"), colors: (Brand.surface, Brand.foreground.opacity(0.75)))
+                Chip(text: tr("Checking…"), colors: (Brand.surface, Brand.foreground.opacity(0.75)))
             case .available:
-                Chip(text: String(localized: "Available"), systemImage: "checkmark", colors: Brand.positive)
+                Chip(text: tr("Available"), systemImage: "checkmark", colors: Brand.positive)
             case .taken:
-                Chip(text: String(localized: "That username is taken."), colors: Brand.negative)
+                Chip(text: tr("That username is taken."), colors: Brand.negative)
             case .reserved:
-                Chip(text: String(localized: "That username isn't available."), colors: Brand.negative)
+                Chip(text: tr("That username isn't available."), colors: Brand.negative)
             case .invalid:
-                Chip(text: String(localized: "Use 3 to 20 letters, digits, _ or ."), colors: Brand.negative)
+                Chip(text: tr("Use 3 to 20 letters, digits, _ or ."), colors: Brand.negative)
             }
         }
     }

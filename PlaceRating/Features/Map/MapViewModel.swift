@@ -10,7 +10,7 @@ import SwiftUI
 final class MapViewModel {
     enum Sheet: Equatable {
         case browse
-        case profile
+        case settings
         case place(String)
         case friends
         case blocked
@@ -182,9 +182,9 @@ final class MapViewModel {
         detent = Self.smallDetent
     }
 
-    func showProfile() {
-        sheet = .profile
-        detent = .medium
+    func showSettings() {
+        sheet = .settings
+        detent = .large
     }
 
     func showBlocked() {

@@ -4,6 +4,7 @@ import SwiftUI
 @main
 struct PlaceRatingApp: App {
     @State private var session: SessionStore
+    @State private var settings = AppSettings()
 
     init() {
         // place photos never change once uploaded, so keep the downloaded files on disk too
@@ -16,6 +17,8 @@ struct PlaceRatingApp: App {
     var body: some Scene {
         WindowGroup {
             RootView(session: session)
+                .environment(settings)
+                .applying(settings)
                 .onOpenURL { GoogleSignInService.handle($0) }
         }
     }

@@ -57,6 +57,12 @@ actor AvatarDiskCache {
         }
     }
 
+    /// Removes every cached avatar (settings: clear cached images).
+    func removeAll() {
+        try? FileManager.default.removeItem(at: directory)
+        try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+    }
+
     func count() -> Int {
         (try? FileManager.default.contentsOfDirectory(atPath: directory.path()).count) ?? 0
     }

@@ -137,7 +137,7 @@ struct BlockingInTheAppTests {
         let model = MapViewModel(user: makeUser(), location: FakeLocation(access: .allowed), socket: FakeLiveSocket())
         model.showBlocked()
         #expect(model.sheet == .blocked)
-        model.showProfile()
-        #expect(model.sheet == .profile)
+        model.showSettings()
+        #expect(model.sheet == .settings)
     }
 }

@@ -83,9 +83,9 @@ struct FriendsSheet: View {
     @ViewBuilder
     private var searchResults: some View {
         if FriendsViewModel.searchTerm(model.query) == nil {
-            Hint(text: String(localized: "Type at least 3 letters of a username."))
+            Hint(text: tr("Type at least 3 letters of a username."))
         } else if model.results.isEmpty && !model.isSearching {
-            Hint(text: String(localized: "No one with that username."))
+            Hint(text: tr("No one with that username."))
         } else {
             VStack(spacing: 10) {
                 ForEach(model.results) { result in
@@ -105,15 +105,15 @@ struct FriendsSheet: View {
         let isBusy = model.busy.contains(result.id)
         switch result.friendStatus {
         case .none:
-            PillButton(title: String(localized: "Add"), style: .primary, isBusy: isBusy) {
+            PillButton(title: tr("Add"), style: .primary, isBusy: isBusy) {
                 Task { await model.send(to: result.user) }
             }
         case .requestReceived:
-            PillButton(title: String(localized: "Accept"), style: .primary, isBusy: isBusy) {
+            PillButton(title: tr("Accept"), style: .primary, isBusy: isBusy) {
                 Task { await model.send(to: result.user) } // sending back accepts theirs
             }
         case .requestSent:
-            PillButton(title: String(localized: "Requested"), style: .quiet, isBusy: isBusy) {
+            PillButton(title: tr("Requested"), style: .quiet, isBusy: isBusy) {
                 Task { await model.remove(result.user) }
             }
             .accessibilityHint(Text("Cancels the request"))
@@ -127,15 +127,15 @@ struct FriendsSheet: View {
     @ViewBuilder
     private var lists: some View {
         if !model.incoming.isEmpty {
-            Section(title: String(localized: "Requests")) {
+            Section(title: tr("Requests")) {
                 ForEach(model.incoming) { entry in
                     PersonRow(user: entry.user) {
                         HStack(spacing: 8) {
-                            PillButton(title: String(localized: "Decline"), style: .quiet,
+                            PillButton(title: tr("Decline"), style: .quiet,
                                        isBusy: model.busy.contains(entry.user.id)) {
                                 Task { await model.remove(entry.user) }
                             }
-                            PillButton(title: String(localized: "Accept"), style: .primary,
+                            PillButton(title: tr("Accept"), style: .primary,
                                        isBusy: model.busy.contains(entry.user.id)) {
                                 Task { await model.accept(entry) }
                             }
@@ -145,9 +145,9 @@ struct FriendsSheet: View {
                 }
             }
         }
-        Section(title: String(localized: "Your friends")) {
+        Section(title: tr("Your friends")) {
             if model.friends.isEmpty {
-                Hint(text: String(localized: "Search for a username to add your first friend."))
+                Hint(text: tr("Search for a username to add your first friend."))
             }
             ForEach(model.friends) { entry in
                 PersonRow(user: entry.user) {
@@ -156,10 +156,10 @@ struct FriendsSheet: View {
             }
         }
         if !model.outgoing.isEmpty {
-            Section(title: String(localized: "Sent")) {
+            Section(title: tr("Sent")) {
                 ForEach(model.outgoing) { entry in
                     PersonRow(user: entry.user) {
-                        PillButton(title: String(localized: "Cancel"), style: .quiet,
+                        PillButton(title: tr("Cancel"), style: .quiet,
                                    isBusy: model.busy.contains(entry.user.id)) {
                             Task { await model.remove(entry.user) }
                         }
@@ -223,12 +223,12 @@ private struct PillButton: View {
         Button(action: action) {
             ZStack {
                 Text(title).opacity(isBusy ? 0 : 1)
-                if isBusy { ProgressView().controlSize(.small).tint(style == .primary ? Brand.background : Brand.foreground) }
+                if isBusy { ProgressView().controlSize(.small).tint(style == .primary ? Brand.ink : Brand.foreground) }
             }
             .font(.footnote.weight(.bold))
             .padding(.horizontal, 14)
             .frame(height: 32)
-            .foregroundStyle(style == .primary ? Brand.background : Brand.foreground)
+            .foregroundStyle(style == .primary ? Brand.ink : Brand.foreground)
             .background(style == .primary ? Brand.accent : Brand.foreground.opacity(0.12), in: .capsule)
         }
         .buttonStyle(.plain)

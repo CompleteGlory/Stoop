@@ -22,13 +22,13 @@ struct SafetyMenu: View {
     var body: some View {
         Menu {
             if let onRemove {
-                Button(String(localized: "Remove friend"), systemImage: "person.badge.minus", action: onRemove)
+                Button(tr("Remove friend"), systemImage: "person.badge.minus", action: onRemove)
             }
             if let content {
                 Button(content.title, systemImage: "flag") { reporting = (content.target, content.id) }
             }
-            Button(String(localized: "Report user"), systemImage: "exclamationmark.bubble") { reporting = (.user, user.id) }
-            Button(String(localized: "Block user"), systemImage: "hand.raised", role: .destructive) { confirmingBlock = true }
+            Button(tr("Report user"), systemImage: "exclamationmark.bubble") { reporting = (.user, user.id) }
+            Button(tr("Block user"), systemImage: "hand.raised", role: .destructive) { confirmingBlock = true }
         } label: {
             Image(systemName: "ellipsis")
                 .font(.footnote.weight(.bold))
@@ -50,7 +50,7 @@ struct SafetyMenu: View {
             }
         }
         .confirmationDialog(Text("Block \(user.name)?"), isPresented: $confirmingBlock, titleVisibility: .visible) {
-            Button(String(localized: "Block user"), role: .destructive) { Task { await safety.block(user) } }
+            Button(tr("Block user"), role: .destructive) { Task { await safety.block(user) } }
         } message: {
             Text("You won't see each other anywhere in Stoop. You can unblock them from your profile.")
         }
@@ -76,11 +76,11 @@ struct SafetyNotice: View {
 extension ReportReason {
     var title: String {
         switch self {
-        case .spam: String(localized: "Spam")
-        case .abuse: String(localized: "Abuse or harassment")
-        case .inappropriate: String(localized: "Inappropriate")
-        case .impersonation: String(localized: "Impersonation")
-        case .other: String(localized: "Something else")
+        case .spam: tr("Spam")
+        case .abuse: tr("Abuse or harassment")
+        case .inappropriate: tr("Inappropriate")
+        case .impersonation: tr("Impersonation")
+        case .other: tr("Something else")
         }
     }
 }

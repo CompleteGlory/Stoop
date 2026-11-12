@@ -28,7 +28,7 @@ struct EmailAuthView: View {
                     Button {
                         Task { await model.submit() }
                     } label: {
-                        if model.isBusy { ProgressView().tint(Brand.background) } else { Text(actionTitle) }
+                        if model.isBusy { ProgressView().tint(Brand.ink) } else { Text(actionTitle) }
                     }
                     .buttonStyle(BrandButtonStyle())
                     .disabled(!model.canSubmit)
@@ -59,21 +59,21 @@ struct EmailAuthView: View {
 
     private var title: String {
         switch model.step {
-        case .signIn: String(localized: "Sign in with email")
-        case .signUp: String(localized: "Create your account")
-        case .verify: String(localized: "Confirm your email")
-        case .forgot: String(localized: "Forgot your password?")
-        case .reset: String(localized: "Choose a new password")
+        case .signIn: tr("Sign in with email")
+        case .signUp: tr("Create your account")
+        case .verify: tr("Confirm your email")
+        case .forgot: tr("Forgot your password?")
+        case .reset: tr("Choose a new password")
         }
     }
 
     private var actionTitle: String {
         switch model.step {
-        case .signIn: String(localized: "Sign in")
-        case .signUp: String(localized: "Create account")
-        case .verify: String(localized: "Confirm")
-        case .forgot: String(localized: "Send code")
-        case .reset: String(localized: "Save password")
+        case .signIn: tr("Sign in")
+        case .signUp: tr("Create account")
+        case .verify: tr("Confirm")
+        case .forgot: tr("Send code")
+        case .reset: tr("Save password")
         }
     }
 
@@ -82,7 +82,7 @@ struct EmailAuthView: View {
         switch model.step {
         case .signIn:
             emailField
-            BrandField(placeholder: String(localized: "Password")) {
+            BrandField(placeholder: tr("Password")) {
                 SecureField("", text: $model.password)
                     .textContentType(.password)
                     .focused($focused, equals: .password)
@@ -93,9 +93,9 @@ struct EmailAuthView: View {
                 .submitLabel(.next)
                 .onSubmit { focused = .username }
             VStack(alignment: .leading, spacing: 8) {
-                BrandField(placeholder: String(localized: "Username")) {
+                BrandField(placeholder: tr("Username")) {
                     HStack(spacing: 2) {
-                        Text(verbatim: "@").foregroundStyle(Brand.background.opacity(0.5))
+                        Text(verbatim: "@").foregroundStyle(Brand.ink.opacity(0.5))
                         TextField("", text: $model.username)
                             .textContentType(.username)
                             .focused($focused, equals: .username)
@@ -108,7 +108,7 @@ struct EmailAuthView: View {
                     .animation(.snappy, value: model.usernameCheck.status)
             }
             VStack(alignment: .leading, spacing: 8) {
-                BrandField(placeholder: String(localized: "Password")) {
+                BrandField(placeholder: tr("Password")) {
                     SecureField("", text: $model.password)
                         .textContentType(.newPassword)
                         .focused($focused, equals: .password)
@@ -119,7 +119,7 @@ struct EmailAuthView: View {
                 StrengthBar(strength: model.passwordStrength)
             }
             VStack(alignment: .leading, spacing: 8) {
-                BrandField(placeholder: String(localized: "Confirm password")) {
+                BrandField(placeholder: tr("Confirm password")) {
                     SecureField("", text: $model.confirmPassword)
                         .textContentType(.newPassword)
                         .focused($focused, equals: .confirmPassword)
@@ -140,7 +140,7 @@ struct EmailAuthView: View {
         case .verify:
             codeField
         case .forgot:
-            BrandField(placeholder: String(localized: "Email")) {
+            BrandField(placeholder: tr("Email")) {
                 TextField("", text: $model.email)
                     .keyboardType(.emailAddress)
                     .textContentType(.emailAddress)
@@ -148,7 +148,7 @@ struct EmailAuthView: View {
             }
         case .reset:
             codeField
-            BrandField(placeholder: String(localized: "New password")) {
+            BrandField(placeholder: tr("New password")) {
                 SecureField("", text: $model.newPassword)
                     .textContentType(.newPassword)
                     .focused($focused, equals: .newPassword)
@@ -157,7 +157,7 @@ struct EmailAuthView: View {
     }
 
     private var emailField: some View {
-        BrandField(placeholder: String(localized: "Email")) {
+        BrandField(placeholder: tr("Email")) {
             TextField("", text: $model.email)
                 .keyboardType(.emailAddress)
                 .textContentType(.emailAddress)
@@ -167,7 +167,7 @@ struct EmailAuthView: View {
     }
 
     private var codeField: some View {
-        BrandField(placeholder: String(localized: "6-digit code")) {
+        BrandField(placeholder: tr("6-digit code")) {
             TextField("", text: Binding(
                 get: { model.code },
                 set: { model.code = String($0.filter(\.isNumber).prefix(6)) }
@@ -185,15 +185,15 @@ struct EmailAuthView: View {
         VStack(alignment: .leading, spacing: 12) {
             switch model.step {
             case .signIn:
-                LinkButton(title: String(localized: "Forgot password?")) { model.go(to: .forgot) }
-                LinkButton(title: String(localized: "New here? Create an account")) { model.go(to: .signUp) }
+                LinkButton(title: tr("Forgot password?")) { model.go(to: .forgot) }
+                LinkButton(title: tr("New here? Create an account")) { model.go(to: .signUp) }
             case .signUp:
-                LinkButton(title: String(localized: "Have an account? Sign in")) { model.go(to: .signIn) }
+                LinkButton(title: tr("Have an account? Sign in")) { model.go(to: .signIn) }
             case .verify, .reset:
-                LinkButton(title: String(localized: "Send a new code")) { Task { await model.resend() } }
-                LinkButton(title: String(localized: "Back to sign in")) { model.go(to: .signIn) }
+                LinkButton(title: tr("Send a new code")) { Task { await model.resend() } }
+                LinkButton(title: tr("Back to sign in")) { model.go(to: .signIn) }
             case .forgot:
-                LinkButton(title: String(localized: "Back to sign in")) { model.go(to: .signIn) }
+                LinkButton(title: tr("Back to sign in")) { model.go(to: .signIn) }
             }
         }
         .padding(.top, 4)
@@ -211,11 +211,11 @@ private struct BrandField<Field: View>: View {
             field
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
-                .foregroundStyle(Brand.background)
-                .tint(Brand.background)
+                .foregroundStyle(Brand.ink)
+                .tint(Brand.ink)
                 .padding(.horizontal, 14)
                 .frame(height: 50)
-                .background(Brand.foreground, in: .rect(cornerRadius: 12))
+                .background(Brand.field, in: .rect(cornerRadius: 12))
                 .environment(\.layoutDirection, .leftToRight)
         }
     }

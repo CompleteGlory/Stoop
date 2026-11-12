@@ -101,12 +101,12 @@ struct PlaceSheet: View {
     @ViewBuilder
     private var ratingsList: some View {
         if !model.friendRatings.isEmpty {
-            Section(title: String(localized: "Friends")) {
+            Section(title: tr("Friends")) {
                 ForEach(model.friendRatings) { RatingRow(rating: $0, safety: model.safety) }
             }
         }
         if !model.otherRatings.isEmpty {
-            Section(title: String(localized: "Everyone")) {
+            Section(title: tr("Everyone")) {
                 ForEach(model.otherRatings) { RatingRow(rating: $0, safety: model.safety) }
                 if model.hasMoreRatings {
                     Button("Show more") { Task { await model.loadMoreRatings() } }
@@ -204,7 +204,7 @@ private struct RatingRow: View {
                     .environment(\.layoutDirection, .leftToRight)
                     SafetyMenu(
                         safety: safety, user: rating.user,
-                        content: .init(target: .rating, id: rating.id, title: String(localized: "Report rating"))
+                        content: .init(target: .rating, id: rating.id, title: tr("Report rating"))
                     )
                     .padding(.trailing, -8)
                 }

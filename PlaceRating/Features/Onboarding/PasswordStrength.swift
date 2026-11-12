@@ -49,18 +49,18 @@ enum PasswordStrength: Int, Comparable, CaseIterable {
     var label: String {
         switch self {
         case .empty: ""
-        case .tooShort: String(localized: "At least 8 characters.")
-        case .weak: String(localized: "Weak")
-        case .fair: String(localized: "Fair")
-        case .good: String(localized: "Good")
-        case .strong: String(localized: "Strong")
+        case .tooShort: tr("At least 8 characters.")
+        case .weak: tr("Weak")
+        case .fair: tr("Fair")
+        case .good: tr("Good")
+        case .strong: tr("Strong")
         }
     }
 
     /// A tip for getting to the next level, if there is one.
     var hint: String? {
         switch self {
-        case .weak, .fair: String(localized: "Longer is better. Mix in capitals, numbers or symbols.")
+        case .weak, .fair: tr("Longer is better. Mix in capitals, numbers or symbols.")
         default: nil
         }
     }

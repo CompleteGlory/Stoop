@@ -9,7 +9,7 @@ struct MapSheet: View {
         Group {
             switch model.sheet {
             case .browse: BrowseSheet(model: model)
-            case .profile: ProfileSheet(model: model, session: session)
+            case .settings: SettingsSheet(model: model, session: session)
             case .place:
                 if let place = model.placeModel {
                     PlaceSheet(model: place) { model.showBrowse() }
@@ -20,7 +20,7 @@ struct MapSheet: View {
                     FriendsSheet(model: friends, safety: model.safety) { model.showBrowse() }
                 }
             case .blocked:
-                BlockedSheet(safety: model.safety) { model.showProfile() }
+                BlockedSheet(safety: model.safety) { model.showSettings() }
             }
         }
         .foregroundStyle(Brand.foreground)
@@ -78,7 +78,7 @@ private struct BrowseSheet: View {
                             if !model.friendsList.incoming.isEmpty {
                                 Text(model.friendsList.incoming.count, format: .number)
                                     .font(.caption2.weight(.bold))
-                                    .foregroundStyle(Brand.background)
+                                    .foregroundStyle(Brand.ink)
                                     .padding(.horizontal, 6)
                                     .frame(minWidth: 18, minHeight: 18)
                                     .background(Brand.accent, in: .capsule)
@@ -135,11 +135,11 @@ private struct SearchResults: View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 8) {
                 if search.needsMoreLetters {
-                    Hint(text: String(localized: "Keep typing to search."))
+                    Hint(text: tr("Keep typing to search."))
                 } else if let error = search.errorText {
                     Text(error).font(.footnote).foregroundStyle(Brand.negative.text)
                 } else if search.foundNothing {
-                    Hint(text: String(localized: "No places found."))
+                    Hint(text: tr("No places found."))
                 }
                 ForEach(search.results) { result in
                     Button {
@@ -184,123 +184,5 @@ private struct ResultRow: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Brand.surface, in: .rect(cornerRadius: 14))
         .contentShape(.rect)
-    }
-}
-
-private struct ProfileSheet: View {
-    let model: MapViewModel
-    let session: SessionStore
-    @State private var confirmingDelete = false
-    @State private var isDeleting = false
-    @State private var deleteError: String?
-
-    var body: some View {
-        ScrollView {
-            VStack(spacing: 18) {
-                HStack {
-                    Button { model.showBrowse() } label: {
-                        Label("Back", systemImage: "chevron.backward").font(.subheadline.weight(.semibold))
-                    }
-                    Spacer()
-                }
-
-                AvatarImage(avatar: model.user.avatar, size: 96)
-                    .overlay(Circle().stroke(Brand.accent, lineWidth: 3))
-                VStack(spacing: 2) {
-                    Text(verbatim: model.user.displayName.isEmpty ? (model.user.username ?? "") : model.user.displayName)
-                        .font(.system(.title2, design: .rounded, weight: .bold))
-                    if let username = model.user.username {
-                        Text(verbatim: "@\(username)").foregroundStyle(Brand.foreground.opacity(0.6))
-                    }
-                }
-
-                VStack(spacing: 0) {
-                    Toggle(isOn: Binding(get: { model.ghost }, set: { _ in model.toggleGhost() })) {
-                        Label("Ghost mode", systemImage: "eye.slash")
-                    }
-                    .tint(Brand.accent)
-                    .padding(14)
-                    Divider().overlay(Brand.foreground.opacity(0.1))
-                    Button { session.editCharacter() } label: {
-                        Label("Edit character", systemImage: "paintbrush")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(14)
-                    }
-                    .buttonStyle(.plain)
-                    Divider().overlay(Brand.foreground.opacity(0.1))
-                    Button { model.showBlocked() } label: {
-                        Label("Blocked people", systemImage: "hand.raised")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(14)
-                    }
-                    .buttonStyle(.plain)
-                }
-                .background(Brand.surface, in: .rect(cornerRadius: 14))
-
-                Text(model.ghost ? String(localized: "Ghost mode on") : String(localized: "Sharing with \(model.sharingCount) friends"))
-                    .font(.footnote)
-                    .foregroundStyle(Brand.foreground.opacity(0.6))
-
-                VStack(spacing: 0) {
-                    ProfileLink(title: String(localized: "Contact support"), systemImage: "envelope",
-                                url: URL(string: "mailto:\(AppConfig.supportEmail)")!)
-                    Divider().overlay(Brand.foreground.opacity(0.1))
-                    ProfileLink(title: String(localized: "Terms of Use"), systemImage: "doc.text", url: AppConfig.current.termsURL)
-                    Divider().overlay(Brand.foreground.opacity(0.1))
-                    ProfileLink(title: String(localized: "Privacy Policy"), systemImage: "lock.shield", url: AppConfig.current.privacyURL)
-                }
-                .background(Brand.surface, in: .rect(cornerRadius: 14))
-
-                Button("Sign out", role: .destructive) { Task { await session.signOut() } }
-                    .font(.callout.weight(.semibold))
-                    .foregroundStyle(Brand.negative.text)
-                    .padding(.top, 6)
-
-                Button("Delete account", role: .destructive) { confirmingDelete = true }
-                    .font(.footnote)
-                    .foregroundStyle(Brand.negative.text.opacity(0.8))
-                    .disabled(isDeleting)
-                if isDeleting { ProgressView().tint(Brand.foreground) }
-                if let deleteError {
-                    Text(deleteError).font(.footnote).foregroundStyle(Brand.negative.text).multilineTextAlignment(.center)
-                }
-            }
-            .padding(20)
-        }
-        .confirmationDialog(Text("Delete your account?"), isPresented: $confirmingDelete, titleVisibility: .visible) {
-            Button("Delete my account", role: .destructive) {
-                Task {
-                    isDeleting = true
-                    deleteError = nil
-                    do {
-                        try await session.deleteAccount()
-                    } catch {
-                        deleteError = ErrorText.text(for: error)
-                    }
-                    isDeleting = false
-                }
-            }
-        } message: {
-            Text("This permanently deletes your ratings, comments, photos, friendships and account. It can't be undone.")
-        }
-    }
-}
-
-private struct ProfileLink: View {
-    let title: String
-    let systemImage: String
-    let url: URL
-
-    var body: some View {
-        Link(destination: url) {
-            HStack {
-                Label(title, systemImage: systemImage)
-                Spacer()
-                Image(systemName: "arrow.up.right").font(.caption.weight(.semibold)).foregroundStyle(Brand.foreground.opacity(0.4))
-            }
-            .padding(14)
-            .contentShape(.rect)
-        }
-        .foregroundStyle(Brand.foreground)
     }
 }
