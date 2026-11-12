@@ -13,6 +13,7 @@ final class MapViewModel {
         case profile
         case place(String)
         case friends
+        case blocked
     }
 
     struct VisibleFriend: Identifiable, Equatable {
@@ -44,6 +45,8 @@ final class MapViewModel {
     private(set) var isPaused = false
     /// The search field in the bottom sheet.
     let search: PlaceSearchViewModel
+    /// Reports and blocks, shared by every screen that shows other people's content.
+    let safety: SafetyViewModel
     private(set) var visibleRegion: MKCoordinateRegion?
     private(set) var now: Date
     /// Rated places in the visible area (the API also returns unrated ones; those get no pin).
@@ -81,6 +84,7 @@ final class MapViewModel {
         places: any PlacesAPI = UnavailablePlacesAPI(),
         friendsAPI: any FriendsAPI = UnavailableFriendsAPI(),
         photosAPI: any PhotosAPI = UnavailablePhotosAPI(),
+        moderationAPI: any ModerationAPI = UnavailableModerationAPI(),
         searcher: any PlaceSearching = MapKitPlaceSearch(),
         searchDebounce: Duration = .milliseconds(400),
         placesDebounce: Duration = .milliseconds(400),
@@ -95,12 +99,14 @@ final class MapViewModel {
         self.socket = socket
         self.onSessionExpired = onSessionExpired
         search = PlaceSearchViewModel(searcher: searcher, debounce: searchDebounce)
+        safety = SafetyViewModel(api: moderationAPI)
         self.clock = clock
         ghost = user.ghostMode
         access = location.access
         now = clock()
         location.onAccessChange = { [weak self] access in self?.accessChanged(access) }
         search.setRegionProvider { [weak self] in self?.visibleRegion }
+        safety.onBlocked = { [weak self] userId in self?.personBlocked(userId) }
     }
 
     var visibleFriends: [VisibleFriend] {
@@ -179,6 +185,23 @@ final class MapViewModel {
     func showProfile() {
         sheet = .profile
         detent = .medium
+    }
+
+    func showBlocked() {
+        sheet = .blocked
+        detent = .large
+    }
+
+    /// The server also drops a blocked person from the friend graph and the live socket;
+    /// do the same here without waiting for it.
+    private func personBlocked(_ userId: String) {
+        friends.apply(.gone(userId: userId))
+        friendsList = FriendsList(
+            friends: friendsList.friends.filter { $0.user.id != userId },
+            incoming: friendsList.incoming.filter { $0.user.id != userId },
+            outgoing: friendsList.outgoing.filter { $0.user.id != userId }
+        )
+        Task { await loadFriends() }
     }
 
     func showBrowse() {
@@ -271,7 +294,7 @@ final class MapViewModel {
     }
 
     func open(_ place: Place) {
-        placeModel = PlaceViewModel(placeId: place.id, api: placesAPI, myId: user.id, photosAPI: photosAPI) { [weak self] updated in
+        placeModel = PlaceViewModel(placeId: place.id, api: placesAPI, myId: user.id, photosAPI: photosAPI, safety: safety) { [weak self] updated in
             self?.placeChanged(updated)
         }
         sheet = .place(place.id)

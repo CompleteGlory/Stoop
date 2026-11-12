@@ -22,18 +22,13 @@ struct PhotoPage: Codable, Equatable, Sendable {
     let nextCursor: String?
 }
 
-enum ReportReason: String, Codable, Sendable, CaseIterable {
-    case spam, abuse, inappropriate, impersonation, other
-}
-
-/// Place and menu photos (api-contract.md, "Place photos"), plus reporting one.
+/// Place and menu photos (api-contract.md, "Place photos").
 protocol PhotosAPI: Sendable {
     func photos(placeId: String, kind: PhotoKind?, cursor: String?) async throws -> PhotoPage
     /// Uploads a JPEG in the three steps the API asks for: get a signed address, send the bytes
     /// there, then tell the API so it checks and re-encodes the photo.
     func addPhoto(placeId: String, kind: PhotoKind, jpeg: Data) async throws -> PlacePhoto
     func deletePhoto(placeId: String, photoId: String) async throws
-    func reportPhoto(_ photoId: String, reason: ReportReason) async throws
 }
 
 extension APIClient: PhotosAPI {
@@ -67,12 +62,6 @@ extension APIClient: PhotosAPI {
     func deletePhoto(placeId: String, photoId: String) async throws {
         try await authorizedNoContent { try http.request("DELETE", "places/\(placeId)/photos/\(photoId)", token: $0) }
     }
-
-    func reportPhoto(_ photoId: String, reason: ReportReason) async throws {
-        let _: ReportResponse = try await authorized {
-            try http.request("POST", "reports", body: ReportBody(targetType: "photo", targetId: photoId, reason: reason), token: $0)
-        }
-    }
 }
 
 private struct UploadRequest: Encodable {
@@ -92,19 +81,10 @@ private struct AddPhotoBody: Encodable {
     let key: String
 }
 
-private struct ReportBody: Encodable {
-    let targetType: String
-    let targetId: String
-    let reason: ReportReason
-}
-
-private struct ReportResponse: Decodable { let id: String }
-
 /// Stands in when no photos API was given (previews, tests that don't need it).
 struct UnavailablePhotosAPI: PhotosAPI {
     private struct Unavailable: Error {}
     func photos(placeId: String, kind: PhotoKind?, cursor: String?) async throws -> PhotoPage { PhotoPage(items: [], nextCursor: nil) }
     func addPhoto(placeId: String, kind: PhotoKind, jpeg: Data) async throws -> PlacePhoto { throw Unavailable() }
     func deletePhoto(placeId: String, photoId: String) async throws { throw Unavailable() }
-    func reportPhoto(_ photoId: String, reason: ReportReason) async throws { throw Unavailable() }
 }

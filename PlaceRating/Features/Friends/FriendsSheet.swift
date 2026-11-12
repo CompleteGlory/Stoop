@@ -3,6 +3,7 @@ import SwiftUI
 /// Find people by username, answer requests and manage friends. Lives in the map's bottom sheet.
 struct FriendsSheet: View {
     let model: FriendsViewModel
+    let safety: SafetyViewModel
     let close: () -> Void
     @State private var removing: PublicUser?
     @FocusState private var searchFocused: Bool
@@ -11,6 +12,7 @@ struct FriendsSheet: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 header
+                SafetyNotice(safety: safety)
                 searchField
                 if let error = model.errorText {
                     Text(error).font(.footnote).foregroundStyle(Brand.negative.text)
@@ -87,7 +89,12 @@ struct FriendsSheet: View {
         } else {
             VStack(spacing: 10) {
                 ForEach(model.results) { result in
-                    PersonRow(user: result.user) { resultAction(result) }
+                    PersonRow(user: result.user) {
+                        HStack(spacing: 2) {
+                            resultAction(result)
+                            SafetyMenu(safety: safety, user: result.user)
+                        }
+                    }
                 }
             }
         }
@@ -132,6 +139,7 @@ struct FriendsSheet: View {
                                        isBusy: model.busy.contains(entry.user.id)) {
                                 Task { await model.accept(entry) }
                             }
+                            SafetyMenu(safety: safety, user: entry.user)
                         }
                     }
                 }
@@ -143,16 +151,7 @@ struct FriendsSheet: View {
             }
             ForEach(model.friends) { entry in
                 PersonRow(user: entry.user) {
-                    Menu {
-                        Button("Remove friend", systemImage: "person.badge.minus", role: .destructive) {
-                            removing = entry.user
-                        }
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .frame(width: 36, height: 36)
-                            .contentShape(.rect)
-                    }
-                    .accessibilityLabel(Text("More"))
+                    SafetyMenu(safety: safety, user: entry.user, onRemove: { removing = entry.user })
                 }
             }
         }

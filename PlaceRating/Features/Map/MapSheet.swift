@@ -17,8 +17,10 @@ struct MapSheet: View {
                 }
             case .friends:
                 if let friends = model.friendsModel {
-                    FriendsSheet(model: friends) { model.showBrowse() }
+                    FriendsSheet(model: friends, safety: model.safety) { model.showBrowse() }
                 }
+            case .blocked:
+                BlockedSheet(safety: model.safety) { model.showProfile() }
             }
         }
         .foregroundStyle(Brand.foreground)
@@ -218,6 +220,13 @@ private struct ProfileSheet: View {
                     Divider().overlay(Brand.foreground.opacity(0.1))
                     Button { session.editCharacter() } label: {
                         Label("Edit character", systemImage: "paintbrush")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(14)
+                    }
+                    .buttonStyle(.plain)
+                    Divider().overlay(Brand.foreground.opacity(0.1))
+                    Button { model.showBlocked() } label: {
+                        Label("Blocked people", systemImage: "hand.raised")
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(14)
                     }

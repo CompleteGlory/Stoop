@@ -22,11 +22,13 @@ final class SessionStore {
     let friends: any FriendsAPI
     let photos: any PhotosAPI
     let liveAuth: any LiveAuth
+    let moderation: any ModerationAPI
 
     init(api: any APIClientProtocol, places: (any PlacesAPI)? = nil, friends: (any FriendsAPI)? = nil) {
         self.friends = friends ?? (api as? any FriendsAPI) ?? UnavailableFriendsAPI()
         self.photos = (api as? any PhotosAPI) ?? UnavailablePhotosAPI()
         self.liveAuth = (api as? any LiveAuth) ?? UnavailableLiveAuth()
+        self.moderation = (api as? any ModerationAPI) ?? UnavailableModerationAPI()
         self.api = api
         self.places = places ?? (api as? any PlacesAPI) ?? UnavailablePlacesAPI()
     }
