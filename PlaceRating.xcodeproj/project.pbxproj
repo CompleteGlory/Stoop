@@ -35,9 +35,11 @@
 		6F250AD5AB8BA59BE4036306 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92F63461C0E392ED3B9897F /* SignInView.swift */; };
 		6F68F8D237742766DB7574AF /* CharacterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F04BC7F201EDE6F39A989E /* CharacterViewModel.swift */; };
 		73D08070D4A087629CF4DA7B /* UsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C929E1FA27E4DDC1D2E7DD2B /* UsernameViewModel.swift */; };
+		766D7100222D9C7422A45F3F /* SearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AAE6ED5329DE375263331C /* SearchTests.swift */; };
 		7AF29A540CBC310FBB8453A0 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 4FDE7DFEF7D54E2C09F73619 /* InfoPlist.xcstrings */; };
 		7CD429F73B378CA7C1EB88EC /* FriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA7B07443BD2CCCB8CCA376 /* FriendsViewModel.swift */; };
 		7D7C488191D92523A176C0B0 /* PlacePhotosSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8594214B48AB702A0C766089 /* PlacePhotosSection.swift */; };
+		8204384DACBE53A6ECD38158 /* PlaceSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B78CEA4D75E5BC6DDB89FD8 /* PlaceSearch.swift */; };
 		83DB1D363158B049B18DF3FB /* AuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAABBAFB4A5382BF2C6BEF9 /* AuthSession.swift */; };
 		849404E5A6D34C50B1556B01 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4B85D0FEAA22F49EB055D47A /* NukeUI */; };
 		8A1AC9D8BDB2654A67EB5C65 /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E48D0AF34E851924F00263 /* OnboardingTests.swift */; };
@@ -119,6 +121,8 @@
 		62B05E4B546A2A13E60206C6 /* GoogleSignInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInService.swift; sourceTree = "<group>"; };
 		63B402F9BAD163F9FCAC9300 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		64F04BC7F201EDE6F39A989E /* CharacterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterViewModel.swift; sourceTree = "<group>"; };
+		65AAE6ED5329DE375263331C /* SearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTests.swift; sourceTree = "<group>"; };
+		6B78CEA4D75E5BC6DDB89FD8 /* PlaceSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearch.swift; sourceTree = "<group>"; };
 		6D2DA232C62063E92E3DFEA0 /* MapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTests.swift; sourceTree = "<group>"; };
 		7422E7A334988F5E9A2CE9AE /* PlaceRating.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PlaceRating.entitlements; sourceTree = "<group>"; };
 		74D9D047E9C26728A2C8B2CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -244,6 +248,7 @@
 				DBEC24DD09D408A1A6AA7C18 /* Map */,
 				6D3C28A9F1B45E0011EFED6C /* Onboarding */,
 				E2102896F232D60FA288C888 /* Place */,
+				A5BF1A785E7E7BD123656755 /* Search */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -279,10 +284,19 @@
 				33E48D0AF34E851924F00263 /* OnboardingTests.swift */,
 				5772AA5B847595CC415C3552 /* PhotosTests.swift */,
 				4F5DEAAA423E205B9198CD80 /* PlaceTests.swift */,
+				65AAE6ED5329DE375263331C /* SearchTests.swift */,
 				4647F0A410F73005856CC691 /* SignInTests.swift */,
 				CEA8187310DC86E5653B5921 /* Support.swift */,
 			);
 			path = PlaceRatingTests;
+			sourceTree = "<group>";
+		};
+		A5BF1A785E7E7BD123656755 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				6B78CEA4D75E5BC6DDB89FD8 /* PlaceSearch.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		C79D7D0FC66B8B5565FA1A6B = {
@@ -504,6 +518,7 @@
 				7D7C488191D92523A176C0B0 /* PlacePhotosSection.swift in Sources */,
 				5346D238F95264DBE2A64353 /* PlacePhotosViewModel.swift in Sources */,
 				99492ABCAF44FADC0E35FF71 /* PlaceRatingApp.swift in Sources */,
+				8204384DACBE53A6ECD38158 /* PlaceSearch.swift in Sources */,
 				2E78445E3BA27111DC054AD2 /* PlaceSheet.swift in Sources */,
 				B6368EF7D0AA2BFE251A952C /* PlaceViewModel.swift in Sources */,
 				A188F19266132DA23BC5B777 /* PlacesAPI.swift in Sources */,
@@ -534,6 +549,7 @@
 				8A1AC9D8BDB2654A67EB5C65 /* OnboardingTests.swift in Sources */,
 				2AF0DEE6122B1EB7F63F1E01 /* PhotosTests.swift in Sources */,
 				D4510F6447374D0262834716 /* PlaceTests.swift in Sources */,
+				766D7100222D9C7422A45F3F /* SearchTests.swift in Sources */,
 				BA717EC91DDE0815E478F177 /* SignInTests.swift in Sources */,
 				A66C5A754A7E14B40E493115 /* Support.swift in Sources */,
 			);
