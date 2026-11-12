@@ -97,3 +97,20 @@ struct APIClientTests {
         #expect(store.tokens == nil)
     }
 }
+
+struct AccountDeletionRequestTests {
+    @Test func sendsDELETEMeWithTheTokenAndForgetsTheSession() async throws {
+        let transport = StubTransport { _, _ in (204, "") }
+        let store = MemoryTokenStore(StoredTokens(accessToken: "a0", refreshToken: "r0", accessExpiry: .distantFuture))
+        let api = client(transport, store: store)
+        _ = try await api.restoreSession()
+
+        try await api.deleteAccount()
+
+        let request = try #require(transport.requests.first)
+        #expect(request.httpMethod == "DELETE")
+        #expect(request.url?.path() == "/me")
+        #expect(request.value(forHTTPHeaderField: "Authorization") == "Bearer a0")
+        #expect(try store.load() == nil) // the local session is gone
+    }
+}

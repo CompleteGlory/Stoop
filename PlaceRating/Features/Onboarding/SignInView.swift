@@ -74,10 +74,7 @@ struct SignInView: View {
                 }
                 .accessibilityIdentifier("continueWithEmail")
 
-                Text("By continuing you accept the Terms and Privacy Policy.")
-                    .font(.caption2)
-                    .foregroundStyle(Brand.foreground.opacity(0.55))
-                    .multilineTextAlignment(.center)
+                LegalNotice()
 
                 #if DEBUG
                 debugControls

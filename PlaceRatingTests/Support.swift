@@ -116,6 +116,12 @@ final class FakeAPI: APIClientProtocol, @unchecked Sendable {
         publicChecked.append(username)
         return try availabilityResult.get()
     }
+    var deleteResult: Result<Void, Error> = .success(())
+    var deleted = false
+    func deleteAccount() async throws {
+        try deleteResult.get()
+        deleted = true
+    }
     func signOut() async { signedOut = true }
 }
 
