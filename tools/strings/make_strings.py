@@ -7,7 +7,6 @@ import json, sys, os
 root = sys.argv[1]
 strings = {
     "Your friends, your places, one map": "أصدقاؤك وأماكنك على خريطة واحدة",
-    "By continuing you accept the Terms and Privacy Policy.": "بالمتابعة فإنك توافق على الشروط وسياسة الخصوصية.",
     "Pick your name": "اختر اسمك",
     "This is how friends see you on the map.": "هكذا يراك أصدقاؤك على الخريطة.",
     "Use a different account": "استخدم حسابًا آخر",
@@ -195,6 +194,14 @@ strings = {
     "Blocked people": "المحظورون",
     "You haven't blocked anyone.": "لم تحظر أحدًا.",
     "Unblock": "إلغاء الحظر",
+    "By continuing you accept the [Terms of Use](stoop://terms) and the [Privacy Policy](stoop://privacy).": "بالمتابعة فإنك توافق على [شروط الاستخدام](stoop://terms) و[سياسة الخصوصية](stoop://privacy).",
+    "Contact support": "التواصل مع الدعم",
+    "Terms of Use": "شروط الاستخدام",
+    "Privacy Policy": "سياسة الخصوصية",
+    "Delete account": "حذف الحساب",
+    "Delete your account?": "حذف حسابك؟",
+    "Delete my account": "حذف حسابي",
+    "This permanently deletes your ratings, comments, photos, friendships and account. It can't be undone.": "سيؤدي هذا إلى حذف تقييماتك وتعليقاتك وصورك وصداقاتك وحسابك نهائيًا. لا يمكن التراجع عن ذلك.",
 }
 
 # Strings whose wording depends on a number. Arabic has six plural forms.

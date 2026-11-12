@@ -33,6 +33,7 @@ struct EmailAuthView: View {
                     .buttonStyle(BrandButtonStyle())
                     .disabled(!model.canSubmit)
                     .accessibilityIdentifier("emailSubmit")
+                    if model.step == .signUp { LegalNotice().frame(maxWidth: .infinity) }
                     links
                 }
                 .padding(24)

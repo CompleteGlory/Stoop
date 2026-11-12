@@ -16,6 +16,7 @@
 		13A866C9AD3F56F16B472F26 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2F118870F5A4099BC5909D /* APIClient.swift */; };
 		1952CDCCF15B4FBA05D4D227 /* AppConfigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181CDB8D2F88F8D6C4FB66F4 /* AppConfigTests.swift */; };
 		1C9F9796D4D990E8B54F7377 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C760C38B9EB5DCC1C052B1D /* MapViewModel.swift */; };
+		224E90F3975F21C782382037 /* LegalNotice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4468CC0E7107E8895847953F /* LegalNotice.swift */; };
 		2695F1889992031ABD5267FD /* FriendsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33367FA0C387FA6189A07018 /* FriendsAPI.swift */; };
 		2AF0DEE6122B1EB7F63F1E01 /* PhotosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5772AA5B847595CC415C3552 /* PhotosTests.swift */; };
 		2E78445E3BA27111DC054AD2 /* PlaceSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C36D1391594ECD395BE4B2 /* PlaceSheet.swift */; };
@@ -74,6 +75,7 @@
 		E155B53C7958672F2888A09E /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3EBC5381B7EF1D0817A3442 /* SessionStore.swift */; };
 		E26EF1AE4222F957BF81B492 /* Brand.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB6957D199014440BC91E7E4 /* Brand.swift */; };
 		E5B8477053FF8A55DDE80B61 /* MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2DA232C62063E92E3DFEA0 /* MapTests.swift */; };
+		E93442D05C7DDD4C89F98977 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D3FEF218A3F58920D8ACF929 /* PrivacyInfo.xcprivacy */; };
 		EC13F5BDA39B4ACC22B785A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 916BB98FFAEDF16C0D2D9AFC /* Assets.xcassets */; };
 		ECFCF29B6FC17485F1D2B895 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B402F9BAD163F9FCAC9300 /* SignInViewModel.swift */; };
 		F0E5C5DC8005CEE946BC8956 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF16794DE26345160637C283 /* RootView.swift */; };
@@ -111,6 +113,7 @@
 		399698D5A07F3806F679EC65 /* AuthSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSessionTests.swift; sourceTree = "<group>"; };
 		3E18E52F74D1C6C3BFC1D7BE /* PlaceRatingTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PlaceRatingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		43A67EC8C8EA14AAB78DF58F /* UsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameView.swift; sourceTree = "<group>"; };
+		4468CC0E7107E8895847953F /* LegalNotice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegalNotice.swift; sourceTree = "<group>"; };
 		4647F0A410F73005856CC691 /* SignInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTests.swift; sourceTree = "<group>"; };
 		4E740E45D6801EE3C5418654 /* SafetyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyViewModel.swift; sourceTree = "<group>"; };
 		4F5DEAAA423E205B9198CD80 /* PlaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTests.swift; sourceTree = "<group>"; };
@@ -153,6 +156,7 @@
 		B9D700AC2A9289987C01996C /* AppleSignIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignIn.swift; sourceTree = "<group>"; };
 		C929E1FA27E4DDC1D2E7DD2B /* UsernameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsernameViewModel.swift; sourceTree = "<group>"; };
 		CEA8187310DC86E5653B5921 /* Support.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Support.swift; sourceTree = "<group>"; };
+		D3FEF218A3F58920D8ACF929 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		D79F675E619649A1BBC77D3D /* SafetyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafetyTests.swift; sourceTree = "<group>"; };
 		D9DF40FC71D0CE4E77D9FFAF /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
 		DB100B765DE4983E2EE7E413 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -241,6 +245,7 @@
 			children = (
 				74D9D047E9C26728A2C8B2CD /* Info.plist */,
 				7422E7A334988F5E9A2CE9AE /* PlaceRating.entitlements */,
+				D3FEF218A3F58920D8ACF929 /* PrivacyInfo.xcprivacy */,
 				C8F175DE1CA6514F27D5F050 /* App */,
 				6C57041E65CE2D8C6C8AA55F /* Features */,
 				F02620296055C8D387B05D88 /* Models */,
@@ -271,6 +276,7 @@
 				0568D146A571642DB7C1BE39 /* EmailAuthView.swift */,
 				86D1EC3F5C385F938F652581 /* EmailAuthViewModel.swift */,
 				7C138C0253519C7E019DAB7F /* ErrorText.swift */,
+				4468CC0E7107E8895847953F /* LegalNotice.swift */,
 				5251352DE2641353F398B0B9 /* PasswordStrength.swift */,
 				B92F63461C0E392ED3B9897F /* SignInView.swift */,
 				63B402F9BAD163F9FCAC9300 /* SignInViewModel.swift */,
@@ -471,6 +477,7 @@
 				EC13F5BDA39B4ACC22B785A9 /* Assets.xcassets in Resources */,
 				7AF29A540CBC310FBB8453A0 /* InfoPlist.xcstrings in Resources */,
 				53CFD733967E698891D35DDE /* Localizable.xcstrings in Resources */,
+				E93442D05C7DDD4C89F98977 /* PrivacyInfo.xcprivacy in Resources */,
 				592A77FB02A6B430F439FCBE /* dicebear.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,6 +532,7 @@
 				C536BC85E27EC64542B406CC /* GoogleSignInService.swift in Sources */,
 				C479CDDC6EC43FA34E224622 /* HTTP.swift in Sources */,
 				97088123568981B9461E9387 /* JSONCoding.swift in Sources */,
+				224E90F3975F21C782382037 /* LegalNotice.swift in Sources */,
 				0C711DF327FF094BC401AF41 /* LiveFrames.swift in Sources */,
 				A83981442A30EA2592D68552 /* LiveSocket.swift in Sources */,
 				DA8E055419B0777DFC9C2111 /* LiveSocketClient.swift in Sources */,

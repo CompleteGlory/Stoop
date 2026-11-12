@@ -20,6 +20,8 @@ protocol APIClientProtocol: Sendable {
     func usernameAvailability(_ username: String) async throws -> UsernameAvailability
     /// The same check signed out, for the email sign-up screen.
     func publicUsernameAvailability(_ username: String) async throws -> UsernameAvailability
+    /// Deletes the account and everything it owns (`DELETE /me`), then forgets the local session.
+    func deleteAccount() async throws
     func signOut() async
 }
 
@@ -101,6 +103,11 @@ struct APIClient: APIClientProtocol {
         let query = [URLQueryItem(name: "username", value: username)]
         let data = try await http.data(for: http.request("GET", "users/availability", query: query))
         return try JSONDecoder.api.decode(UsernameAvailability.self, from: data)
+    }
+
+    func deleteAccount() async throws {
+        try await authorizedNoContent { try http.request("DELETE", "me", token: $0) }
+        try? await session.clear()
     }
 
     /// Always ends the local session, even if the server can't be reached.

@@ -403,12 +403,12 @@
         }
       }
     },
-    "By continuing you accept the Terms and Privacy Policy.": {
+    "By continuing you accept the [Terms of Use](stoop://terms) and the [Privacy Policy](stoop://privacy).": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "بالمتابعة فإنك توافق على الشروط وسياسة الخصوصية."
+            "value": "بالمتابعة فإنك توافق على [شروط الاستخدام](stoop://terms) و[سياسة الخصوصية](stoop://privacy)."
           }
         }
       }
@@ -543,6 +543,16 @@
         }
       }
     },
+    "Contact support": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "التواصل مع الدعم"
+          }
+        }
+      }
+    },
     "Continue": {
       "localizations": {
         "ar": {
@@ -593,6 +603,26 @@
         }
       }
     },
+    "Delete account": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف الحساب"
+          }
+        }
+      }
+    },
+    "Delete my account": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف حسابي"
+          }
+        }
+      }
+    },
     "Delete photo": {
       "localizations": {
         "ar": {
@@ -609,6 +639,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "حذف هذه الصورة؟"
+          }
+        }
+      }
+    },
+    "Delete your account?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حذف حسابك؟"
           }
         }
       }
@@ -1323,6 +1363,16 @@
         }
       }
     },
+    "Privacy Policy": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سياسة الخصوصية"
+          }
+        }
+      }
+    },
     "Profile": {
       "localizations": {
         "ar": {
@@ -1757,6 +1807,16 @@
         }
       }
     },
+    "Terms of Use": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "شروط الاستخدام"
+          }
+        }
+      }
+    },
     "Thanks. We'll take a look.": {
       "localizations": {
         "ar": {
@@ -1873,6 +1933,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "هكذا يراك أصدقاؤك على الخريطة."
+          }
+        }
+      }
+    },
+    "This permanently deletes your ratings, comments, photos, friendships and account. It can't be undone.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سيؤدي هذا إلى حذف تقييماتك وتعليقاتك وصورك وصداقاتك وحسابك نهائيًا. لا يمكن التراجع عن ذلك."
           }
         }
       }

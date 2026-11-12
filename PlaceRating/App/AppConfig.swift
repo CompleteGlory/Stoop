@@ -5,6 +5,13 @@ struct AppConfig: Sendable {
     let apiBaseURL: URL
     let liveURL: URL
 
+    /// Where people can reach us (also on the terms and privacy pages, and in App Store Connect).
+    static let supportEmail = "magddevf@gmail.com"
+
+    /// The Terms of Use and Privacy Policy pages, served by the API.
+    var termsURL: URL { apiBaseURL.appending(path: "terms") }
+    var privacyURL: URL { apiBaseURL.appending(path: "privacy") }
+
     static let local = AppConfig(
         apiBaseURL: URL(string: "http://localhost:3000")!,
         liveURL: URL(string: "ws://localhost:3000/live")!

@@ -259,3 +259,43 @@ struct CharacterViewModelTests {
         #expect(store.phase == .launching)
     }
 }
+
+@MainActor
+struct AccountDeletionTests {
+    private func signedIn() -> (SessionStore, FakeAPI) {
+        let api = FakeAPI()
+        let store = SessionStore(api: api)
+        store.usernameChosen(makeUser())
+        return (store, api)
+    }
+
+    @Test func deletingTheAccountReturnsToSignIn() async throws {
+        let (store, api) = signedIn()
+        #expect(store.phase == .ready(makeUser()))
+
+        try await store.deleteAccount()
+
+        #expect(api.deleted)
+        #expect(store.phase == .signedOut)
+    }
+
+    @Test func aFailedDeletionKeepsYouSignedInAndSaysWhy() async {
+        let (store, api) = signedIn()
+        api.deleteResult = .failure(URLError(.notConnectedToInternet))
+
+        await #expect(throws: URLError.self) { try await store.deleteAccount() }
+
+        #expect(!api.deleted)
+        #expect(store.phase == .ready(makeUser()))
+    }
+}
+
+struct LegalLinksTests {
+    @Test func theLegalPagesLiveNextToTheAPI() {
+        let production = AppConfig.production
+        #expect(production.termsURL.absoluteString == "https://place-rating-api-production.up.railway.app/terms")
+        #expect(production.privacyURL.absoluteString == "https://place-rating-api-production.up.railway.app/privacy")
+        #expect(AppConfig.local.termsURL.absoluteString == "http://localhost:3000/terms")
+        #expect(AppConfig.supportEmail.contains("@"))
+    }
+}

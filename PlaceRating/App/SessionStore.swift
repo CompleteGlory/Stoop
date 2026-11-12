@@ -79,6 +79,12 @@ final class SessionStore {
         phase = .signedOut
     }
 
+    /// Deletes the account on the server; only when that worked does the app return to sign-in.
+    func deleteAccount() async throws {
+        try await api.deleteAccount()
+        phase = .signedOut
+    }
+
     private func enter(_ user: SelfUser) {
         if user.username == nil {
             phase = .needsUsername(user)
