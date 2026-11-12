@@ -19,7 +19,10 @@ struct PlaceRatingApp: App {
             RootView(session: session)
                 .environment(settings)
                 .applying(settings)
-                .onOpenURL { GoogleSignInService.handle($0) }
+                .onOpenURL { url in
+                    // shared place links (universal or stoop://) first, then Google Sign-In's callback
+                    if !session.handle(url) { GoogleSignInService.handle(url) }
+                }
         }
     }
 }

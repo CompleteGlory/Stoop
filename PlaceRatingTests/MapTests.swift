@@ -255,7 +255,8 @@ struct MapViewModelTests {
         let (model, _, _) = make()
         model.handle(.loc(fix("newcomer")))
         model.handle(.loc(fix("newcomer")))
-        await Task.yield()
+        // the refresh runs in its own task: give it time instead of a single yield
+        for _ in 0..<200 where model.friendsList.friends.isEmpty { try? await Task.sleep(for: .milliseconds(5)) }
         #expect(model.friendsList.friends.map(\.user.id) == ["a"])
     }
 

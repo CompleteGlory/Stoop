@@ -60,8 +60,10 @@ final class FakeAPI: APIClientProtocol, @unchecked Sendable {
     var signedOut = false
 
     func restoreSession() async throws -> Bool { try restoreResult.get() }
-    func signInWithApple(identityToken: String, nonce: String, fullName: String?) async throws -> AuthResponse {
-        makeAuth(access: "a", refresh: "r", user: makeUser(username: nil, displayName: ""))
+    var appleCodes: [String?] = []
+    func signInWithApple(identityToken: String, nonce: String, fullName: String?, authorizationCode: String?) async throws -> AuthResponse {
+        appleCodes.append(authorizationCode)
+        return makeAuth(access: "a", refresh: "r", user: makeUser(username: nil, displayName: ""))
     }
     func devSignIn(username: String) async throws -> AuthResponse { makeAuth(access: "a", refresh: "r") }
 

@@ -27,8 +27,18 @@ final class SessionStore {
     let moderation: any ModerationAPI
     /// Rated places by hexagon, shared with the map so what loads during sign-in is already there.
     let placesCache: PlacesChunkCache
+    /// A link that arrived before the map could show it (signed out, onboarding). The map takes it.
+    var pendingLink: DeepLink?
     private var warmedTiles = false
     private var preloadedPlaces = false
+
+    /// Keeps a Stoop link for the map; false for links that belong to someone else (Google Sign-In).
+    @discardableResult
+    func handle(_ url: URL) -> Bool {
+        guard let link = DeepLink(url: url) else { return false }
+        pendingLink = link
+        return true
+    }
 
     init(api: any APIClientProtocol, places: (any PlacesAPI)? = nil, friends: (any FriendsAPI)? = nil) {
         self.friends = friends ?? (api as? any FriendsAPI) ?? UnavailableFriendsAPI()

@@ -1,6 +1,16 @@
 {
   "sourceLanguage": "en",
   "strings": {
+    "%@ on Stoop": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ على Stoop"
+          }
+        }
+      }
+    },
     "%lld ratings": {
       "localizations": {
         "ar": {
@@ -279,6 +289,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "أضف صورة"
+          }
+        }
+      }
+    },
+    "Allow Stoop to add photos in Settings to save them.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اسمح لـ Stoop بإضافة الصور من الإعدادات لحفظها."
           }
         }
       }
@@ -1033,6 +1053,16 @@
         }
       }
     },
+    "Google Maps": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "خرائط Google"
+          }
+        }
+      }
+    },
     "Great": {
       "localizations": {
         "ar": {
@@ -1389,6 +1419,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ليلي"
+          }
+        }
+      }
+    },
+    "No friends yet. Add some to see them on the map.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لا أصدقاء بعد. أضف أصدقاء لتراهم على الخريطة."
           }
         }
       }
@@ -1833,6 +1873,16 @@
         }
       }
     },
+    "Saved to Photos": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حُفظت في الصور"
+          }
+        }
+      }
+    },
     "Saving…": {
       "localizations": {
         "ar": {
@@ -1919,6 +1969,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "الإعدادات"
+          }
+        }
+      }
+    },
+    "Share": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مشاركة"
           }
         }
       }
@@ -2133,6 +2193,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stoop %@"
+          }
+        }
+      }
+    },
+    "Stoop photo": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "صورة من Stoop"
           }
         }
       }

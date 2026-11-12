@@ -53,7 +53,8 @@ final class SignInViewModel {
             try await self.session.api.signInWithApple(
                 identityToken: credential.identityToken,
                 nonce: self.rawNonce,
-                fullName: credential.fullName
+                fullName: credential.fullName,
+                authorizationCode: credential.authorizationCode
             )
         }
     }

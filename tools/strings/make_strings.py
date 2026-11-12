@@ -165,6 +165,14 @@ strings = {
     "Add menu": "أضف القائمة",
     "Add photo": "أضف صورة",
     "Delete photo": "حذف الصورة",
+    "Save": "حفظ",
+    "Saved to Photos": "حُفظت في الصور",
+    "Share": "مشاركة",
+    "Stoop photo": "صورة من Stoop",
+    "Google Maps": "خرائط Google",
+    "No friends yet. Add some to see them on the map.": "لا أصدقاء بعد. أضف أصدقاء لتراهم على الخريطة.",
+    "%@ on Stoop": "%@ على Stoop",
+    "Allow Stoop to add photos in Settings to save them.": "اسمح لـ Stoop بإضافة الصور من الإعدادات لحفظها.",
     "Report photo": "الإبلاغ عن الصورة",
     "Delete this photo?": "حذف هذه الصورة؟",
     "Spam": "محتوى مزعج",
@@ -301,6 +309,10 @@ plist = {
     "NSLocationWhenInUseUsageDescription": (
         "Your location is shown to friends you accept, while the app is open.",
         "يظهر موقعك للأصدقاء الذين تقبلهم أثناء فتح التطبيق.",
+    ),
+    "NSPhotoLibraryAddUsageDescription": (
+        "Save place and menu photos from Stoop to your library.",
+        "احفظ صور الأماكن والقوائم من Stoop في مكتبتك.",
     ),
     "NSCameraUsageDescription": (
         "Take a photo of a place or its menu to add it to Stoop.",

@@ -6,6 +6,8 @@ import Foundation
 struct AppleCredential: Equatable, Sendable {
     let identityToken: String
     let fullName: String?
+    /// One-time code the server swaps for an Apple refresh token, so deleting the account can revoke the sign-in.
+    let authorizationCode: String?
 
     /// Nil when Apple's result has no usable identity token.
     init?(_ authorization: ASAuthorization) {
@@ -14,11 +16,13 @@ struct AppleCredential: Equatable, Sendable {
               let token = String(data: data, encoding: .utf8) else { return nil }
         identityToken = token
         fullName = credential.fullName.flatMap(Self.format)
+        authorizationCode = credential.authorizationCode.flatMap { String(data: $0, encoding: .utf8) }
     }
 
-    init(identityToken: String, fullName: String?) {
+    init(identityToken: String, fullName: String?, authorizationCode: String? = nil) {
         self.identityToken = identityToken
         self.fullName = fullName
+        self.authorizationCode = authorizationCode
     }
 
     private static func format(_ name: PersonNameComponents) -> String? {

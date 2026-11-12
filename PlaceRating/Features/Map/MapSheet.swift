@@ -82,7 +82,20 @@ private struct BrowseSheet: View {
                     }
                 }
 
-                if !model.friendsList.friends.isEmpty {
+                if model.friendsList.friends.isEmpty {
+                    Button { model.showFriends() } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "person.2.fill").font(.title3).foregroundStyle(Brand.accent)
+                            Text("No friends yet. Add some to see them on the map.")
+                                .font(.footnote).foregroundStyle(Brand.foreground.opacity(0.7))
+                                .multilineTextAlignment(.leading)
+                            Spacer(minLength: 0)
+                        }
+                        .padding(12)
+                        .background(Brand.surface, in: .rect(cornerRadius: 14))
+                    }
+                    .buttonStyle(.plain)
+                } else {
                     ScrollView(.horizontal) {
                         HStack(spacing: 14) {
                             ForEach(model.friendsList.friends) { entry in

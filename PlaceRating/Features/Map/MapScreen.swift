@@ -75,6 +75,11 @@ struct MapScreen: View {
         }
         .onAppear { model.start() }
         .onDisappear { model.stop() }
+        .onChange(of: session.pendingLink, initial: true) { _, link in
+            guard let link else { return }
+            session.pendingLink = nil
+            model.openShared(link)
+        }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { model.start() } else { model.stop() }
         }
