@@ -1,0 +1,24 @@
+node_modules
+.next
+out
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+.env*.local
+
+# Uploaded screenshots belong to the generated project: commit them alongside
+# app-store-screenshots.json so decks remain reproducible after cloning.
+
+# Fonts imported from the editor toolbar are user assets too (and font licences
+# often forbid redistributing them), so keep them out of the template as well.
+public/fonts/imported/*
+!public/fonts/imported/.gitkeep
+
+# Tester Army output
+.e2e/
+
+
+# Stoop: Apple's device bezels come with the app-store-screenshots skill (Apple licenses them for
+# app mock-ups, not for redistribution), and exported bundles are regenerated from the editor.
+public/frames/*.png
+export/

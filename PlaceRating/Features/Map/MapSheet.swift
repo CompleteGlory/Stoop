@@ -122,7 +122,8 @@ private struct BrowseSheet: View {
             Spacer(minLength: 0)
         }
         .padding(.horizontal, 20)
-        .padding(.top, 22)
+        // clear of the sheet's grab handle
+        .padding(.top, 32)
         .onChange(of: searchFocused) { _, focused in
             // room for the keyboard and the results
             if focused { model.detent = .large }
