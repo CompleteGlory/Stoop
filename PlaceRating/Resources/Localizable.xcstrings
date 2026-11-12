@@ -363,6 +363,46 @@
         }
       }
     },
+    "Block %@?": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حظر %@؟"
+          }
+        }
+      }
+    },
+    "Block user": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حظر المستخدم"
+          }
+        }
+      }
+    },
+    "Blocked %@.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تم حظر %@."
+          }
+        }
+      }
+    },
+    "Blocked people": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "المحظورون"
+          }
+        }
+      }
+    },
     "By continuing you accept the Terms and Privacy Policy.": {
       "localizations": {
         "ar": {
@@ -1343,6 +1383,26 @@
         }
       }
     },
+    "Report rating": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإبلاغ عن التقييم"
+          }
+        }
+      }
+    },
+    "Report user": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "الإبلاغ عن المستخدم"
+          }
+        }
+      }
+    },
     "Requested": {
       "localizations": {
         "ar": {
@@ -1867,6 +1927,16 @@
         }
       }
     },
+    "Unblock": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إلغاء الحظر"
+          }
+        }
+      }
+    },
     "Use 3 to 20 letters, digits, _ or .": {
       "localizations": {
         "ar": {
@@ -1947,12 +2017,12 @@
         }
       }
     },
-    "Why are you reporting this photo?": {
+    "Why are you reporting this?": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "لماذا تبلّغ عن هذه الصورة؟"
+            "value": "لماذا تبلّغ عن هذا؟"
           }
         }
       }
@@ -1973,6 +2043,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "أنت"
+          }
+        }
+      }
+    },
+    "You haven't blocked anyone.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم تحظر أحدًا."
+          }
+        }
+      }
+    },
+    "You won't see each other anywhere in Stoop. You can unblock them from your profile.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لن يرى أحدكما الآخر في أي مكان في Stoop. يمكنك إلغاء الحظر من ملفك الشخصي."
           }
         }
       }

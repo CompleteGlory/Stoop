@@ -46,8 +46,8 @@ struct PlacePhotosSection: View {
 
             if let error = model.errorText {
                 Text(error).font(.footnote).foregroundStyle(Brand.negative.text)
-            } else if let notice = model.noticeText {
-                Text(notice).font(.footnote).foregroundStyle(Brand.positive.text)
+            } else if model.safety.noticeText != nil {
+                SafetyNotice(safety: model.safety)
             } else if model.photos.isEmpty && !model.isLoading {
                 Text(model.kind == .menu ? String(localized: "No menu photos yet.") : String(localized: "No photos yet."))
                     .font(.footnote).foregroundStyle(Brand.foreground.opacity(0.6))
@@ -70,7 +70,7 @@ struct PlacePhotosSection: View {
             .ignoresSafeArea()
         }
         .fullScreenCover(item: $viewing) { photo in
-            PhotoViewer(model: model, photos: model.photos, start: photo)
+            PhotoViewer(model: model, start: photo)
         }
     }
 
@@ -124,17 +124,17 @@ private struct Thumbnail: View {
 /// Swipe through the photos full screen; delete yours, report anyone else's.
 private struct PhotoViewer: View {
     let model: PlacePhotosViewModel
-    let photos: [PlacePhoto]
     @State private var current: String
     @State private var confirmingDelete = false
-    @State private var choosingReason = false
     @Environment(\.dismiss) private var dismiss
 
-    init(model: PlacePhotosViewModel, photos: [PlacePhoto], start: PlacePhoto) {
+    init(model: PlacePhotosViewModel, start: PlacePhoto) {
         self.model = model
-        self.photos = photos
         _current = State(initialValue: start.id)
     }
+
+    /// Live, so a photo from someone you just blocked disappears from the pager.
+    private var photos: [PlacePhoto] { model.photos }
 
     private var photo: PlacePhoto? { photos.first { $0.id == current } }
 
@@ -173,17 +173,22 @@ private struct PhotoViewer: View {
                 }
                 Spacer()
                 if let photo {
-                    Menu {
-                        if model.isMine(photo) {
+                    if model.isMine(photo) {
+                        Menu {
                             Button("Delete photo", systemImage: "trash", role: .destructive) { confirmingDelete = true }
-                        } else {
-                            Button("Report photo", systemImage: "flag") { choosingReason = true }
+                        } label: {
+                            Image(systemName: "ellipsis").font(.body.weight(.bold)).frame(width: 40, height: 40)
+                                .background(.black.opacity(0.5), in: .circle)
                         }
-                    } label: {
-                        Image(systemName: "ellipsis").font(.body.weight(.bold)).frame(width: 40, height: 40)
-                            .background(.black.opacity(0.5), in: .circle)
+                        .accessibilityLabel(Text("More"))
+                    } else {
+                        SafetyMenu(
+                            safety: model.safety, user: photo.user,
+                            content: .init(target: .photo, id: photo.id, title: String(localized: "Report photo")),
+                            tint: .white
+                        )
+                        .background(.black.opacity(0.5), in: .circle)
                     }
-                    .accessibilityLabel(Text("More"))
                 }
             }
             .foregroundStyle(.white)
@@ -198,28 +203,9 @@ private struct PhotoViewer: View {
                 }
             }
         }
-        .confirmationDialog(Text("Why are you reporting this photo?"), isPresented: $choosingReason, titleVisibility: .visible) {
-            ForEach(ReportReason.allCases, id: \.self) { reason in
-                Button(reason.title) {
-                    guard let photo else { return }
-                    Task {
-                        await model.report(photo, reason: reason)
-                        dismiss()
-                    }
-                }
-            }
-        }
-    }
-}
-
-extension ReportReason {
-    var title: String {
-        switch self {
-        case .spam: String(localized: "Spam")
-        case .abuse: String(localized: "Abuse or harassment")
-        case .inappropriate: String(localized: "Inappropriate")
-        case .impersonation: String(localized: "Impersonation")
-        case .other: String(localized: "Something else")
+        .onChange(of: photos.map(\.id)) { _, ids in
+            // the photo on screen is gone (its author was blocked): leave the viewer
+            if !ids.contains(current) { dismiss() }
         }
     }
 }

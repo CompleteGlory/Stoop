@@ -9,8 +9,11 @@ final class PlaceViewModel {
     private(set) var place: Place?
     private(set) var stars = 0
     var comment = ""
-    private(set) var friendRatings: [PlaceRating] = []
-    private(set) var otherRatings: [PlaceRating] = []
+    private var loadedFriendRatings: [PlaceRating] = []
+    private var loadedOtherRatings: [PlaceRating] = []
+    /// Friends' ratings and everyone else's, without anything from people you blocked.
+    var friendRatings: [PlaceRating] { loadedFriendRatings.filter { !safety.isBlocked($0.user.id) } }
+    var otherRatings: [PlaceRating] { loadedOtherRatings.filter { !safety.isBlocked($0.user.id) } }
     private(set) var hasMoreRatings = false
     private(set) var isLoading = true
     private(set) var isSaving = false
@@ -18,6 +21,7 @@ final class PlaceViewModel {
     /// The last save failed: show a retry instead of queueing it (offline never queues writes).
     private(set) var saveFailed = false
     let photos: PlacePhotosViewModel
+    let safety: SafetyViewModel
 
     private let api: any PlacesAPI
     private let myId: String
@@ -36,10 +40,12 @@ final class PlaceViewModel {
         api: any PlacesAPI,
         myId: String,
         photosAPI: any PhotosAPI = UnavailablePhotosAPI(),
+        safety: SafetyViewModel = SafetyViewModel(api: UnavailableModerationAPI()),
         debounce: Duration = .milliseconds(600),
         onPlaceChanged: @escaping (Place) -> Void = { _ in }
     ) {
-        photos = PlacePhotosViewModel(placeId: placeId, api: photosAPI, myId: myId)
+        self.safety = safety
+        photos = PlacePhotosViewModel(placeId: placeId, api: photosAPI, myId: myId, safety: safety)
         self.placeId = placeId
         self.api = api
         self.myId = myId
@@ -141,11 +147,11 @@ final class PlaceViewModel {
         let friends = others.filter { friendIds.contains($0.user.id) }
         let rest = others.filter { !friendIds.contains($0.user.id) }
         if replacing {
-            friendRatings = friends
-            otherRatings = rest
+            loadedFriendRatings = friends
+            loadedOtherRatings = rest
         } else {
-            friendRatings += friends
-            otherRatings += rest
+            loadedFriendRatings += friends
+            loadedOtherRatings += rest
         }
         cursor = page.nextCursor
         hasMoreRatings = page.nextCursor != nil

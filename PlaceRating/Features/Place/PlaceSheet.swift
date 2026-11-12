@@ -11,6 +11,7 @@ struct PlaceSheet: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 header
+                SafetyNotice(safety: model.safety)
                 if model.isLoading && model.place == nil {
                     ProgressView().tint(Brand.foreground).frame(maxWidth: .infinity)
                 } else if model.place == nil, let error = model.errorText {
@@ -101,12 +102,12 @@ struct PlaceSheet: View {
     private var ratingsList: some View {
         if !model.friendRatings.isEmpty {
             Section(title: String(localized: "Friends")) {
-                ForEach(model.friendRatings) { RatingRow(rating: $0) }
+                ForEach(model.friendRatings) { RatingRow(rating: $0, safety: model.safety) }
             }
         }
         if !model.otherRatings.isEmpty {
             Section(title: String(localized: "Everyone")) {
-                ForEach(model.otherRatings) { RatingRow(rating: $0) }
+                ForEach(model.otherRatings) { RatingRow(rating: $0, safety: model.safety) }
                 if model.hasMoreRatings {
                     Button("Show more") { Task { await model.loadMoreRatings() } }
                         .font(.footnote.weight(.semibold)).foregroundStyle(Brand.accent)
@@ -184,6 +185,7 @@ struct StarPicker: View {
 
 private struct RatingRow: View {
     let rating: PlaceRating
+    let safety: SafetyViewModel
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -200,6 +202,11 @@ private struct RatingRow: View {
                         }
                     }
                     .environment(\.layoutDirection, .leftToRight)
+                    SafetyMenu(
+                        safety: safety, user: rating.user,
+                        content: .init(target: .rating, id: rating.id, title: String(localized: "Report rating"))
+                    )
+                    .padding(.trailing, -8)
                 }
                 if let comment = rating.comment, !comment.isEmpty {
                     Text(verbatim: comment).font(.callout).foregroundStyle(Brand.foreground.opacity(0.85))

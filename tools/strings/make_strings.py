@@ -168,7 +168,6 @@ strings = {
     "Delete photo": "حذف الصورة",
     "Report photo": "الإبلاغ عن الصورة",
     "Delete this photo?": "حذف هذه الصورة؟",
-    "Why are you reporting this photo?": "لماذا تبلّغ عن هذه الصورة؟",
     "Spam": "محتوى مزعج",
     "Abuse or harassment": "إساءة أو مضايقة",
     "Inappropriate": "غير لائق",
@@ -186,6 +185,16 @@ strings = {
     "Keep typing to search.": "واصل الكتابة للبحث.",
     "No places found.": "لم يتم العثور على أماكن.",
     "The search didn't work. Try again.": "لم ينجح البحث. حاول مرة أخرى.",
+    "Report user": "الإبلاغ عن المستخدم",
+    "Block user": "حظر المستخدم",
+    "Report rating": "الإبلاغ عن التقييم",
+    "Why are you reporting this?": "لماذا تبلّغ عن هذا؟",
+    "Block %@?": "حظر %@؟",
+    "You won't see each other anywhere in Stoop. You can unblock them from your profile.": "لن يرى أحدكما الآخر في أي مكان في Stoop. يمكنك إلغاء الحظر من ملفك الشخصي.",
+    "Blocked %@.": "تم حظر %@.",
+    "Blocked people": "المحظورون",
+    "You haven't blocked anyone.": "لم تحظر أحدًا.",
+    "Unblock": "إلغاء الحظر",
 }
 
 # Strings whose wording depends on a number. Arabic has six plural forms.

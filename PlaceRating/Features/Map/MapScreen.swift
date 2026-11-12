@@ -17,7 +17,8 @@ struct MapScreen: View {
             onSessionExpired: { session.sessionExpired() },
             places: session.places,
             friendsAPI: session.friends,
-            photosAPI: session.photos
+            photosAPI: session.photos,
+            moderationAPI: session.moderation
         ))
     }
 

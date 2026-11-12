@@ -43,7 +43,6 @@ final class FakePhotosAPI: PhotosAPI, @unchecked Sendable {
     }
 
     func deletePhoto(placeId: String, photoId: String) async throws { log("delete \(photoId)") }
-    func reportPhoto(_ photoId: String, reason: ReportReason) async throws { log("report \(photoId) \(reason.rawValue)") }
 }
 
 struct PhotoDecodingTests {
@@ -116,20 +115,30 @@ struct PlacePhotosViewModelTests {
         #expect(model.photos.isEmpty)
     }
 
-    @Test func deletesOnlyMineAndReportsOnlyOthers() async {
+    @Test func deletesOnlyMyOwnPhotos() async {
         let api = FakePhotosAPI()
         api.pages = ["place -": PhotoPage(items: [photo("mine", by: me), photo("theirs")], nextCursor: nil)]
         let model = PlacePhotosViewModel(placeId: "p1", api: api, myId: me)
         await model.load()
 
         await model.delete(model.photos[1])
-        await model.report(model.photos[0], reason: .spam)
-        #expect(!api.calls.contains { $0.hasPrefix("delete") || $0.hasPrefix("report") })
+        #expect(!api.calls.contains { $0.hasPrefix("delete") })
 
-        await model.report(model.photos[1], reason: .inappropriate)
         await model.delete(model.photos[0])
-        #expect(api.calls.suffix(2) == ["report theirs inappropriate", "delete mine"])
+        #expect(api.calls.last == "delete mine")
         #expect(model.photos.map(\.id) == ["theirs"])
-        #expect(model.noticeText != nil)
+    }
+
+    @Test func hidesPhotosFromPeopleYouBlock() async {
+        let api = FakePhotosAPI()
+        api.pages = ["place -": PhotoPage(items: [photo("1", by: "pest"), photo("2", by: "friend")], nextCursor: nil)]
+        let moderation = FakeModerationAPI()
+        let safety = SafetyViewModel(api: moderation)
+        let model = PlacePhotosViewModel(placeId: "p1", api: api, myId: me, safety: safety)
+        await model.load()
+        #expect(model.photos.map(\.id) == ["1", "2"])
+
+        await safety.block(PublicUser(id: "pest", username: "pest", displayName: "Pest", avatar: nil))
+        #expect(model.photos.map(\.id) == ["2"])
     }
 }

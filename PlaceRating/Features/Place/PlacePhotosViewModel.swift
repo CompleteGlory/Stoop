@@ -10,23 +10,29 @@ final class PlacePhotosViewModel {
     var kind: PhotoKind = .place {
         didSet { if kind != oldValue { Task { await load() } } }
     }
-    private(set) var photos: [PlacePhoto] = []
+    private var loadedPhotos: [PlacePhoto] = []
+    /// What is shown: the loaded photos without anything from people you blocked.
+    var photos: [PlacePhoto] { loadedPhotos.filter { !safety.isBlocked($0.user.id) } }
     private(set) var hasMore = false
     private(set) var isLoading = false
     private(set) var isUploading = false
     private(set) var errorText: String?
-    /// Shown briefly after a report goes through.
-    private(set) var noticeText: String?
-
     let myId: String
+    let safety: SafetyViewModel
     private let placeId: String
     private let api: any PhotosAPI
     private var cursor: String?
 
-    init(placeId: String, api: any PhotosAPI, myId: String) {
+    init(
+        placeId: String,
+        api: any PhotosAPI,
+        myId: String,
+        safety: SafetyViewModel = SafetyViewModel(api: UnavailableModerationAPI())
+    ) {
         self.placeId = placeId
         self.api = api
         self.myId = myId
+        self.safety = safety
     }
 
     func load() async {
@@ -37,7 +43,7 @@ final class PlacePhotosViewModel {
         do {
             let page = try await api.photos(placeId: placeId, kind: requested, cursor: nil)
             guard requested == kind else { return } // switched tabs meanwhile
-            photos = page.items
+            loadedPhotos = page.items
             cursor = page.nextCursor
             hasMore = page.nextCursor != nil
         } catch {
@@ -52,7 +58,7 @@ final class PlacePhotosViewModel {
         defer { isLoading = false }
         guard let page = try? await api.photos(placeId: placeId, kind: requested, cursor: cursor),
               requested == kind else { return }
-        photos += page.items
+        loadedPhotos += page.items
         self.cursor = page.nextCursor
         hasMore = page.nextCursor != nil
     }
@@ -68,7 +74,7 @@ final class PlacePhotosViewModel {
         defer { isUploading = false }
         do {
             let photo = try await api.addPhoto(placeId: placeId, kind: kind, jpeg: jpeg)
-            if photo.kind == kind { photos.insert(photo, at: 0) }
+            if photo.kind == kind { loadedPhotos.insert(photo, at: 0) }
         } catch {
             errorText = ErrorText.text(for: error)
         }
@@ -78,17 +84,7 @@ final class PlacePhotosViewModel {
         guard photo.user.id == myId else { return }
         do {
             try await api.deletePhoto(placeId: placeId, photoId: photo.id)
-            photos.removeAll { $0.id == photo.id }
-        } catch {
-            errorText = ErrorText.text(for: error)
-        }
-    }
-
-    func report(_ photo: PlacePhoto, reason: ReportReason) async {
-        guard photo.user.id != myId else { return }
-        do {
-            try await api.reportPhoto(photo.id, reason: reason)
-            noticeText = String(localized: "Thanks. We'll take a look.")
+            loadedPhotos.removeAll { $0.id == photo.id }
         } catch {
             errorText = ErrorText.text(for: error)
         }
