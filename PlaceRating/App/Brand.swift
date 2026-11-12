@@ -28,6 +28,12 @@ enum Brand {
         text: adaptive(dark: 0xF7A8B8, light: 0x9A2640)
     )
 
+    /// The sheet background for a known appearance. The bottom sheet's background is handed to
+    /// UIKit once, so it gets a plain colour that changes when the appearance does.
+    static func background(for scheme: ColorScheme) -> Color {
+        Color(hex: scheme == .dark ? 0x12233F : 0xF7F3E8)
+    }
+
     private static func adaptive(dark: UInt32, light: UInt32) -> Color {
         Color(uiColor: UIColor { traits in
             let hex = traits.userInterfaceStyle == .dark ? dark : light

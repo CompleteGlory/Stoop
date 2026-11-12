@@ -259,6 +259,17 @@ struct MapViewModelTests {
         #expect(model.friendsList.friends.map(\.user.id) == ["a"])
     }
 
+    @Test func goingBackShrinksTheSheetSoTheMapCanBeTappedAgain() {
+        let (model, _, _) = make()
+        model.showSettings()
+        #expect(model.detent == .large)
+        model.showBrowse()
+        #expect(model.detent == MapViewModel.smallDetent)
+        model.showFriends()
+        model.showBrowse()
+        #expect(model.detent == MapViewModel.smallDetent)
+    }
+
     @Test func settingsOpenAtFullHeight() {
         let (model, _, _) = make()
         model.showSettings()

@@ -26,7 +26,7 @@ struct MapScreen: View {
     }
 
     var body: some View {
-        Map(position: $model.camera, selection: $model.selectedFeature) {
+        Map(position: $model.camera, selection: $model.mapSelection) {
             ForEach(model.places) { place in
                 Annotation(place.name, coordinate: place.coordinate, anchor: .bottom) {
                     PlacePin(place: place) { model.open(place) }
@@ -56,16 +56,19 @@ struct MapScreen: View {
             model.cameraSettled(center: region.center, latitudeDelta: region.span.latitudeDelta,
                                 longitudeDelta: region.span.longitudeDelta)
         }
-        .onChange(of: model.selectedFeature) { _, feature in
-            if let feature { Task { await model.select(feature) } }
+        .onChange(of: model.mapSelection) { _, selection in
+            if let feature = selection?.feature { Task { await model.select(feature) } }
         }
         .safeAreaInset(edge: .top) { topBar }
         .overlay { if model.showsLocationPrompt { LocationPrompt(model: model) } }
         .sheet(isPresented: .constant(true)) {
             MapSheet(model: model, session: session)
+                // the sheet is its own window layer: give it the chosen appearance directly, so a
+                // theme change repaints it at once instead of the next time it opens
+                .preferredColorScheme(settings.appearance.colorScheme)
                 .presentationDetents([MapViewModel.smallDetent, .medium, .large], selection: $model.detent)
                 .presentationBackgroundInteraction(.enabled(upThrough: .medium))
-                .presentationBackground(Brand.background)
+                .presentationBackground(Brand.background(for: settings.appearance.colorScheme ?? colorScheme))
                 .presentationCornerRadius(28)
                 .interactiveDismissDisabled()
         }

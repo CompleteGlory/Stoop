@@ -52,7 +52,8 @@ final class MapViewModel {
     /// Rated places in the visible area (the API also returns unrated ones; those get no pin).
     private(set) var places: [Place] = []
     /// A point of interest the person tapped on the map.
-    var selectedFeature: MapFeature?
+    /// What is selected on the map: one of Apple's points of interest (iOS 18 `MapSelection`).
+    var mapSelection: MapSelection<String>?
     private(set) var placeModel: PlaceViewModel?
     private(set) var isResolvingPlace = false
     private(set) var placeErrorText: String?
@@ -206,9 +207,11 @@ final class MapViewModel {
 
     func showBrowse() {
         sheet = .browse
+        // back to the small sheet, so the map (and your avatar) can be tapped again
+        detent = Self.smallDetent
         placeModel = nil
         friendsModel = nil
-        selectedFeature = nil
+        mapSelection = nil
     }
 
     // MARK: friends
@@ -254,12 +257,17 @@ final class MapViewModel {
     /// A point of interest was tapped on the map: ask Apple Maps for its details, then resolve it.
     func select(_ feature: MapFeature) async {
         guard feature.kind == .pointOfInterest else {
-            selectedFeature = nil
+            mapSelection = nil
             return
         }
+        isResolvingPlace = true // feedback right away: Apple's lookup alone can take a moment
+        placeErrorText = nil
         let item = try? await MKMapItemRequest(feature: feature).mapItem
         let name = item?.name ?? feature.title ?? ""
-        guard !name.isEmpty else { return }
+        guard !name.isEmpty else {
+            isResolvingPlace = false
+            return
+        }
         await resolve(
             appleId: item?.identifier?.rawValue,
             name: name,
