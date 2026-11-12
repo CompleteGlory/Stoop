@@ -32,6 +32,22 @@
           }
         }
       }
+    },
+    "NSPhotoLibraryAddUsageDescription": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "احفظ صور الأماكن والقوائم من Stoop في مكتبتك."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save place and menu photos from Stoop to your library."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

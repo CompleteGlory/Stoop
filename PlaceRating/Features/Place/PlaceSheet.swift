@@ -15,6 +15,11 @@ struct PlaceSheet: View {
                 if model.place == nil, !model.isLoading, let error = model.errorText {
                     retry(error) { Task { await model.load() } }
                 } else {
+                    if let place = model.place { linkRow(place) }
+                    if model.place != nil, !model.isLoading, let error = model.errorText {
+                        // the place is known but its ratings didn't load: say so instead of showing it as unrated
+                        inlineRetry(error) { Task { await model.load() } }
+                    }
                     summaryCard
                     yourRatingCard
                     if let photos = model.photos { PlacePhotosSection(model: photos) }
@@ -61,6 +66,34 @@ struct PlaceSheet: View {
             }
             .accessibilityLabel(Text("Close"))
         }
+    }
+
+    // MARK: share and maps
+
+    /// Send the place's Stoop link anywhere (it opens this sheet for friends with the app), or open it in Google Maps.
+    private func linkRow(_ place: Place) -> some View {
+        HStack(spacing: 10) {
+            ShareLink(
+                item: PlaceLinks.share(place),
+                subject: Text(verbatim: place.name),
+                message: Text("\(place.name) on Stoop"),
+                preview: SharePreview(Text(verbatim: place.name))
+            ) {
+                pill("Share", systemImage: "square.and.arrow.up")
+            }
+            Link(destination: PlaceLinks.googleMaps(place)) {
+                pill("Google Maps", systemImage: "map")
+            }
+        }
+        .font(.subheadline.weight(.semibold))
+        .foregroundStyle(Brand.foreground)
+    }
+
+    private func pill(_ title: LocalizedStringKey, systemImage: String) -> some View {
+        Label(title, systemImage: systemImage)
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .background(Brand.surface, in: .capsule)
+            .contentShape(.capsule)
     }
 
     // MARK: summary
@@ -205,6 +238,16 @@ struct PlaceSheet: View {
                 }
             }
         }
+    }
+
+    private func inlineRetry(_ message: String, action: @escaping () -> Void) -> some View {
+        HStack(spacing: 10) {
+            Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(Brand.negative.text)
+            Text(verbatim: message).font(.footnote).frame(maxWidth: .infinity, alignment: .leading)
+            Button("Try again", action: action).font(.footnote.weight(.semibold)).foregroundStyle(Brand.accent)
+        }
+        .padding(12)
+        .background(Brand.surface, in: .rect(cornerRadius: 14))
     }
 
     private func retry(_ message: String, action: @escaping () -> Void) -> some View {

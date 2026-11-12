@@ -3,7 +3,7 @@ import Foundation
 protocol APIClientProtocol: Sendable {
     /// Returns whether a saved session exists.
     func restoreSession() async throws -> Bool
-    func signInWithApple(identityToken: String, nonce: String, fullName: String?) async throws -> AuthResponse
+    func signInWithApple(identityToken: String, nonce: String, fullName: String?, authorizationCode: String?) async throws -> AuthResponse
     func devSignIn(username: String) async throws -> AuthResponse
     func signInWithGoogle(idToken: String) async throws -> AuthResponse
     /// Emails a 6-digit code; the account exists only once the code is entered.
@@ -41,8 +41,8 @@ struct APIClient: APIClientProtocol {
         try await session.restore()
     }
 
-    func signInWithApple(identityToken: String, nonce: String, fullName: String?) async throws -> AuthResponse {
-        let body = AppleBody(identityToken: identityToken, nonce: nonce, fullName: fullName)
+    func signInWithApple(identityToken: String, nonce: String, fullName: String?, authorizationCode: String?) async throws -> AuthResponse {
+        let body = AppleBody(identityToken: identityToken, nonce: nonce, fullName: fullName, authorizationCode: authorizationCode)
         return try await signIn(http.request("POST", "auth/apple", body: body))
     }
 
@@ -166,6 +166,7 @@ private struct AppleBody: Encodable {
     let identityToken: String
     let nonce: String
     let fullName: String?
+    let authorizationCode: String?
 }
 private struct AvatarBody: Encodable { let avatar: Avatar }
 private struct ProfileBody: Encodable {

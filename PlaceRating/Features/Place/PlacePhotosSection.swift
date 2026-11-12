@@ -194,6 +194,9 @@ private struct PhotoViewer: View {
             .foregroundStyle(.white)
             .padding(.horizontal, 16)
         }
+        .overlay(alignment: .bottom) {
+            if let photo { actions(for: photo) }
+        }
         .confirmationDialog(Text("Delete this photo?"), isPresented: $confirmingDelete, titleVisibility: .visible) {
             Button("Delete photo", role: .destructive) {
                 guard let photo else { return }
@@ -207,5 +210,50 @@ private struct PhotoViewer: View {
             // the photo on screen is gone (its author was blocked): leave the viewer
             if !ids.contains(current) { dismiss() }
         }
+    }
+
+    /// Save to Photos and Share, with what happened to the last save above them.
+    private func actions(for photo: PlacePhoto) -> some View {
+        VStack(spacing: 10) {
+            if model.savedId == photo.id {
+                Label("Saved to Photos", systemImage: "checkmark.circle.fill")
+                    .font(.footnote.weight(.semibold))
+                    .padding(.horizontal, 12).padding(.vertical, 6)
+                    .background(.black.opacity(0.6), in: .capsule)
+                    .transition(.opacity)
+            } else if let error = model.saveError {
+                Text(verbatim: error)
+                    .font(.footnote).multilineTextAlignment(.center)
+                    .padding(.horizontal, 12).padding(.vertical, 6)
+                    .background(.black.opacity(0.6), in: .capsule)
+            }
+            HStack(spacing: 12) {
+                Button {
+                    Task { await model.save(photo) }
+                } label: {
+                    Group {
+                        if model.savingId == photo.id {
+                            ProgressView().tint(.white)
+                        } else {
+                            Label("Save", systemImage: "arrow.down.to.line")
+                        }
+                    }
+                    .frame(minWidth: 96, minHeight: 44)
+                }
+                .disabled(model.savingId != nil)
+                ShareLink(
+                    item: SharedPhoto(url: photo.url),
+                    preview: SharePreview(Text("Stoop photo"))
+                ) {
+                    Label("Share", systemImage: "square.and.arrow.up").frame(minWidth: 96, minHeight: 44)
+                }
+            }
+            .font(.subheadline.weight(.semibold))
+            .padding(.horizontal, 8)
+            .background(.black.opacity(0.55), in: .capsule)
+        }
+        .foregroundStyle(.white)
+        .padding(.bottom, photos.count > 1 ? 44 : 20)
+        .animation(.easeOut(duration: 0.2), value: model.savedId)
     }
 }

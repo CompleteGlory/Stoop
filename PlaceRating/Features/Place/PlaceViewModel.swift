@@ -65,6 +65,8 @@ final class PlaceViewModel {
     private let myId: String
     private let debounce: Duration
     private let onPlaceChanged: (Place) -> Void
+    /// Called once, when the server's copy of the place first arrives (a shared link flies the map there).
+    @ObservationIgnored var onFirstLoad: ((Place) -> Void)?
     private var savedComment = ""
     private var savedStars = 0
     private var friendIds: Set<String> = []
@@ -134,6 +136,10 @@ final class PlaceViewModel {
             async let friends = api.friends()
             let (d, p) = try await (detail, page)
             place = d.place
+            if let onFirstLoad {
+                self.onFirstLoad = nil
+                onFirstLoad(d.place)
+            }
             stars = d.myRating?.stars ?? 0
             comment = d.myRating?.comment ?? ""
             savedStars = stars

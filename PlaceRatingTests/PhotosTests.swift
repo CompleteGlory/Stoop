@@ -66,8 +66,33 @@ struct PhotoDecodingTests {
     }
 }
 
+final class FakePhotoSaver: PhotoSaving, @unchecked Sendable {
+    var saved: [URL] = []
+    var error: Error?
+    func save(_ url: URL) async throws {
+        if let error { throw error }
+        saved.append(url)
+    }
+}
+
 @MainActor
 struct PlacePhotosViewModelTests {
+    @Test func savesAnyonesPhotoAndExplainsADeniedPermission() async {
+        let saver = FakePhotoSaver()
+        let model = PlacePhotosViewModel(placeId: "p1", api: FakePhotosAPI(), myId: me, saver: saver)
+        let theirs = photo("theirs")
+
+        await model.save(theirs)
+        #expect(saver.saved == [theirs.url])
+        #expect(model.savedId == "theirs")
+        #expect(model.savingId == nil)
+
+        saver.error = PhotoSaveError.notAllowed
+        await model.save(theirs)
+        #expect(model.savedId == nil)
+        #expect(model.saveError == "Allow Stoop to add photos in Settings to save them.")
+    }
+
     @Test func loadsEachKindAndPages() async {
         let api = FakePhotosAPI()
         api.pages = ["place -": PhotoPage(items: [photo("1")], nextCursor: "c2"),

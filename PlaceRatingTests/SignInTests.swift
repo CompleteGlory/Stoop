@@ -32,6 +32,17 @@ struct GoogleSignInTests {
 }
 
 @MainActor
+struct AppleSignInTests {
+    @Test func passesTheAuthorizationCodeOn() async {
+        let api = FakeAPI()
+        let model = SignInViewModel(session: SessionStore(api: api), google: FakeGoogle())
+        await model.signIn(with: AppleCredential(identityToken: "id", fullName: nil, authorizationCode: "code-1"))
+        await model.signIn(with: AppleCredential(identityToken: "id", fullName: nil))
+        #expect(api.appleCodes == ["code-1", nil])
+    }
+}
+
+@MainActor
 struct EmailAuthViewModelTests {
     private func make() -> (EmailAuthViewModel, FakeAPI, SessionStore) {
         let api = FakeAPI()

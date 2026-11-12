@@ -17,22 +17,46 @@ final class PlacePhotosViewModel {
     private(set) var isLoading = false
     private(set) var isUploading = false
     private(set) var errorText: String?
+    /// The photo being saved to the library, the one just saved, and why saving failed.
+    private(set) var savingId: String?
+    private(set) var savedId: String?
+    private(set) var saveError: String?
     let myId: String
     let safety: SafetyViewModel
     private let placeId: String
     private let api: any PhotosAPI
+    private let saver: any PhotoSaving
     private var cursor: String?
 
     init(
         placeId: String,
         api: any PhotosAPI,
         myId: String,
-        safety: SafetyViewModel = SafetyViewModel(api: UnavailableModerationAPI())
+        safety: SafetyViewModel = SafetyViewModel(api: UnavailableModerationAPI()),
+        saver: any PhotoSaving = PhotoLibrarySaver()
     ) {
         self.placeId = placeId
         self.api = api
         self.myId = myId
         self.safety = safety
+        self.saver = saver
+    }
+
+    /// Saves anyone's photo to the person's library.
+    func save(_ photo: PlacePhoto) async {
+        guard savingId == nil else { return }
+        savingId = photo.id
+        savedId = nil
+        saveError = nil
+        defer { savingId = nil }
+        do {
+            try await saver.save(photo.url)
+            savedId = photo.id
+        } catch PhotoSaveError.notAllowed {
+            saveError = tr("Allow Stoop to add photos in Settings to save them.")
+        } catch {
+            saveError = ErrorText.text(for: error)
+        }
     }
 
     func load() async {

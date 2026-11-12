@@ -317,8 +317,22 @@ final class MapViewModel {
         detent = .medium
     }
 
-    func open(_ place: Place) {
-        placeModel = PlaceViewModel(placeId: place.id, api: placesAPI, myId: user.id, photosAPI: photosAPI, safety: safety) { [weak self] updated in
+    func open(_ place: Place) { open(placeId: place.id) }
+
+    /// A shared link was opened: show the place's sheet at once, then fly to it once it is known.
+    func openShared(_ link: DeepLink) {
+        guard case .place(let id) = link else { return }
+        search.clear()
+        open(placeId: id)
+        placeModel?.onFirstLoad = { [weak self] place in
+            withAnimation {
+                self?.camera = .region(MKCoordinateRegion(center: place.coordinate, latitudinalMeters: 600, longitudinalMeters: 600))
+            }
+        }
+    }
+
+    private func open(placeId: String) {
+        placeModel = PlaceViewModel(placeId: placeId, api: placesAPI, myId: user.id, photosAPI: photosAPI, safety: safety) { [weak self] updated in
             self?.placeChanged(updated)
         }
         sheet = .place
