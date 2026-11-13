@@ -295,7 +295,7 @@ struct LegalLinksTests {
         let production = AppConfig.production
         #expect(production.termsURL.absoluteString == "https://place-rating-api-production.up.railway.app/terms")
         #expect(production.privacyURL.absoluteString == "https://place-rating-api-production.up.railway.app/privacy")
-        #expect(AppConfig.local.termsURL.absoluteString == "http://localhost:3000/terms")
+        #expect(AppConfig.local().termsURL.absoluteString == "http://localhost:3000/terms")
         #expect(AppConfig.supportEmail.contains("@"))
     }
 }

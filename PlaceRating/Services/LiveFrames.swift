@@ -21,6 +21,8 @@ enum LiveFrame {
             return payload(Gone.self).map { .gone(userId: $0.userId) }
         case "ghost":
             return payload(Ghost.self).map { .ghost($0.on) }
+        case "friends":
+            return .friendsChanged
         default:
             return nil
         }

@@ -34,7 +34,7 @@ The screenshots are real captures of the app against demo data, laid out with th
 - **Rate any place** by tapping it on the map or finding it with search. Stars save on tap, and the review saves when you finish typing. Friends' reviews come first.
 - **Photos** of the place and its menu, from the camera or the library. Save anyone's photo to your library, or share it.
 - **Share a place** with a link that opens its sheet in Stoop. Without the app, the link opens a web page with Google Maps and Apple Maps links. Each place also has an Open in Google Maps button.
-- **Notifications.** A push when someone sends you a friend request or accepts yours. With **Nearby friends** switched on in Settings, a push when a friend is within 500 m, even with Stoop closed (at most once per friend every 3 hours). Tapping one opens the friends list or that friend on the map.
+- **Notifications.** A push when someone sends you a friend request or accepts yours. With **Nearby friends** switched on in Settings, a push when a friend is within 500 m, even with Stoop closed (at most once a day per friend). Tapping one opens the friends list or that friend on the map.
 - **Safety.** Report people, reviews and photos. Block people, which hides both of you from each other everywhere.
 - **Settings.** Light, dark or system appearance; English or Arabic (right to left) without restarting; your character; ghost mode; account deletion. Nine map themes are picked on the map itself.
 
@@ -209,7 +209,7 @@ sequenceDiagram
 flowchart LR
     move["Phone moves about 500 m<br/>(iOS wakes Stoop, even closed)"] --> rep["NearbyReporter:<br/>POST /me/position"]
     live["Stoop open:<br/>live socket loc"] --> check
-    rep --> check["Server: friends within 500 m?<br/>not ghost, not blocked,<br/>not alerted in the last 3 h"]
+    rep --> check["Server: friends within 500 m?<br/>not ghost, not blocked,<br/>not alerted in the last 24 h"]
     check -- "yes" --> push["nearby push to each one<br/>who switched alerts on"]
     push --> tap["Tap: the map shows that friend,<br/>or the friends list if they aren't sharing"]
 ```

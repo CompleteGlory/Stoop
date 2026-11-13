@@ -575,7 +575,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"$CONFIGURATION\" = \"Debug\" ]; then\n  plist=\"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\n  /usr/libexec/PlistBuddy -c \"Add :NSAppTransportSecurity dict\" \"$plist\" || true\n  /usr/libexec/PlistBuddy -c \"Add :NSAppTransportSecurity:NSAllowsLocalNetworking bool true\" \"$plist\" || true\nfi\n";
+			shellScript = "if [ \"$CONFIGURATION\" = \"Debug\" ]; then\n  plist=\"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\n  /usr/libexec/PlistBuddy -c \"Add :NSAppTransportSecurity dict\" \"$plist\" || true\n  /usr/libexec/PlistBuddy -c \"Add :NSAppTransportSecurity:NSAllowsLocalNetworking bool true\" \"$plist\" || true\n  # a real phone reaching the development server on a Mac triggers iOS's local network prompt\n  /usr/libexec/PlistBuddy -c \"Add :NSLocalNetworkUsageDescription string 'Debug builds reach the development server on your Mac.'\" \"$plist\" || true\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -29,6 +29,7 @@ struct LiveFrameTests {
             == .loc(FriendFix(userId: "u1", latitude: 30.5, longitude: 31.25, heading: 90, receivedAt: t0)))
         #expect(LiveFrame.decode(#"{"t":"gone","d":{"userId":"u1"}}"#, receivedAt: t0) == .gone(userId: "u1"))
         #expect(LiveFrame.decode(#"{"t":"ghost","d":{"on":true}}"#, receivedAt: t0) == .ghost(true))
+        #expect(LiveFrame.decode(#"{"t":"friends","d":{}}"#, receivedAt: t0) == .friendsChanged)
     }
 
     @Test func unknownHeadingsBecomeNil() {

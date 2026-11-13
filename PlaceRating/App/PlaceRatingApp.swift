@@ -9,6 +9,9 @@ struct PlaceRatingApp: App {
     private let inbox = PushInbox.shared
 
     init() {
+        #if DEBUG
+        DebugServer.rememberLaunchArguments()
+        #endif
         // place photos never change once uploaded, so keep the downloaded files on disk too
         ImagePipeline.shared = ImagePipeline(configuration: .withDataCache)
         let http = HTTPClient(baseURL: { AppConfig.current.apiBaseURL }, transport: URLSession.shared)

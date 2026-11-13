@@ -85,6 +85,8 @@ targets:
             plist="$TARGET_BUILD_DIR/$INFOPLIST_PATH"
             /usr/libexec/PlistBuddy -c "Add :NSAppTransportSecurity dict" "$plist" || true
             /usr/libexec/PlistBuddy -c "Add :NSAppTransportSecurity:NSAllowsLocalNetworking bool true" "$plist" || true
+            # a real phone reaching the development server on a Mac triggers iOS's local network prompt
+            /usr/libexec/PlistBuddy -c "Add :NSLocalNetworkUsageDescription string 'Debug builds reach the development server on your Mac.'" "$plist" || true
           fi
     scheme:
       testTargets:
