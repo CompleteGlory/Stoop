@@ -21,6 +21,9 @@ enum LiveEvent: Equatable, Sendable {
     case loc(FriendFix)
     case gone(userId: String)
     case ghost(Bool)
+    /// Your friends or friend requests changed on the server (sent, cancelled, accepted, removed,
+    /// blocked): reload the lists.
+    case friendsChanged
     case disconnected
     /// Another device (or an older socket of ours) took over the connection. Sharing is paused
     /// here until the app returns to the foreground.
@@ -55,7 +58,7 @@ struct FriendsState: Equatable {
             fixes[fix.userId] = fix
         case .gone(let userId):
             fixes[userId] = nil
-        case .ghost, .disconnected, .replaced, .unauthorized:
+        case .ghost, .friendsChanged, .disconnected, .replaced, .unauthorized:
             break
         }
     }

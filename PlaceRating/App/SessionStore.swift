@@ -115,17 +115,19 @@ final class SessionStore {
         phase = .signedOut
     }
 
-    /// The map is showing: register for pushes if allowed, and match the nearby reporter to the
-    /// account (the switch may have been flipped on another phone, or the app reinstalled).
+    /// The map is showing: ask for notifications the first time (so friend requests can reach you
+    /// from the start), register for pushes if allowed, and match the nearby reporter to the account
+    /// (the switch may have been flipped on another phone, or the app reinstalled).
     func mapAppeared() async {
         guard case .ready(let user) = phase else { return }
         if let on = user.nearbyAlerts, let nearby, on != nearby.isEnabled {
             if on { nearby.start() } else { nearby.stop() }
         }
         await push?.refresh()
+        await askForNotificationsOnce()
     }
 
-    /// The first time the friends list opens, ask whether requests may notify you.
+    /// Asks whether Stoop may send notifications, only while the person hasn't answered yet.
     func askForNotificationsOnce() async {
         guard let push, push.access == .unknown else { return }
         _ = await push.requestAccess()

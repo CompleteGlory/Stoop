@@ -853,6 +853,26 @@
         }
       }
     },
+    "Enter the 6-digit code we emailed you.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أدخل الرمز المكوّن من 6 أرقام الذي أرسلناه إلى بريدك."
+          }
+        }
+      }
+    },
+    "Enter the code from the email and your new password.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "أدخل الرمز من البريد وكلمة المرور الجديدة."
+          }
+        }
+      }
+    },
     "Everyone": {
       "localizations": {
         "ar": {
@@ -1073,12 +1093,12 @@
         }
       }
     },
-    "Get a notification when a friend is within 500 m, at most once every 3 hours. Stoop checks your rough location in the background, even when it's closed. Nobody sees it on the map.": {
+    "Get a notification when a friend is within 500 m, at most once a day for each friend. Stoop checks your rough location in the background, even when it's closed. Nobody sees it on the map.": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
-            "value": "يصلك إشعار عندما يكون صديق على بعد 500 متر أو أقل، مرة واحدة كل 3 ساعات على الأكثر. يتحقق Stoop من موقعك التقريبي في الخلفية حتى وهو مغلق. لا يراه أحد على الخريطة."
+            "value": "يصلك إشعار عندما يكون صديق على بعد 500 متر أو أقل، مرة واحدة في اليوم على الأكثر لكل صديق. يتحقق Stoop من موقعك التقريبي في الخلفية حتى وهو مغلق. لا يراه أحد على الخريطة."
           }
         }
       }
@@ -1219,6 +1239,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "المساعدة والقانون"
+          }
+        }
+      }
+    },
+    "Hide password": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إخفاء كلمة المرور"
           }
         }
       }
@@ -1793,6 +1823,16 @@
         }
       }
     },
+    "Pick a username friends can find you by.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اختر اسم مستخدم يجدك به أصدقاؤك."
+          }
+        }
+      }
+    },
     "Pick your name": {
       "localizations": {
         "ar": {
@@ -2223,6 +2263,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "عرض المزيد"
+          }
+        }
+      }
+    },
+    "Show password": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "إظهار كلمة المرور"
           }
         }
       }
@@ -2717,12 +2767,32 @@
         }
       }
     },
+    "We'll email you a code to choose a new password.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "سنرسل إلى بريدك رمزًا لتختار كلمة مرور جديدة."
+          }
+        }
+      }
+    },
     "Weak": {
       "localizations": {
         "ar": {
           "stringUnit": {
             "state": "translated",
             "value": "ضعيفة"
+          }
+        }
+      }
+    },
+    "Welcome back. Use the email and password you signed up with.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "مرحبًا بعودتك. استخدم البريد وكلمة المرور اللذين سجّلت بهما."
           }
         }
       }

@@ -28,6 +28,7 @@ struct FriendsSheet: View {
             .padding(20)
         }
         .scrollDismissesKeyboard(.interactively)
+        .refreshable { await model.refresh() }
         .task { await model.load() }
         .confirmationDialog(
             Text("Remove \(removing?.name ?? "") from your friends?"),
@@ -222,7 +223,8 @@ private struct PillButton: View {
     var body: some View {
         Button(action: action) {
             ZStack {
-                Text(title).opacity(isBusy ? 0 : 1)
+                // never shortened to "Reques…": the name next to it gives way instead
+                Text(title).lineLimit(1).fixedSize().opacity(isBusy ? 0 : 1)
                 if isBusy { ProgressView().controlSize(.small).tint(style == .primary ? Brand.ink : Brand.foreground) }
             }
             .font(.footnote.weight(.bold))
@@ -233,5 +235,6 @@ private struct PillButton: View {
         }
         .buttonStyle(.plain)
         .disabled(isBusy)
+        .layoutPriority(1)
     }
 }

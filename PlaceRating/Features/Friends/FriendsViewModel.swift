@@ -51,6 +51,15 @@ final class FriendsViewModel {
         isLoading = false
     }
 
+    /// Reloads the lists and, when a search is showing, its results, so a request the other person
+    /// cancelled or accepted meanwhile shows up right.
+    func refresh() async {
+        await load()
+        guard let term = Self.searchTerm(query), let found = try? await api.searchUsers(term),
+              Self.searchTerm(query) == term else { return }
+        results = found
+    }
+
     /// Waits for a pending search. Used by tests.
     func waitForSearch() async {
         await searchTask?.value
@@ -115,6 +124,8 @@ final class FriendsViewModel {
             apply(try await api.friends())
         } catch {
             errorText = ErrorText.text(for: error)
+            // the other person may have cancelled or answered meanwhile: show what the server has now
+            if let list = try? await api.friends() { apply(list) }
         }
     }
 

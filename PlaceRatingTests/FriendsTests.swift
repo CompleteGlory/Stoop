@@ -104,6 +104,40 @@ struct FriendsViewModelTests {
         #expect(model.results.isEmpty)
     }
 
+    @Test func aRequestTheOtherPersonCancelledDisappearsOnRefresh() async {
+        let api = FakeFriendsAPI()
+        let magd = person("m", "magd")
+        api.list = FriendsList(friends: [], incoming: [entry("f1", magd)], outgoing: [])
+        api.people = [UserSearchResult(user: magd, friendStatus: .requestReceived)]
+        let model = FriendsViewModel(api: api, debounce: .milliseconds(1))
+        await model.load()
+        model.query = "magd"
+        await model.waitForSearch()
+        #expect(model.incoming.map(\.id) == ["f1"])
+
+        // magd cancels on their phone; the server tells this app with a `friends` frame
+        api.list = FriendsList(friends: [], incoming: [], outgoing: [])
+        api.people = [UserSearchResult(user: magd, friendStatus: .none)]
+        await model.refresh()
+        #expect(model.incoming.isEmpty)
+        #expect(model.results.first?.friendStatus == FriendStatus.none)
+    }
+
+    @Test func acceptingARequestThatWasAlreadyCancelledShowsTheCurrentList() async {
+        let api = FakeFriendsAPI()
+        let magd = person("m", "magd")
+        let stale = entry("f1", magd)
+        api.list = FriendsList(friends: [], incoming: [stale], outgoing: [])
+        let model = FriendsViewModel(api: api)
+        await model.load()
+
+        api.list = FriendsList(friends: [], incoming: [], outgoing: [])
+        api.failNext = APIError(status: 404, code: "not_found", message: "Friend request not found")
+        await model.accept(stale)
+        #expect(model.errorText != nil)
+        #expect(model.incoming.isEmpty)
+    }
+
     @Test func addingSomeoneMarksThemRequestedAndListsTheRequest() async {
         let api = FakeFriendsAPI()
         let sara = person("s", "sara")

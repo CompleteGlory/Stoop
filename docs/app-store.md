@@ -44,7 +44,7 @@ User-generated content and unrestricted web access are not offered, but people c
 >
 > Location is shared only with accepted friends, only while the app is open, and ghost mode hides you.
 >
-> "Always" location is used only by the optional Nearby friends alert (Profile > Notifications > Nearby friends), which is off by default. When the person turns it on, the app asks for notifications and then for Always location, and uses iOS significant-location changes: after the phone moves about 500 m it sends a rough position to our server, which only checks whether an accepted friend is within 500 m and, if so, sends both a notification (at most once every 3 hours). The position is never shown on the map, never shared with anyone, and deleted after 30 minutes. Turning the switch off, or ghost mode, stops it.
+> "Always" location is used only by the optional Nearby friends alert (Profile > Notifications > Nearby friends), which is off by default. When the person turns it on, the app asks for notifications and then for Always location, and uses iOS significant-location changes: after the phone moves about 500 m it sends a rough position to our server, which only checks whether an accepted friend is within 500 m and, if so, sends both a notification (at most once a day per friend). The position is never shown on the map, never shared with anyone, and deleted after 30 minutes. Turning the switch off, or ghost mode, stops it.
 >
 > Test accounts: <reviewer email> / <password>, already friends with <second email> / <password>.
 > Contact: magddevf@gmail.com

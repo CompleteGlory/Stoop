@@ -265,6 +265,22 @@ struct SessionNotificationTests {
         #expect(push.refreshed == 1)
     }
 
+    @Test func asksForNotificationsAsSoonAsTheMapShows() async {
+        let api = FakeAPI()
+        api.restoreResult = .success(true)
+        let session = SessionStore(api: api)
+        let push = FakePush()
+        push.access = .unknown
+        session.push = push
+        session.nearby = FakeReporter()
+        await session.start()
+
+        await session.mapAppeared()
+        #expect(push.requested == 1)
+        await session.mapAppeared()
+        #expect(push.requested == 1)
+    }
+
     @Test func signingOutStopsPushesAndReports() async {
         let session = SessionStore(api: FakeAPI())
         let push = FakePush()

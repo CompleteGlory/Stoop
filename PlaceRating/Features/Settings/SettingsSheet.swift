@@ -164,7 +164,7 @@ struct SettingsSheet: View {
             .tint(Brand.accent)
             .disabled(alerts.isSaving)
             .padding(14)
-            Text("Get a notification when a friend is within 500 m, at most once every 3 hours. Stoop checks your rough location in the background, even when it's closed. Nobody sees it on the map.")
+            Text("Get a notification when a friend is within 500 m, at most once a day for each friend. Stoop checks your rough location in the background, even when it's closed. Nobody sees it on the map.")
                 .font(.footnote)
                 .foregroundStyle(Brand.foreground.opacity(0.6))
                 .padding(.horizontal, 14)

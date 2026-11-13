@@ -6,7 +6,7 @@ struct EmailAuthView: View {
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focused: Field?
 
-    private enum Field { case email, username, password, confirmPassword, code, newPassword }
+    enum Field: Hashable { case email, username, password, confirmPassword, code, newPassword }
 
     init(session: SessionStore) {
         _model = State(initialValue: EmailAuthViewModel(session: session))
@@ -15,16 +15,11 @@ struct EmailAuthView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    Text(title)
-                        .font(.system(.title, design: .rounded, weight: .bold))
-                    if let info = model.infoText {
-                        Text(info).font(.callout).foregroundStyle(Brand.foreground.opacity(0.75))
-                    }
-                    fields
-                    if let error = model.errorText {
-                        Text(error).font(.footnote).foregroundStyle(Brand.negative.text)
-                    }
+                VStack(alignment: .leading, spacing: 22) {
+                    if model.step == .signIn || model.step == .signUp { modeSwitch }
+                    header
+                    VStack(alignment: .leading, spacing: 16) { fields }
+                    if let error = model.errorText { ErrorBanner(text: error) }
                     Button {
                         Task { await model.submit() }
                     } label: {
@@ -36,8 +31,10 @@ struct EmailAuthView: View {
                     if model.step == .signUp { LegalNotice().frame(maxWidth: .infinity) }
                     links
                 }
-                .padding(24)
+                .padding(.horizontal, 24)
+                .padding(.vertical, 12)
             }
+            .scrollDismissesKeyboard(.interactively)
             .foregroundStyle(Brand.foreground)
             .background(Brand.background)
             .toolbar {
@@ -54,6 +51,67 @@ struct EmailAuthView: View {
                 }
             }
             .animation(.snappy, value: model.step)
+            .animation(.snappy, value: model.errorText)
+        }
+    }
+
+    // MARK: top
+
+    /// Sign in or create an account, side by side, so neither hides behind a link at the bottom.
+    private var modeSwitch: some View {
+        HStack(spacing: 4) {
+            modeButton(tr("Sign in"), step: .signIn)
+            modeButton(tr("Create account"), step: .signUp)
+        }
+        .padding(4)
+        .background(Brand.surface, in: .capsule)
+    }
+
+    private func modeButton(_ title: String, step: EmailAuthViewModel.Step) -> some View {
+        let selected = model.step == step
+        return Button {
+            if !selected { model.go(to: step) }
+        } label: {
+            Text(title)
+                .font(.subheadline.weight(.semibold))
+                .lineLimit(1)
+                .frame(maxWidth: .infinity)
+                .frame(height: 38)
+                .foregroundStyle(selected ? Brand.ink : Brand.foreground.opacity(0.7))
+                .background(selected ? Brand.accent : .clear, in: .capsule)
+                .contentShape(.capsule)
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(selected ? .isSelected : [])
+    }
+
+    private var header: some View {
+        HStack(alignment: .top, spacing: 14) {
+            Image(systemName: headerIcon)
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(Brand.ink)
+                .frame(width: 48, height: 48)
+                .background(Brand.accent, in: .rect(cornerRadius: 14))
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.system(.title2, design: .rounded, weight: .bold))
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(model.infoText ?? subtitle)
+                    .font(.callout)
+                    .foregroundStyle(Brand.foreground.opacity(0.7))
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+    }
+
+    private var headerIcon: String {
+        switch model.step {
+        case .signIn: "person.crop.circle"
+        case .signUp: "person.crop.circle.badge.plus"
+        case .verify: "envelope.badge"
+        case .forgot: "key"
+        case .reset: "lock.rotation"
         }
     }
 
@@ -67,6 +125,16 @@ struct EmailAuthView: View {
         }
     }
 
+    private var subtitle: String {
+        switch model.step {
+        case .signIn: tr("Welcome back. Use the email and password you signed up with.")
+        case .signUp: tr("Pick a username friends can find you by.")
+        case .verify: tr("Enter the 6-digit code we emailed you.")
+        case .forgot: tr("We'll email you a code to choose a new password.")
+        case .reset: tr("Enter the code from the email and your new password.")
+        }
+    }
+
     private var actionTitle: String {
         switch model.step {
         case .signIn: tr("Sign in")
@@ -77,56 +145,56 @@ struct EmailAuthView: View {
         }
     }
 
+    private var usernameIsWrong: Bool {
+        [.invalid, .taken, .reserved].contains(model.usernameCheck.status)
+    }
+
+    // MARK: fields
+
     @ViewBuilder
     private var fields: some View {
         switch model.step {
         case .signIn:
             emailField
-            BrandField(placeholder: tr("Password")) {
-                SecureField("", text: $model.password)
-                    .textContentType(.password)
-                    .focused($focused, equals: .password)
-                    .accessibilityIdentifier("password")
+                .submitLabel(.next)
+                .onSubmit { focused = .password }
+            VStack(alignment: .trailing, spacing: 10) {
+                PasswordInput(label: tr("Password"), text: $model.password, field: .password, focused: $focused,
+                              contentType: .password, identifier: "password")
+                    .submitLabel(.go)
+                    .onSubmit { Task { await model.submit() } }
+                LinkButton(title: tr("Forgot password?")) { model.go(to: .forgot) }
+                    .font(.footnote.weight(.semibold))
             }
         case .signUp:
             emailField
                 .submitLabel(.next)
                 .onSubmit { focused = .username }
             VStack(alignment: .leading, spacing: 8) {
-                BrandField(placeholder: tr("Username")) {
-                    HStack(spacing: 2) {
-                        Text(verbatim: "@").foregroundStyle(Brand.ink.opacity(0.5))
-                        TextField("", text: $model.username)
-                            .textContentType(.username)
-                            .focused($focused, equals: .username)
-                            .submitLabel(.next)
-                            .onSubmit { focused = .password }
-                            .accessibilityIdentifier("username")
-                    }
+                AuthField(label: tr("Username"), icon: "at", isFocused: focused == .username, isInvalid: usernameIsWrong) {
+                    TextField("", text: $model.username, prompt: Text(verbatim: "yourname").foregroundStyle(Brand.ink.opacity(0.35)))
+                        .textContentType(.username)
+                        .focused($focused, equals: .username)
+                        .submitLabel(.next)
+                        .onSubmit { focused = .password }
+                        .accessibilityIdentifier("username")
                 }
                 UsernameStatusLine(status: model.usernameCheck.status)
                     .animation(.snappy, value: model.usernameCheck.status)
             }
             VStack(alignment: .leading, spacing: 8) {
-                BrandField(placeholder: tr("Password")) {
-                    SecureField("", text: $model.password)
-                        .textContentType(.newPassword)
-                        .focused($focused, equals: .password)
-                        .submitLabel(.next)
-                        .onSubmit { focused = .confirmPassword }
-                        .accessibilityIdentifier("password")
-                }
+                PasswordInput(label: tr("Password"), text: $model.password, field: .password, focused: $focused,
+                              contentType: .newPassword, identifier: "password")
+                    .submitLabel(.next)
+                    .onSubmit { focused = .confirmPassword }
                 StrengthBar(strength: model.passwordStrength)
             }
             VStack(alignment: .leading, spacing: 8) {
-                BrandField(placeholder: tr("Confirm password")) {
-                    SecureField("", text: $model.confirmPassword)
-                        .textContentType(.newPassword)
-                        .focused($focused, equals: .confirmPassword)
-                        .submitLabel(.go)
-                        .onSubmit { Task { await model.submit() } }
-                        .accessibilityIdentifier("confirmPassword")
-                }
+                PasswordInput(label: tr("Confirm password"), text: $model.confirmPassword, field: .confirmPassword,
+                              focused: $focused, contentType: .newPassword, identifier: "confirmPassword",
+                              isInvalid: model.passwordsMismatch)
+                    .submitLabel(.go)
+                    .onSubmit { Task { await model.submit() } }
                 if model.passwordsMismatch {
                     Label("Passwords don't match.", systemImage: "xmark.circle.fill")
                         .font(.footnote.weight(.semibold))
@@ -140,25 +208,24 @@ struct EmailAuthView: View {
         case .verify:
             codeField
         case .forgot:
-            BrandField(placeholder: tr("Email")) {
-                TextField("", text: $model.email)
-                    .keyboardType(.emailAddress)
-                    .textContentType(.emailAddress)
-                    .focused($focused, equals: .email)
-            }
+            emailField
+                .submitLabel(.send)
+                .onSubmit { Task { await model.submit() } }
         case .reset:
             codeField
-            BrandField(placeholder: tr("New password")) {
-                SecureField("", text: $model.newPassword)
-                    .textContentType(.newPassword)
-                    .focused($focused, equals: .newPassword)
+            VStack(alignment: .leading, spacing: 8) {
+                PasswordInput(label: tr("New password"), text: $model.newPassword, field: .newPassword,
+                              focused: $focused, contentType: .newPassword, identifier: "newPassword")
+                    .submitLabel(.go)
+                    .onSubmit { Task { await model.submit() } }
+                StrengthBar(strength: PasswordStrength(model.newPassword))
             }
         }
     }
 
     private var emailField: some View {
-        BrandField(placeholder: tr("Email")) {
-            TextField("", text: $model.email)
+        AuthField(label: tr("Email"), icon: "envelope", isFocused: focused == .email) {
+            TextField("", text: $model.email, prompt: Text(verbatim: "you@example.com").foregroundStyle(Brand.ink.opacity(0.35)))
                 .keyboardType(.emailAddress)
                 .textContentType(.emailAddress)
                 .focused($focused, equals: .email)
@@ -167,14 +234,15 @@ struct EmailAuthView: View {
     }
 
     private var codeField: some View {
-        BrandField(placeholder: tr("6-digit code")) {
+        AuthField(label: tr("6-digit code"), icon: "number", isFocused: focused == .code) {
             TextField("", text: Binding(
                 get: { model.code },
                 set: { model.code = String($0.filter(\.isNumber).prefix(6)) }
-            ))
+            ), prompt: Text(verbatim: "000000").foregroundStyle(Brand.ink.opacity(0.25)))
             .keyboardType(.numberPad)
             .textContentType(.oneTimeCode)
-            .font(.title2.monospacedDigit())
+            .font(.title3.monospacedDigit().weight(.semibold))
+            .tracking(6)
             .focused($focused, equals: .code)
             .accessibilityIdentifier("code")
         }
@@ -182,42 +250,150 @@ struct EmailAuthView: View {
 
     @ViewBuilder
     private var links: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            switch model.step {
-            case .signIn:
-                LinkButton(title: tr("Forgot password?")) { model.go(to: .forgot) }
-                LinkButton(title: tr("New here? Create an account")) { model.go(to: .signUp) }
-            case .signUp:
-                LinkButton(title: tr("Have an account? Sign in")) { model.go(to: .signIn) }
-            case .verify, .reset:
+        switch model.step {
+        case .signIn, .signUp:
+            EmptyView()
+        case .verify, .reset:
+            HStack {
                 LinkButton(title: tr("Send a new code")) { Task { await model.resend() } }
-                LinkButton(title: tr("Back to sign in")) { model.go(to: .signIn) }
-            case .forgot:
+                Spacer()
                 LinkButton(title: tr("Back to sign in")) { model.go(to: .signIn) }
             }
+        case .forgot:
+            LinkButton(title: tr("Back to sign in")) { model.go(to: .signIn) }
+                .frame(maxWidth: .infinity)
         }
-        .padding(.top, 4)
     }
 }
 
-/// A cream input on navy. Emails, passwords and codes read left to right in every language.
-private struct BrandField<Field: View>: View {
-    let placeholder: String
-    @ViewBuilder let field: Field
+// MARK: building blocks
+
+/// A labelled input with an icon. The border turns gold while typing and red when the value is wrong.
+/// Emails, passwords and codes read left to right in every language.
+struct AuthField<Input: View, Accessory: View>: View {
+    let label: String
+    let icon: String
+    let isFocused: Bool
+    let isInvalid: Bool
+    let input: Input
+    let accessory: Accessory
+
+    init(label: String, icon: String, isFocused: Bool = false, isInvalid: Bool = false,
+         @ViewBuilder input: () -> Input, @ViewBuilder accessory: () -> Accessory = { EmptyView() }) {
+        self.label = label
+        self.icon = icon
+        self.isFocused = isFocused
+        self.isInvalid = isInvalid
+        self.input = input()
+        self.accessory = accessory()
+    }
+
+    private var borderColor: Color {
+        if isInvalid { return Brand.negative.text }
+        return isFocused ? Brand.accent : Brand.ink.opacity(0.08)
+    }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(placeholder).font(.footnote.weight(.semibold)).foregroundStyle(Brand.foreground.opacity(0.7))
-            field
-                .textInputAutocapitalization(.never)
-                .autocorrectionDisabled()
-                .foregroundStyle(Brand.ink)
-                .tint(Brand.ink)
-                .padding(.horizontal, 14)
-                .frame(height: 50)
-                .background(Brand.field, in: .rect(cornerRadius: 12))
-                .environment(\.layoutDirection, .leftToRight)
+        VStack(alignment: .leading, spacing: 8) {
+            Text(label)
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(Brand.foreground.opacity(0.75))
+            HStack(spacing: 12) {
+                Image(systemName: icon)
+                    .font(.body.weight(.medium))
+                    .foregroundStyle(isFocused ? Brand.accent : Brand.ink.opacity(0.45))
+                    .frame(width: 22)
+                    .accessibilityHidden(true)
+                input
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+                    .foregroundStyle(Brand.ink)
+                    .tint(Brand.ink)
+                accessory
+            }
+            .padding(.horizontal, 14)
+            .frame(height: 54)
+            .background(Brand.field, in: .rect(cornerRadius: 14))
+            .overlay {
+                RoundedRectangle(cornerRadius: 14)
+                    .strokeBorder(borderColor, lineWidth: isFocused || isInvalid ? 2 : 1)
+            }
+            .environment(\.layoutDirection, .leftToRight)
+            .animation(.snappy(duration: 0.2), value: isFocused)
         }
+    }
+}
+
+/// A password input with an eye button that shows or hides what was typed.
+struct PasswordInput: View {
+    let label: String
+    @Binding var text: String
+    let field: EmailAuthView.Field
+    let focused: FocusState<EmailAuthView.Field?>.Binding
+    let contentType: UITextContentType
+    let identifier: String
+    let isInvalid: Bool
+    @State private var isVisible = false
+
+    init(label: String, text: Binding<String>, field: EmailAuthView.Field, focused: FocusState<EmailAuthView.Field?>.Binding,
+         contentType: UITextContentType, identifier: String, isInvalid: Bool = false) {
+        self.label = label
+        _text = text
+        self.field = field
+        self.focused = focused
+        self.contentType = contentType
+        self.identifier = identifier
+        self.isInvalid = isInvalid
+    }
+
+    var body: some View {
+        AuthField(label: label, icon: "lock", isFocused: focused.wrappedValue == field, isInvalid: isInvalid) {
+            Group {
+                if isVisible {
+                    TextField("", text: $text)
+                } else {
+                    SecureField("", text: $text)
+                }
+            }
+            .textContentType(contentType)
+            .focused(focused, equals: field)
+            .accessibilityIdentifier(identifier)
+        } accessory: {
+            Button {
+                let wasTyping = focused.wrappedValue == field
+                isVisible.toggle()
+                // swapping the field drops the keyboard; keep typing where the person was
+                if wasTyping { focused.wrappedValue = field }
+            } label: {
+                Image(systemName: isVisible ? "eye.slash" : "eye")
+                    .font(.body.weight(.medium))
+                    .foregroundStyle(Brand.ink.opacity(0.55))
+                    .frame(width: 36, height: 36)
+                    .contentShape(.rect)
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text(isVisible ? tr("Hide password") : tr("Show password")))
+            .accessibilityIdentifier("\(identifier)Visibility")
+        }
+    }
+}
+
+/// What went wrong, in a tinted box with an icon so it can't be missed.
+private struct ErrorBanner: View {
+    let text: String
+
+    var body: some View {
+        Label {
+            Text(text).fixedSize(horizontal: false, vertical: true)
+        } icon: {
+            Image(systemName: "exclamationmark.triangle.fill")
+        }
+        .font(.footnote.weight(.semibold))
+        .foregroundStyle(Brand.negative.text)
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Brand.negative.fill, in: .rect(cornerRadius: 12))
+        .transition(.opacity.combined(with: .move(edge: .top)))
     }
 }
 

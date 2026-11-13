@@ -144,7 +144,8 @@ final class MapViewModel {
         guard tasks.isEmpty else { return }
         if access == .unknown { showsLocationPrompt = true }
         if access == .allowed { startLocation() }
-        tasks.append(Task { [weak self] in await self?.loadFriends() })
+        // back in the foreground: requests may have been sent or cancelled while away
+        tasks.append(Task { [weak self] in await self?.friendsChanged() })
         let events = socket.connect()
         isPaused = false
         tasks.append(Task { [weak self] in
@@ -234,9 +235,10 @@ final class MapViewModel {
         if let list = try? await friendsAPI.friends() { friendsList = list }
     }
 
-    /// A friend request or acceptance arrived: reload the list, and the open friends sheet with it.
+    /// Friends or requests changed (a push, a `friends` frame, back from the background): reload the
+    /// list, and the open friends sheet with it, search results included.
     func friendsChanged() async {
-        if let friendsModel { await friendsModel.load() } else { await loadFriends() }
+        if let friendsModel { await friendsModel.refresh() } else { await loadFriends() }
     }
 
     /// Where a friend is right now, if they are sharing.
@@ -385,6 +387,8 @@ final class MapViewModel {
             refreshFriendsIfUnknown([fix.userId])
         case .ghost(let on):
             ghost = on
+        case .friendsChanged:
+            Task { await friendsChanged() }
         case .disconnected:
             isConnected = false
             connectionLost = true

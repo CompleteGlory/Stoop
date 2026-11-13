@@ -261,7 +261,7 @@ strings = {
     "Friend requests": "طلبات الصداقة",
     "Nearby friends": "الأصدقاء القريبون",
     "On": "مفعّلة",
-    "Get a notification when a friend is within 500 m, at most once every 3 hours. Stoop checks your rough location in the background, even when it's closed. Nobody sees it on the map.": "يصلك إشعار عندما يكون صديق على بعد 500 متر أو أقل، مرة واحدة كل 3 ساعات على الأكثر. يتحقق Stoop من موقعك التقريبي في الخلفية حتى وهو مغلق. لا يراه أحد على الخريطة.",
+    "Get a notification when a friend is within 500 m, at most once a day for each friend. Stoop checks your rough location in the background, even when it's closed. Nobody sees it on the map.": "يصلك إشعار عندما يكون صديق على بعد 500 متر أو أقل، مرة واحدة في اليوم على الأكثر لكل صديق. يتحقق Stoop من موقعك التقريبي في الخلفية حتى وهو مغلق. لا يراه أحد على الخريطة.",
     "Set to Always so alerts work while Stoop is closed.": "اختر «دائمًا» لتعمل التنبيهات وStoop مغلق.",
     "Allow notifications for Stoop in Settings to get nearby alerts.": "اسمح بإشعارات Stoop من الإعدادات لتصلك تنبيهات الأصدقاء القريبين.",
     # Push notifications: the server sends these as loc-key, iOS looks them up here (api-contract.md)
@@ -271,6 +271,14 @@ strings = {
     "%@ accepted your friend request": "تم قبول طلب صداقتك مع %@",
     "Friend nearby": "صديق قريب",
     "%@ is nearby": "%@ على مقربة منك",
+    # Email sign-in and sign-up form
+    "Welcome back. Use the email and password you signed up with.": "مرحبًا بعودتك. استخدم البريد وكلمة المرور اللذين سجّلت بهما.",
+    "Pick a username friends can find you by.": "اختر اسم مستخدم يجدك به أصدقاؤك.",
+    "Enter the 6-digit code we emailed you.": "أدخل الرمز المكوّن من 6 أرقام الذي أرسلناه إلى بريدك.",
+    "We'll email you a code to choose a new password.": "سنرسل إلى بريدك رمزًا لتختار كلمة مرور جديدة.",
+    "Enter the code from the email and your new password.": "أدخل الرمز من البريد وكلمة المرور الجديدة.",
+    "Show password": "إظهار كلمة المرور",
+    "Hide password": "إخفاء كلمة المرور",
 }
 
 # Strings whose wording depends on a number. Arabic has six plural forms.
