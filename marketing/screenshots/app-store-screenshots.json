@@ -55,6 +55,19 @@
         "inverted": true
       },
       {
+        "id": "s7",
+        "label": {
+          "en": "NEARBY",
+          "ar": "قريبون منك"
+        },
+        "headline": {
+          "en": "Know when\nfriends are close.",
+          "ar": "اعرف متى\nيقترب أصدقاؤك."
+        },
+        "screenshot": "/screenshots/apple/iphone/{locale}/07-nearby.jpg",
+        "layout": "device-bottom"
+      },
+      {
         "id": "s4",
         "layout": "two-devices",
         "label": {
