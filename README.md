@@ -3,24 +3,26 @@
 A one-screen SwiftUI and MapKit app. Friends see each other move on a map (friends only, never strangers), and everyone rates the places they tap: stars, a short review, and photos of the place and its menu. Requires iOS 18 or later. The backend is the separate [`place-rating-api`](https://github.com/CompleteGlory/Stoop-api) repository (NestJS, PostGIS, Redis).
 
 <p align="center">
-  <img src="docs/screenshots/en/01.jpg" width="15%" alt="Your friends, on one map">
-  <img src="docs/screenshots/en/02.jpg" width="15%" alt="Tap a place, see its stars">
-  <img src="docs/screenshots/en/03.jpg" width="15%" alt="Rate it in one tap">
-  <img src="docs/screenshots/en/04.jpg" width="15%" alt="Only friends see you">
-  <img src="docs/screenshots/en/05.jpg" width="15%" alt="The night map">
-  <img src="docs/screenshots/en/06.jpg" width="15%" alt="English or Arabic">
+  <img src="docs/screenshots/en/01.jpg" width="13%" alt="Your friends, on one map">
+  <img src="docs/screenshots/en/02.jpg" width="13%" alt="Tap a place, see its stars">
+  <img src="docs/screenshots/en/03.jpg" width="13%" alt="Rate it in one tap">
+  <img src="docs/screenshots/en/04.jpg" width="13%" alt="Know when friends are close">
+  <img src="docs/screenshots/en/05.jpg" width="13%" alt="Only friends see you">
+  <img src="docs/screenshots/en/06.jpg" width="13%" alt="The night map">
+  <img src="docs/screenshots/en/07.jpg" width="13%" alt="English or Arabic">
 </p>
 
 <details>
 <summary>In Arabic</summary>
 
 <p align="center">
-  <img src="docs/screenshots/ar/01.jpg" width="15%" alt="Your friends, on one map (Arabic)">
-  <img src="docs/screenshots/ar/02.jpg" width="15%" alt="Tap a place, see its stars (Arabic)">
-  <img src="docs/screenshots/ar/03.jpg" width="15%" alt="Rate it in one tap (Arabic)">
-  <img src="docs/screenshots/ar/04.jpg" width="15%" alt="Only friends see you (Arabic)">
-  <img src="docs/screenshots/ar/05.jpg" width="15%" alt="The night map (Arabic)">
-  <img src="docs/screenshots/ar/06.jpg" width="15%" alt="English or Arabic (Arabic)">
+  <img src="docs/screenshots/ar/01.jpg" width="13%" alt="Your friends, on one map (Arabic)">
+  <img src="docs/screenshots/ar/02.jpg" width="13%" alt="Tap a place, see its stars (Arabic)">
+  <img src="docs/screenshots/ar/03.jpg" width="13%" alt="Rate it in one tap (Arabic)">
+  <img src="docs/screenshots/ar/04.jpg" width="13%" alt="Know when friends are close (Arabic)">
+  <img src="docs/screenshots/ar/05.jpg" width="13%" alt="Only friends see you (Arabic)">
+  <img src="docs/screenshots/ar/06.jpg" width="13%" alt="The night map (Arabic)">
+  <img src="docs/screenshots/ar/07.jpg" width="13%" alt="English or Arabic (Arabic)">
 </p>
 
 </details>

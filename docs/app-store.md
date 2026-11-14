@@ -2,6 +2,97 @@
 
 What to enter in App Store Connect so it matches the app. If the app's behaviour changes, change this and the privacy manifest (`PlaceRating/PrivacyInfo.xcprivacy`) with it.
 
+## Listing (English, the primary language)
+
+| Field | Value |
+| --- | --- |
+| Name (30) | `Stoop` (if the name is taken, `Stoop: Friends & Places`) |
+| Subtitle (30) | `Friends and places on one map` |
+| Primary / secondary category | Social Networking / Food & Drink |
+| Promotional text (170) | `New: nearby alerts. Get a heads-up when a friend is within 500 m, once a day per friend. Off until you turn it on.` |
+| Keywords (100) | `friends,map,location,rate,places,reviews,cafe,restaurant,nearby,share,hangout,food,cairo,arabic` |
+| Copyright | `2026 Magd Kamal` |
+| Support URL | `https://place-rating-api-production.up.railway.app/terms` (lists the contact address) |
+| Marketing URL | leave empty |
+| Price | Free, all countries |
+
+Description:
+
+```text
+Stoop puts your friends and your favourite places on one map.
+
+SEE YOUR FRIENDS
+• Friends you accept appear as their characters and move as they move.
+• Only accepted friends can see you, and only while Stoop is open.
+• Ghost mode hides you from everyone in one tap.
+
+RATE ANY PLACE
+• Tap a café, restaurant or shop on the map to see its average and reviews.
+• Rate it in one tap and add a short review. Friends' reviews come first.
+• Add photos of the place and its menu, and save anyone's photo.
+
+NEARBY ALERTS (OPTIONAL)
+• Get a notification when a friend is within 500 m, at most once a day per friend.
+• Off until you turn it on. Your rough location is only compared with your friends' and never shown on the map.
+
+SHARE
+• Send a place to WhatsApp or Instagram with a link that opens it in Stoop.
+• Open any place in Google Maps.
+
+MADE FOR YOU
+• English and Arabic, light and dark, nine map styles.
+• A cartoon character instead of a photo of you.
+• Report and block anyone, and delete your account from the app at any time.
+
+Terms of Use: https://place-rating-api-production.up.railway.app/terms
+Privacy Policy: https://place-rating-api-production.up.railway.app/privacy
+```
+
+## Listing (Arabic localization)
+
+| Field | Value |
+| --- | --- |
+| Name | `Stoop` |
+| Subtitle | `أصدقاؤك وأماكنك على خريطة` |
+| Promotional text | `جديد: تنبيهات الأصدقاء القريبين. يصلك إشعار عندما يكون صديق على بعد 500 متر، مرة في اليوم لكل صديق. معطّلة حتى تفعّلها.` |
+| Keywords | `أصدقاء,خريطة,موقع,تقييم,أماكن,مراجعات,مقهى,مطعم,قريب,مشاركة,خروجات,أكل,القاهرة` |
+
+Description:
+
+```text
+يجمع Stoop أصدقاءك وأماكنك المفضلة على خريطة واحدة.
+
+شاهد أصدقاءك
+• يظهر الأصدقاء الذين تقبلهم بشخصياتهم ويتحركون معهم.
+• لا يراك إلا أصدقاؤك المقبولون، وفقط أثناء فتح Stoop.
+• وضع الإخفاء يخفيك عن الجميع بلمسة واحدة.
+
+قيّم أي مكان
+• اضغط على مقهى أو مطعم أو متجر على الخريطة لترى تقييمه ومراجعاته.
+• قيّمه بلمسة واحدة وأضف مراجعة قصيرة. مراجعات أصدقائك أولًا.
+• أضف صور المكان وقائمته، واحفظ أي صورة.
+
+تنبيهات الأصدقاء القريبين (اختيارية)
+• يصلك إشعار عندما يكون صديق على بعد 500 متر، مرة واحدة في اليوم لكل صديق على الأكثر.
+• معطّلة حتى تفعّلها. يُقارن موقعك التقريبي بمواقع أصدقائك فقط ولا يظهر على الخريطة.
+
+شارك
+• أرسل مكانًا إلى واتساب أو إنستغرام برابط يفتحه في Stoop.
+• افتح أي مكان في خرائط Google.
+
+مصمم لك
+• العربية والإنجليزية، فاتح وداكن، وتسعة أنماط للخريطة.
+• شخصية كرتونية بدل صورتك.
+• أبلغ عن أي شخص أو احظره، واحذف حسابك من التطبيق في أي وقت.
+
+شروط الاستخدام: https://place-rating-api-production.up.railway.app/terms
+سياسة الخصوصية: https://place-rating-api-production.up.railway.app/privacy
+```
+
+## Screenshots
+
+Seven 6.9-inch iPhone screenshots (1320 × 2868) per language, from the deck in `marketing/screenshots` (open the editor, then Export, iPhone). App Store Connect scales them for smaller iPhones. `docs/screenshots/{en,ar}/` holds 440 px copies for the README.
+
 ## URLs and contact
 
 | Field | Value |
