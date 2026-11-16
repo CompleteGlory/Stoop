@@ -1,6 +1,18 @@
-# Stoop
+<p align="center">
+  <img src="docs/app-icon.png" width="96" alt="Stoop app icon">
+</p>
 
-A one-screen SwiftUI and MapKit app. Friends see each other move on a map (friends only, never strangers), and everyone rates the places they tap: stars, a short review, and photos of the place and its menu. Requires iOS 18 or later. The backend is the separate [`place-rating-api`](https://github.com/CompleteGlory/Stoop-api) repository (NestJS, PostGIS, Redis).
+<h1 align="center">Stoop</h1>
+
+<p align="center"><b>Your friends and your favourite places, on one map.</b><br>Free on iPhone, in English and Arabic.</p>
+
+<p align="center">
+  <a href="https://apps.apple.com/us/app/stoop-friends-places/id6833763681">
+    <img src="https://toolbox.marketingtools.apple.com/api/v2/badges/download-on-the-app-store/black/en-us" height="48" alt="Download on the App Store">
+  </a>
+</p>
+
+A one-screen SwiftUI and MapKit app, [live on the App Store](https://apps.apple.com/us/app/stoop-friends-places/id6833763681). Friends see each other move on a map (friends only, never strangers), and everyone rates the places they tap: stars, a short review, and photos of the place and its menu. Requires iOS 18 or later. The backend is the separate [`place-rating-api`](https://github.com/CompleteGlory/Stoop-api) repository (NestJS, PostGIS, Redis).
 
 <p align="center">
   <img src="docs/screenshots/en/01.jpg" width="13%" alt="Your friends, on one map">
